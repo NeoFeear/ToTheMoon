@@ -1,6 +1,6 @@
-# ToTheMoon
-## Projet PHP
-## Par [Florian MARTIN](https://github.com/NeoFeear) et [Allan BREUIL](https://github.com/eSkAah)
+<h1 align="center">ToTheMoon</h1>
+<h2 align="center">Projet PHP</h2>
+<h3 align="center">Par [Florian MARTIN](https://github.com/NeoFeear) et [Allan BREUIL](https://github.com/eSkAah)</h3>
 
 ## Introduction
 Le but de ce projet est le développement d’un jeu de plateau multijoueurs dans lequel le joueur répondra à des questions afin d’avancer en cas de bonne réponse ou de reculer en cas de mauvaise réponse.
