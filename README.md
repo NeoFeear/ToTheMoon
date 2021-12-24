@@ -25,7 +25,10 @@ Le premier joueur initie la partie en renseignant les pseudos des autres joueurs
 
 
 ## Comptes pré-créés
-[^1]: Login : Admin
-    Password : azer
-[^2]: Login : User
-    Password : azer
+ADMINISTRATEUR :
+- Pseudo : Admin
+- Mot de passe : azer
+
+JOUEUR :
+- Pseudo : User
+- Mot de passe : azer
