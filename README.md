@@ -1,5 +1,5 @@
-<h1 align="center">ToTheMoon</h1>
-<h2 align="center">Projet PHP</h2>
+# ToTheMoon
+## Projet PHP
 ### Par [Florian MARTIN](https://github.com/NeoFeear) et [Allan BREUIL](https://github.com/eSkAah)
 
 ## Introduction
