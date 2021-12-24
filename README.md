@@ -31,3 +31,6 @@ ADMINISTRATEUR :
 JOUEUR :
 - Pseudo : User
 - Mot de passe : azer
+
+## Informations complémentaires
+Il n'y a des réponses que pour les trois premières questions pour le moment.
