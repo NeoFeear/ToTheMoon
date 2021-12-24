@@ -1,0 +1,35 @@
+body {
+  font-family: Aldrich, sans-serif;
+  min-height: 100vh;
+  background: var(--bs-gray-400);
+}
+
+/* PLATEAU */
+#row1, #row2, #row3, #row4, #row5 {
+  margin-right: 30px;
+}
+
+#row1 td, #row2 td, #row3 td, #row4 td, #row5 td, #row6 td {
+  border: 1px solid black;
+}
+
+/* FOOTER */
+footer {
+  background-color: black;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  width: 100%;
+  text-align: center;
+  font: bold 16px sans-serif;
+  bottom: 0;
+}
+
+footer p {
+  margin: 16px 0px;
+  color: rgb(184,184,184);
+}
+
+footer p span {
+  color: rgb(255,210,52);
+}
+

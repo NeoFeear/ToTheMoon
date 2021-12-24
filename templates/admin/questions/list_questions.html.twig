@@ -1,0 +1,114 @@
+{% extends "template1.html.twig" %}
+
+{% block title "Liste des questions" %}
+
+{% block body %}
+    <h1>Liste des questions</h1>
+    <h3><span class="text-{{ type }}" id="message">{{message}}</span></h3>
+    
+    <div class ="mt-5">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+            Ajouter une question
+        </button>
+
+        <div class="table-responsive-md text-nowrap text-break">
+            <table class="table table-bordered border-dark table-striped table-sm align-middle" id="tabledit">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">ID</th>
+                        <th style="width: 55%;">Label</th>
+                        <th style="width: 5%;">Level</th>
+                        <th style="width: 25%;">Réponses</th>
+                        <th style="width: 10%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in questions %}
+                        <tr>
+                            <td style="font-weight: bold;">{{question.id}}</td>
+                            <td>{{question.label}}</td>
+                            <td style="background-color:
+                                {% if question.level == 1 %}DodgerBlue{% endif %}
+                                {% if question.level == 2 %}LawnGreen{% endif %}
+                                {% if question.level == 3 %}Gold{% endif %}
+                                {% if question.level == 4 %}Orange{% endif %}
+                                {% if question.level == 5 %}Crimson{% endif %}
+                                {% if question.level == 6 %}Black; color: white{% endif %}
+                            ">{{question.level}}</td>
+                            <td>
+                                <a href="/admin/question/{{question.id}}">Voir les réponses</a>
+                            </td>
+                            <td class="d-flex justify-content-evenly">
+                                <form method="POST" action="/admin/questions/edit/{{ question.id }}">
+                                    <button type="submit" name="idQuestionEdit" class="btn btn-sm btn-primary" value= "{{ question.id }}">
+                                        <i class="far fa-edit"></i>
+                                    </button>
+                                </form>
+                                <form method="POST">
+                                    <button type="submit" name="idQuestionDelete" class="btn btn-sm btn-danger" value= "{{ question.id }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer la question n° {{ question.id }} ?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Nouvelle question</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="form-group mb-3">
+                            <input class="form-control" type="text" name="label" placeholder="Intitulé de la question" required>
+                            <span class="text-danger" id="label_error">{{error_label}}</span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <select class="form-select" name="level" aria-label="Default select example" required>
+                                <option selected>Open this select menu</option>
+                                <option style="background-color:DodgerBlue;" value="1">1 - Très facile</option>
+                                <option style="background-color:LawnGreen;" value="2">2 - Facile</option>
+                                <option style="background-color:Gold;" value="3">3 - Moyen</option>
+                                <option style="background-color:Orange;" value="4">4 - Très difficile</option>
+                                <option style="background-color:Crimson;" value="5">5 - Extrême</option>
+                                <option style="background-color:Black; color: white;" value="6">6 - Impossible</option>
+                            </select>
+                            <span class="text-danger" id="level_error">{{error_level}}</span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <button class="btn btn-primary" name="addQuestion" type="submit">Envoyer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css"/>
+    <style>#tabledit_length, #tabledit_info { text-align: left; }</style>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tabledit').DataTable();
+        });
+    </script>
+{% endblock %}

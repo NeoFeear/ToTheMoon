@@ -1,0 +1,35 @@
+{% extends "template2.html.twig" %}
+
+{% block title %}Édition de la question n°{{ question.id }}{% endblock %}
+
+{% block body %}
+    <section class="contact-clean mb-5">
+        <form class="bg-dark border rounded border-light shadow-lg text-light" method="POST">
+            <h1 class="mb-4">Édition de la question <b><span style="color: rgb(255,210,52);">n°{{ question.id }}</span></b></h1>
+
+            <div class="form-group mb-3">
+                <textarea class="form-control text-dark" name="label" rows="5" placeholder="Intitulé de la question" required>{{question.label}}</textarea>
+                <span class="text-danger" id="label_error">{{error_label}}</span>
+            </div>
+
+            <div class="form-group mb-3">
+                <select class="form-select" name="level" aria-label="Default select example" required>
+                    <option style="background-color:DodgerBlue;" value="1" {% if question.level == 1 %}selected{% endif %}>1 - Très facile</option>
+                    <option style="background-color:LawnGreen;" value="2"{% if question.level == 2 %}selected{% endif %}>2 - Facile</option>
+                    <option style="background-color:Gold;" value="3"{% if question.level == 3 %}selected{% endif %}>3 - Moyen</option>
+                    <option style="background-color:Orange;" value="4"{% if question.level == 4 %}selected{% endif %}>4 - Très difficile</option>
+                    <option style="background-color:Crimson;" value="5"{% if question.level == 5 %}selected{% endif %}>5 - Extrême</option>
+                    <option style="background-color:Black; color: white;" value="6"{% if question.level == 6 %}selected{% endif %}>6 - Impossible</option>
+                </select>
+                <span class="text-danger" id="level_error">{{error_level}}</span>
+            </div>          
+
+            <div class="form-group">
+                <span class="text-success" id="message">{{message}}</span>
+                <span class="text-danger" id="error">{{error}}</span>
+            </div>
+
+            <button class="btn btn-primary" name="envoi" type="submit">Envoyer</button>
+        </form>
+    </section>
+{% endblock %}

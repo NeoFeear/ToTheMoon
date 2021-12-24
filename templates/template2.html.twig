@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="h-100" lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>{% block title "ToTheMoon" %}</title>
+        <link rel="icon" href="/assets/img/favicon.ico">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich">
+        <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+        <link rel="stylesheet" href="/assets/css/styles.css">
+        <link rel="stylesheet" href="/assets/css/Navbar.css">
+        <link rel="stylesheet" href="/assets/css/Form.css">
+        {% block css %}{% endblock %}
+    </head>
+
+    <body class="d-flex flex-column" style="background: url(&quot;/assets/img/bg-galaxy.jpg&quot;) center / auto no-repeat; background-size: cover; background-attachment: fixed;">
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-dark navbar-expand-md navigation-clean-button" style="background: black;color: rgb(255,255,255);font-size: 18px;">
+            <div class="container">
+                <a class="navbar-brand" {% if session.logged.role == "ADMIN" %}href="/admin"{% else %}href="/"{% endif %} style="font-size: 26px;">
+                    ToThe<span style="color: rgb(255,210,52);">Moon <i class="fas fa-rocket"></i></span>
+                </a>
+                
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1">
+                    <span class="visually-hidden">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div id="navcol-1" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        {% if session.logged.role == "ADMIN" %}
+                            <span class="d-flex d-sm-flex justify-content-center my-3">
+                                <li class="nav-item"><a class="nav-link" href="/admin/users">Utilisateurs</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/admin/questions">Questions</a></li>
+                            </span>
+                        {% endif %}
+                        <span class="d-flex d-sm-flex justify-content-center my-3">
+                            <li class="nav-item">
+                                <button class="nav-link btn btn-warning rounded text-dark fw-bold" onclick="window.location.href='/'" href="/admin/questions">JOUER!</button>
+                            </li>
+                        </span>
+                    </ul>
+
+                    {% if session.logged is not defined %}
+                        <span class="d-flex d-sm-flex justify-content-center align-items-center ms-auto justify-content-sm-center align-items-sm-center navbar-text actions">
+                            <a class="mx-3" href="/register" style="color: rgb(255,210,52);">Inscription</a>
+                            <a class="btn btn-light action-button" role="button" href="/login" style="background: rgb(255,210,52);color: rgb(0,0,0);">Connexion</a>
+                        </span>
+                    {% else %} 
+                        <span class="d-flex d-sm-flex justify-content-center align-items-center ms-auto justify-content-sm-center align-items-sm-center navbar-text actions">
+                            <a href="/profile/{{session.logged.id}}" style="margin-right: 30px;">
+                                <img class="rounded-circle" src="
+                                {% if session.logged.picture is empty %}
+                                    /assets/img/user.jpg
+                                {% else %}
+                                    {{ session.logged.picture }}
+                                {% endif %}" 
+                                style="width: 40px; height: 40px; background-position: center center; object-fit: cover; margin-right: 10px;" />
+                                {{ session.logged.username }}
+                            </a>
+                            
+                            <a class="d-xl-flex justify-content-xl-center" href="/logout">
+                                <i class="fas fa-sign-out-alt" style="font-size: 24px;color: rgb(255,210,52);"></i>
+                            </a>
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN -->
+        <main class="mt-5">
+            <div class="container text-dark text-center">
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="mt-auto bottom-0">
+            <p class="company-name">ToThe<span>Moon</span> © 2021<br>
+                <u>Par :</u>
+                    <a href="https://www.linkedin.com/in/florian-martin-851087198/" target="_blank">MARTIN Florian</a>&nbsp;et
+                    <a href="https://www.linkedin.com/in/allan-breuil-a10077194/" target="_blank">BREUIL Allan</a>
+            </p>
+        </footer>
+
+        <!-- SCRIPTS JS -->
+        <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+        {% block js %}{% endblock %}
+
+    </body>
+</html>

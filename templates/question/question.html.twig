@@ -1,0 +1,41 @@
+{% extends "template1.html.twig" %}
+
+{% block body %}
+
+    <h1><u>Question {{ id }} :</u></h1>
+    <h2>{{ question.label }}</h2>
+    <h2>Difficulté: <span style="background-color:
+    {% if question.level == 1 %}DodgerBlue{% endif %}
+    {% if question.level == 2 %}LawnGreen{% endif %}
+    {% if question.level == 3 %}Gold{% endif %}
+    {% if question.level == 4 %}Orange{% endif %}
+    {% if question.level == 5 %}Crimson{% endif %}
+    {% if question.level == 6 %}Black; color: white{% endif %}">
+    &nbsp;&nbsp;&nbsp;{{ question.level }}&nbsp;&nbsp;&nbsp;</span></h2>
+
+    <div class ="mt-4 w-50 d-inline-block">
+        <div class="table-responsive-md text-nowrap text-break">
+            <table class="table table-bordered border-dark table-striped table-sm align-middle" id="tabledit">
+                <thead>
+                    <tr>
+                        <th style="width:15%">ID</th>
+                        <th>Réponses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set count = 0 %}
+                    {% for answer in answers %}
+                        {% if answer.answer is not empty %}
+                        {% set count = count + 1 %}
+                        <tr>
+                            <td>{{ count }}</td>
+                            <td>{{ answer.answer }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

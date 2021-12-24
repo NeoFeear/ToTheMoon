@@ -1,0 +1,124 @@
+{% extends "template1.html.twig" %}
+
+{% block title "Liste des utilisateurs" %}
+
+{% block body %}
+    <h1>Liste des utilisateurs</h1> 
+    <h3><span class="text-{{ type }}" id="message">{{message}}</span></h3>
+
+    <div class ="mt-5">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+            Ajouter un utilisateur
+        </button>
+
+        <div class="table-responsive-md text-nowrap text-break">
+            <table class="table table-bordered border-dark table-striped table-sm align-middle" id="tabledit">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">ID</th>
+                        <th style="width: 5%;">Rôle</th>
+                        <th style="width: 20%;">Pseudo</th>
+                        <th style="width: 12.5%;">Nom</th>
+                        <th style="width: 12.5%;">Prénom</th>
+                        <th style="width: 30%;">Email</th>
+                        <th style="width: 10%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td style="font-weight: bold;">{{ user.id }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.lastName|capitalize }}</td>
+                            <td>{{ user.firstName|capitalize }}</td>
+                            <td>{{ user.email }}</td>
+                            <td class="d-flex justify-content-evenly">
+                                <form method="POST" action="/admin/users/edit/{{ user.id }}">
+                                    <button type="submit" name="idUserEdit" class="btn btn-sm btn-primary" value= "{{ user.id }}">
+                                        <i class="far fa-edit"></i>
+                                    </button>
+                                </form>
+                                {% if session.logged.username != user.username %}
+                                    <form method="POST">
+                                        <button type="submit" name="idUserDelete" class="btn btn-sm btn-danger" value= "{{ user.id }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer {{ user.username }} ?')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Nouvel utilisateur</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="form-group form-switch lead mb-3">
+                            <label for="role" class="form-check-label">ADMIN:</label>
+                            <input type="checkbox" name="role" class="text-dark form-check-input ms-2">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <input class="form-control" type="text" name="firstName" placeholder="Prénom" required>
+                            <span class="text-danger" id="firstName_error">{{error_firstName}}</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input class="form-control" type="text" name="lastName" placeholder="Nom" required>
+                            <span class="text-danger" id="lastName_error">{{error_lastName}}</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input class="form-control" type="text" name="username" placeholder="Pseudo" required>
+                            <span class="text-danger" id="username_error">{{error_username}}</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input class="form-control" type="email" name="email" placeholder="Email" inputmode="email" required>
+                            <span class="text-danger" id="email_error">{{error_email}}</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input class="form-control" type="password" name="password"  placeholder="Mot de passe" required>
+                            <span class="text-danger" id="error_password">{{error_password}}</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <input class="form-control" type="url" name="picture" placeholder="Lien vers photo voulue (optionnel)">
+                        </div>
+                        <div class="form-group">
+                            <span class="text-{{ type }}" id="message">{{message}}</span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button class="btn btn-primary" name="addUser" type="submit">Envoyer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css"/>
+    <style>#tabledit_length, #tabledit_info { text-align: left; }</style>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#tabledit').DataTable();
+        });
+    </script>
+{% endblock %}

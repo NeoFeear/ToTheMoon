@@ -1,0 +1,47 @@
+{% extends "template2.html.twig" %}
+
+{% block title "Inscription" %}
+
+{% block body %}
+    <section class="contact-clean">
+        <form class="bg-dark border rounded border-light shadow-lg" method="post">
+            <h2 class="text-center">Inscription</h2>
+
+            <div class="form-group mb-3">
+                <input class="form-control" type="text" name="firstName" placeholder="Prénom" required>
+                <span class="text-danger" id="firstName_error">{{error_firstName}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <input class="form-control" type="text" name="lastName" placeholder="Nom" required>
+                <span class="text-danger" id="lastName_error">{{error_lastName}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <input class="form-control" type="text" name="username" placeholder="Pseudo" required>
+                <span class="text-danger" id="username_error">{{error_username}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <input class="form-control" type="email" name="email" placeholder="Email" inputmode="email" required>
+                <span class="text-danger" id="email_error">{{error_email}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <input class="form-control" type="password"name="password"  placeholder="Mot de passe" required>
+                <span class="text-danger" id="error_password">{{error_password}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <input class="form-control" type="password" name="password_confirm" placeholder="Confirmation du mot de passe" required>
+                <span class="text-danger" id="error_password">{{error_password}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <input class="form-control" type="url" name="picture" placeholder="Lien vers photo voulue (optionnel)">
+            </div>
+            <div class="form-group">
+                <span class="text-{{ type }}" id="message">{{message}}</span>
+            </div>
+            <div class="form-group mb-3">
+                <button class="btn btn-primary" type="submit">Envoyer</button>
+            </div>
+
+            <a href="/login">J'ai déja un compte!</a>
+        </form>
+    </section>
+{% endblock %}

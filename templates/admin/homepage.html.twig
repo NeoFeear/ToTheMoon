@@ -1,0 +1,49 @@
+{% extends "template1.html.twig" %}
+
+{% block body %}
+    <h1 class="fw-bold">Bienvenue sur /admin</h1>
+
+    <div class="row">
+
+        <!-- CONTAINER MENUS -->
+        <div class="d-flex mt-5 justify-content-around">
+
+            <!-- LEFT -->
+            <div class="col-5">
+                <h3 class="fst-italic">Gestion des Utilisateurs</h3>
+                <h5>{{ users|length }} inscrits</h5>
+                <hr>
+                <a href="/admin/users">
+                    <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ab0pxvgc.json" 
+                        class="img-fluid" 
+                        background="transparent" 
+                        speed="1" 
+                        loop autoplay>
+                    </lottie-player>
+                </a>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-5">
+                <h3 class="fst-italic">Gestion des Questions</h3>
+                <h5>{{ questions|length }} questions</h5>
+                <hr>
+                <a href="/admin/questions">
+                    <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_Ns4TLz.json"  
+                        class="img-fluid"
+                        background="transparent" 
+                        speed="1" 
+                        loop autoplay>
+                    </lottie-player>
+                </a>
+            </div>
+
+        </div>
+        
+    </div>
+
+
+    <div class ="mt-5">
+
+    </div>
+{% endblock %}
