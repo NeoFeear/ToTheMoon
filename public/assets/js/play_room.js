@@ -25,8 +25,9 @@ function generateInputColors(){
         selectColorInput.dataset.color = "";
 
     selectColorInput.addEventListener('change', () => {
+        
         setColorInput(selectColorInput);
-        updateColorInputs(selectColorInput);
+        updateColorInputs();
         // console.log(colorsPicked);
 
     })
@@ -61,7 +62,7 @@ function setColorInput(selected){
     console.log(colorsPicked);
 }
 
-function updateColorInputs(selected){
+function updateColorInputs(){
  
     for(let i = 0; i < 6; i++){
 
