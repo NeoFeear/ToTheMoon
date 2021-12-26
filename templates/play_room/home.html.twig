@@ -19,7 +19,7 @@
     {% else %}
 
         <div class="col-12 mb-5">
-            <h1>Bienvenue {{ session.logged.username }} !</h1>
+            <h1 id="test">Bienvenue {{ session.logged.username }} !</h1>
             <h4>
                 Vous devez inviter vos amis à jouer une partie avec vous.<br>
                 Pour cela, inscrivez le pseudo de vos amis dans les champs suivant.<br>
@@ -30,30 +30,42 @@
 
         <div class="container">
           <div class="row">
-            <form class="form-inline" action="POST" >
+            <form action="POST" >
               
-              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group">
+              <div class="col-12 col-sm-6 offset-sm-3 mb-3  form-group d-flex">
                 <input type="text" class="form-control" id="player1" placeholder="Pseudo du joueur 1" />
+                <select onchange="updateColors('colorPicker0')" id="colorPicker0"></select>
+                
               </div>
 
-              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group">
+              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-group d-flex">
                 <input type="text" class="form-control" id="player1" placeholder="Pseudo du joueur 2" />
+                <select onchange="updateColors('colorPicker1')" id="colorPicker1"></select>
+                
               </div>
 
-              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group">
+              <div class="col-12 col-sm-6 offset-sm-3 mb-3  form-group d-flex">
                 <input type="text" class="form-control" id="player1" placeholder="Pseudo du joueur 3" />
+                <select id="colorPicker2"></select>
+               
               </div>
 
-              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group">
+              <div class="col-12 col-sm-6 offset-sm-3 mb-3  form-group d-flex">
                 <input type="text" class="form-control" id="player1" placeholder="Pseudo du joueur 4" />
+                <select id="colorPicker3"></select>
+                
               </div>
 
-              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group">
+              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group d-flex">
                 <input type="text" class="form-control" id="player1" placeholder="Pseudo du joueur 5" />
+                <select id="colorPicker4"></select>
+                
               </div>
 
-              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group">
+              <div class="col-12 col-sm-6 offset-sm-3 mb-3 form-inline form-group d-flex">
                 <input type="text" class="form-control" id="player1" placeholder="Pseudo du joueur 6" />
+                <select id="colorPicker5"></select>
+                
               </div>
 
 
