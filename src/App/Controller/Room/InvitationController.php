@@ -7,16 +7,17 @@ use App\Security\SecurityTrait;
 use App\Models\Repository\RepositoryTrait;
 use App\Models\Entity\Users;
 
-
 class InvitationController extends AbstractController
 {
   use SecurityTrait, RepositoryTrait;
 
   public function __invoke(): string
   { 
-
     $this->ensureLoggedIn();
+    $users = new Users();
+    $users = $this->getRepository('users')->findAll();
 
+<<<<<<< HEAD
         $users = new Users();
         $users = $this->getRepository('users')->findAll();
 
@@ -33,3 +34,13 @@ class InvitationController extends AbstractController
   }
 
 }
+=======
+    json_encode($users);
+
+    return $this->render('play_room/home.html.twig', [
+      'users' => $users,
+    ]);
+  }
+
+}
+>>>>>>> 2e82ab01dd6f09dac7a1796c8412a68a6da4a48e

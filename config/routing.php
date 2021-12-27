@@ -45,4 +45,7 @@ return [
 
     //PLAY ROOM
     new Route(['GET', 'POST'], '/play_room', InvitationController::class)
+
+
+    
 ];
