@@ -1,46 +1,19 @@
-//CONSTANTES GLOBALES
-const colorsTable = [
-    'green',
-    'red',
-    'blue',
-    'yellow',
-    'Tomato',
-    'cyan',
-    'Plum',
-    'Indigo',
-    'LightPink',
-    'Khaki',
-    'DeepSkyBLue'
-];
-
-//VARIABLES
+// COLORS
+let colorsTable = ['green','red','blue','yellow','Tomato','cyan','Plum','Indigo','LightPink','Khaki','DeepSkyBLue'];
 
 let colorsPicked = [];
 
-//Récupération des utilisateurs 
-
-//GENERATION DES COLORS PICKER POUR LES JOUEURS
 generateInputColors();
 
-/**
- * Fonction qui permet de générer les couleurs dans les selecteurs
- */
-function generateInputColors(){
-
-    for(let i = 0; i < 6; i++){
-
-    let selectColorInput = document.getElementById('colorPicker'+i);
+function generateInputColors() {
+    for (let i = 1; i <= 6; i++) {
+        let selectColorInput = document.getElementById('colorPicker' + i);
         selectColorInput.dataset.color = "";
 
-    selectColorInput.addEventListener('change', () => {
-
-        setColorInput(selectColorInput);
-        updateColorInputs();
-        // console.log(colorsPicked);
-
-    })
-
-        for(let i = 0; i < colorsTable.length; i++){
+        selectColorInput.addEventListener('change', () => {
+            setColorInput(selectColorInput);
+            updateColorInputs();
+        });
 
         for (let i = 0; i < colorsTable.length; i++) {
             let addOption = document.createElement('option');
@@ -54,13 +27,8 @@ function generateInputColors(){
     }
 }
 
-/**
- * Fonction qui permet de setter une couleur a un joueur 
- * @param {HTMLelement} selected 
- */
-function setColorInput(selected){
-
-    if(colorsPicked.includes(selected.dataset.color)){
+function setColorInput(selected) {
+    if (colorsPicked.includes(selected.dataset.color)) {
         const index = colorsPicked.indexOf(selected.dataset.color);
         colorsPicked.splice(index, 1);
     }
@@ -72,18 +40,12 @@ function setColorInput(selected){
     console.log(colorsPicked);
 }
 
-/**
- * Fonction qui met a jour les couleurs disponibles pour les autres joueurs
- */
-function updateColorInputs(){
- 
-    for(let i = 0; i < 6; i++){
-
+function updateColorInputs() {
+    for (let i = 1; i <= 6; i++) {
         let si = document.getElementById('colorPicker' + i);
         let childs = Array.from(si.children);
 
         for (let j = 0; j < childs.length; j++) {
-
             if (colorsPicked.includes(childs[j].value)) {
                 childs[j].disabled = true;
                 childs[j].hidden = true;
@@ -91,45 +53,53 @@ function updateColorInputs(){
                 childs[j].disabled = false;
                 childs[j].hidden = false;
             }
-
         }
-
     }
-
 }
+
+// ============================================================
 
 // USERS
 let users = [];
-
-// Liste des utilisateurs inscrits
 let usersList = document.getElementById('usersList');
 let usersListChilds = Array.from(usersList.children);
 for (let i = 0; i < usersListChilds.length; i++) {
     users.push(usersListChilds[i].innerText);
 }
-console.log(users);
+console.log(users); // Liste des utilisateurs inscrits
 
 let player = document.getElementById('player1');
 player.addEventListener('keyup', function (e) {
     showResults(e.target.value);
 });
 
-let propositions = document.getElementsByName('propositions');
+document.addEventListener('click', function (e) {
+    if (e.target.tagName === 'LI') {
+        e.target.hidden = true;
+        player.value = e.target.innerText;
+    }
+});
 
-// Fonction d'auto-completion
 function autocompleteMatch(input) {
     if (input == '') {
         return [];
     }
-    var reg = new RegExp(input)
+    
+    var reg = new RegExp(input);
+    
     return users.filter(function (term) {
         if (term.match(reg)) {
+            return term;
+        }
+        if (term.toLowerCase().match(reg)) {
+            return term;
+        }
+        if (term.toUpperCase().match(reg)) {
             return term;
         }
     });
 }
 
-// Montre les résultats de la recherche
 function showResults(val) {
     res = document.getElementById("results");
     res.innerHTML = '';
@@ -140,32 +110,3 @@ function showResults(val) {
     }
     res.innerHTML = '<ul>' + list + '</ul>';
 }
-
-/*
-
-var search_terms = ['apple', 'apple watch', 'apple macbook', 'apple macbook pro', 'iphone', 'iphone 12'];
- 
-function autocompleteMatch(input) {
-  if (input == '') {
-    return [];
-  }
-  var reg = new RegExp(input)
-  return search_terms.filter(function(term) {
-	  if (term.match(reg)) {
-  	  return term;
-	  }
-  });
-}
- 
-function showResults(val) {
-  res = document.getElementById("result");
-  res.innerHTML = '';
-  let list = '';
-  let terms = autocompleteMatch(val);
-  for (i=0; i<terms.length; i++) {
-    list += '<li>' + terms[i] + '</li>';
-  }
-  res.innerHTML = '<ul>' + list + '</ul>';
-}
-
- */

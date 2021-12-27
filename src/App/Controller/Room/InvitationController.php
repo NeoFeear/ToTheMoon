@@ -17,11 +17,10 @@ class InvitationController extends AbstractController
     $users = new Users();
     $users = $this->getRepository('users')->findAll();
 
-<<<<<<< HEAD
         $users = new Users();
         $users = $this->getRepository('users')->findAll();
 
-        // Faire un cUrl pour recup l'id de la room
+        // Faire un curl pour recup l'id de la room
         // Envoyer un mail avec l'url 
         // ttm.io/game?roomId=4242&uid=4
 
@@ -34,13 +33,3 @@ class InvitationController extends AbstractController
   }
 
 }
-=======
-    json_encode($users);
-
-    return $this->render('play_room/home.html.twig', [
-      'users' => $users,
-    ]);
-  }
-
-}
->>>>>>> 2e82ab01dd6f09dac7a1796c8412a68a6da4a48e

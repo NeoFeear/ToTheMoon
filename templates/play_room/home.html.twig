@@ -36,7 +36,7 @@
             <h1 id="test">Bienvenue {{ session.logged.username }} !</h1>
             <h4>
                 Vous devez inviter vos amis à jouer une partie avec vous.<br>
-                Pour cela, inscrivez le pseudo de vos amis dans les champs suivant.<br>
+                Pour cela, inscrivez le pseudo de vos amis dans les champs suivants.<br>
                 Bon jeu à vous !
             </h4>
 
@@ -56,7 +56,7 @@
                 {% for i in 1..6 %}
                     <div class="row mb-3">
                         <div class="col form-group d-flex">
-                            <input type="text" class="form-control" id="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
+                            <input type="text" class="form-control" name="player" id="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
                             <div id="results"></div>
                             <select id="colorPicker{{i}}">
                                 <option value="none" name="color-input" selected disabled hidden>Selected Color</option>
