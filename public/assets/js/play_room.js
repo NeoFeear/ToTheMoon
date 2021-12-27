@@ -1,4 +1,5 @@
-let colorsTable = [
+//CONSTANTES GLOBALES
+const colorsTable = [
     'green',
     'red',
     'blue',
@@ -12,11 +13,18 @@ let colorsTable = [
     'DeepSkyBLue'  
 ];
 
+//VARIABLES
+
 let colorsPicked = [];
 
-//generate les inputs colors
+//Récupération des utilisateurs 
+
+//GENERATION DES COLORS PICKER POUR LES JOUEURS
 generateInputColors();
 
+/**
+ * Fonction qui permet de générer les couleurs dans les selecteurs
+ */
 function generateInputColors(){
 
     for(let i = 0; i < 6; i++){
@@ -25,7 +33,7 @@ function generateInputColors(){
         selectColorInput.dataset.color = "";
 
     selectColorInput.addEventListener('change', () => {
-        
+
         setColorInput(selectColorInput);
         updateColorInputs();
         // console.log(colorsPicked);
@@ -47,7 +55,10 @@ function generateInputColors(){
     }
 }
 
-
+/**
+ * Fonction qui permet de setter une couleur a un joueur 
+ * @param {HTMLelement} selected 
+ */
 function setColorInput(selected){
 
     if(colorsPicked.includes(selected.dataset.color)){
@@ -62,6 +73,9 @@ function setColorInput(selected){
     console.log(colorsPicked);
 }
 
+/**
+ * Fonction qui met a jour les couleurs disponibles pour les autres joueurs
+ */
 function updateColorInputs(){
  
     for(let i = 0; i < 6; i++){
