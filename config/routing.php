@@ -18,7 +18,7 @@ use App\Controller\Admin\Users\AdminEditUserController;
 
 use App\Controller\Admin\Questions\AdminQuestionsController;
 use App\Controller\Admin\Questions\AdminEditQuestionController;
-
+use App\Controller\Quiz\QuizController;
 use App\Controller\Room\InvitationController;
 
 return [
@@ -44,7 +44,10 @@ return [
     new Route('GET', '/question/{id}', QuestionController::class),
 
     //PLAY ROOM
-    new Route(['GET', 'POST'], '/play_room', InvitationController::class)
+    new Route(['GET', 'POST'], '/play_room', InvitationController::class),
+
+    //QUIZZ GAME
+    new Route(['GET', 'POST'], '/game', QuizController::class)
 
 
     

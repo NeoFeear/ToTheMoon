@@ -16,6 +16,8 @@
     },
     "require": {
         "nikic/fast-route": "^1.3",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "symfony/serializer": "^5.4",
+        "symfony/property-access": "^5.4"
     }
 }

@@ -17,8 +17,8 @@ class InvitationController extends AbstractController
     $users = new Users();
     $users = $this->getRepository('users')->findAll();
 
-        $users = new Users();
-        $users = $this->getRepository('users')->findAll();
+    $users = new Users();
+    $users = $this->getRepository('users')->findAll();
 
         // Faire un curl pour recup l'id de la room
         // Envoyer un mail avec l'url 
