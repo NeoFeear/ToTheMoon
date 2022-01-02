@@ -10,7 +10,6 @@ use App\Models\Repository\RepositoryTrait;
 use App\Models\Entity\Users;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -26,6 +25,7 @@ class QuizController extends AbstractController
     //SERIALIZER CONFIG
     $encoders = [new JsonEncoder()];
     $normalizers = [new ObjectNormalizer()];
+
     $serializer = new Serializer($normalizers, $encoders);
 
     $users = new Users();
@@ -37,10 +37,11 @@ class QuizController extends AbstractController
     $jsonSessionUser = $serializer->serialize($sessionUser, 'json');
 
     // echo '<pre>';print_r($session_user); die;
+    
         // Faire un curl pour recup l'id de la room
         
         // Envoyer un mail avec l'url 
-        // ttm.io/game?roomId=4242&uid=4
+        // ttm.io/game?roomId=4242
 
         // sur /game tu recup ton GET roomId
         // Dans le JS : Socket.io qui contacte le node : 127.0.0.1:8080/joinRoom/4242
