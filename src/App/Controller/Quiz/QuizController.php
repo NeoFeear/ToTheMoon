@@ -20,8 +20,7 @@ class QuizController extends AbstractController
 
   public function __invoke(): string
   { 
-    $this->ensureLoggedIn();
-
+  
     //SERIALIZER CONFIG
     $encoders = [new JsonEncoder()];
     $normalizers = [new ObjectNormalizer()];

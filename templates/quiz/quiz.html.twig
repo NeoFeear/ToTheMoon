@@ -22,38 +22,47 @@
     
    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
    <script src="/assets/js/quiz.js"></script>
+   
+{# PASSAGE DE SESSION AU JS #}
+<script>
+
+  const session_user = eval('(' + {{ session_user|json_encode|raw }} + ')');
+  const socket = io.connect('http://localhost:8000');
+
+  let formSubmit = document.getElementById('form'),
+      users = document.getElementById('users')
+  
+  //Au chargement de la page, passage des infos users au serveur
+  window.addEventListener("load", (e) =>{
+      e.preventDefault();
+      socket.emit('connected', session_user);
+  });
+
+
+// Gestion des utilisateurs connectés
+  socket.on('newUser', (user) => {
+      let newAvatar = document.createElement('img');
+          newAvatar.src = ""+user.picture+"";
+          newAvatar.id = user.id;
+          newAvatar.style.height = "200px";
+          newAvatar.style.width = "200px";
+
+      users.appendChild(newAvatar);   
+  })
+
+  socket.on('discUser', (user) => {
+    //récupération de l'éelement avec l'ID de l'utilisateur qui se deconnecte et remove l'élement
+    document.getElementById(user.id).remove();
+
+  })
+        
+
+</script>
+
 
   </body>
 </html>
 
-
-{# PASSAGE DE SESSION AU JS #}
-<script>
-
-    const session_user = eval('(' + {{ session_user|json_encode|raw }} + ')');
-    const socket = io.connect('http://localhost:8000');
-
-    let formSubmit = document.getElementById('form'),
-        users = document.getElementById('users')
-    
-    //Au chargement de la page, passage des infos users au serveur
-    window.addEventListener("load", (e) =>{
-        e.preventDefault();
-        socket.emit('connected', session_user);
-    });
-
-
-    socket.on('newUser', (user) => {
-        let newAvatar = document.createElement('img');
-            newAvatar.src = ""+user.picture+"";
-            newAvatar.style.height = "200px";
-            newAvatar.style.width = "200px";
-
-        users.appendChild(newAvatar);   
-    })
-        
-
-</script>
 
 
 
