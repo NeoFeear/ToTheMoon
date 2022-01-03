@@ -47,8 +47,5 @@ return [
     new Route(['GET', 'POST'], '/play_room', InvitationController::class),
 
     //QUIZZ GAME
-    new Route(['GET', 'POST'], '/game/{id}', QuizController::class)
-
-
-    
+    new Route(['GET', 'POST'], '/game/{roomId}', QuizController::class)
 ];

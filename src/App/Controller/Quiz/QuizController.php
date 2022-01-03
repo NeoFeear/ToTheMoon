@@ -2,78 +2,51 @@
 
 namespace App\Controller\Quiz;
 
-// require __DIR__.('/vendor/autoload.php');
-
-use Framework\Controller\AbstractController;
 use App\Security\SecurityTrait;
-use App\Models\Repository\RepositoryTrait;
-use App\Models\Entity\Users;
-
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
-
 use Ratchet\ConnectionInterface;
-use Ratchet\Server\IoServer;
-use App\Quiz;
+use App\Models\Repository\RepositoryTrait;
+use Framework\Controller\AbstractController;
+use Ratchet\WebSocket\MessageComponentInterface;
 
-
-class QuizController extends AbstractController
-{
-  use SecurityTrait, RepositoryTrait;
-
-  public function __invoke(int $id): string
-  { 
+class QuizController extends AbstractController implements MessageComponentInterface {
+    use SecurityTrait, RepositoryTrait;
     
-    
-    $roomId = $id;
+    protected $clients;
 
-    echo $id;
+    public function __construct() {
+        $this->clients = new \SplObjectStorage;
+    }
 
-    // echo '<pre>';print_r($session_user); die;
-    // Faire un curl pour recup l'id de la room
-    // Envoyer un mail avec l'url 
-    // ttm.io/game?roomId=4242
-    // sur /game tu recup ton GET roomId
-    // Dans le JS : Socket.io qui contacte le node : 127.0.0.1:8080/joinRoom/4242
+    public function __invoke(int $roomId): string {       
+        return $this->render('quiz/quiz.html.twig', [
+            'roomId' => $roomId,
+        ]);
+    }
 
-    return $this->render('quiz/quiz.html.twig', [
-      
-    ]);
+// ========== FUNCTIONS SOCKET ==========
+    public function onOpen(ConnectionInterface $conn) {
+        $this->clients->attach($conn);
+        echo "New connection ! ({$conn->resourceId})\n";
+    }
 
-  }
+    public function onClose(ConnectionInterface $conn) {
+        $this->clients->detach($conn);
+        echo "Connection {$conn->resourceId} has disconnected\n";
+    }
 
-  //FUNCTIONS SOCKET
+    public function onMessage(ConnectionInterface $from, $msg) {
+        $numRecv = count($this->clients) - 1;
+        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n", $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
-  //OUVERTURE DE LA PAGE
-  function onOpen(ConnectionInterface $conn) {
-    // Store the new connection to send messages to later
-    $currentUser = $_SESSION['logged'];
-    $currentUser->attach($conn);
-    echo "New connection! ({$conn->resourceId})\n";
-    echo $conn;
-  }
+        foreach ($this->clients as $client) {
+            if ($from !== $client) {
+                $client->send($msg);
+            }
+        }
+    }
 
-  //FERMETURE DE LA PAGE
-  public function onClose(ConnectionInterface $conn) {
-    // The connection is closed, remove it, as we can no longer send it messages
-    $this->clients->detach($conn);
-
-    echo "Connection {$conn->resourceId} has disconnected\n";
-  }
-
-
-
-
-
+    public function onError(ConnectionInterface $conn, \Exception $e) {
+        echo "An error has occurred: {$e->getMessage()}\n";
+        $conn->close();
+    }
 }
-
-
-
-//INSTANCIATION SERIALIZER AVEC CFG
-// $encoders = [new JsonEncoder()];
-// $normalizers = [new ObjectNormalizer()];
-// $serializer = new Serializer($normalizers, $encoders);
-  
-// //SERIALIZE USER OBJECT EN JSON
-// $jsonSessionUser = $serializer->serialize($sessionUser, 'json');

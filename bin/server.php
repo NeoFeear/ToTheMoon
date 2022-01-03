@@ -1,16 +1,16 @@
-<?php 
+<?php
 
+require dirname(__DIR__).'/vendor/autoload.php';
+
+use App\Controller\Quiz\QuizController;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
-use App\Quiz;
-
-require dirname(__DIR__) . '/vendor/autoload.php';
         
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(
-            new Quiz()
+            new QuizController()
         )
     ),
     8080
