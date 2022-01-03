@@ -22,10 +22,13 @@ class QuizController extends AbstractController
 {
   use SecurityTrait, RepositoryTrait;
 
-  public function __invoke(): string
+  public function __invoke(int $id): string
   { 
-  
-    $this->currentUser = $_SESSION['logged'];
+    
+    
+    $roomId = $id;
+
+    echo $id;
 
     // echo '<pre>';print_r($session_user); die;
     // Faire un curl pour recup l'id de la room
@@ -45,8 +48,10 @@ class QuizController extends AbstractController
   //OUVERTURE DE LA PAGE
   function onOpen(ConnectionInterface $conn) {
     // Store the new connection to send messages to later
-    $this->currentUser->attach($conn);
+    $currentUser = $_SESSION['logged'];
+    $currentUser->attach($conn);
     echo "New connection! ({$conn->resourceId})\n";
+    echo $conn;
   }
 
   //FERMETURE DE LA PAGE
