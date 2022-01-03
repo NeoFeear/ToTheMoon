@@ -13,6 +13,9 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+use Ratchet\Server\IoServer;
+use App\Quiz;
+
 
 class QuizController extends AbstractController
 {
@@ -35,6 +38,12 @@ class QuizController extends AbstractController
 
     //SERIALIZE USER OBJECT EN JSON
     $jsonSessionUser = $serializer->serialize($sessionUser, 'json');
+
+    
+    
+        
+
+
 
     // echo '<pre>';print_r($session_user); die;
     
