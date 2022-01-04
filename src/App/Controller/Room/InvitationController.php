@@ -6,10 +6,7 @@ use Framework\Controller\AbstractController;
 use App\Security\SecurityTrait;
 use App\Models\Repository\RepositoryTrait;
 use App\Models\Entity\Users;
-
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
 use WebSocket\Client;
 
 
