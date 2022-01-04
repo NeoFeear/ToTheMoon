@@ -12,17 +12,21 @@ use Ratchet\WebSocket\MessageComponentInterface;
 class QuizController extends AbstractController implements MessageComponentInterface {
     // use SecurityTrait, RepositoryTrait;
 
-    protected $clients;
+    //Recupérer l'id de l'utilisateur qui est connecté
+    //Récupérer l'id de la room qui se trouve dans l'URL
 
+
+    protected $clients;
     protected  $rooms = [];
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
     }
 
-    public function __invoke(int $roomId): string {       
+    public function __invoke(string $roomId): string {       
         return $this->render('quiz/quiz.html.twig', [
             'roomId' => $roomId,
+
         ]);
     }
 
@@ -77,7 +81,7 @@ class QuizController extends AbstractController implements MessageComponentInter
 
         $this->clients->attach($wsUser);
 
-        //TODO
+        
         if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
             $this->sendToRoom($data['roomId'], [
                 'type' => 'start-game'

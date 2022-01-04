@@ -9,11 +9,13 @@ function build(event, data)
     })
 };
 
+
+//récupérer l'id de l'utilisateur qui ouvre la page ainsi que la Room ID qui se trouve dans l'URL
 conn.onopen = function() {
     console.log("Connection established!");
     conn.send(build('joinroom', {
-        uid: 42,
-        roomId: 2929,
+        uid: 18,
+        roomId: '3x7f0b6s5v' ,
     }))
 };
 

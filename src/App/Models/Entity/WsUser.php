@@ -6,10 +6,9 @@ use Ratchet\ConnectionInterface;
 
 class WsUser
 {
-    protected ConnectionInterface $client;
-
-    protected int $uid;
-    protected int $roomId;
+    protected $client;
+    protected $uid;
+    protected $roomId;
 
     public function getClient(): ConnectionInterface
     {
@@ -33,12 +32,12 @@ class WsUser
         return $this;
     }
 
-    public function getRoomId(): int
+    public function getRoomId(): string
     {
         return $this->roomId;
     }
 
-    public function setRoomId(int $roomId): WsUser
+    public function setRoomId(string $roomId): WsUser
     {
         $this->roomId = $roomId;
         return $this;
