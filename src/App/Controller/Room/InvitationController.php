@@ -20,6 +20,8 @@ class InvitationController extends AbstractController
   public function __invoke(): string
   { 
     $this->ensureLoggedIn();
+    $errors = '';
+
     //Récupération de tous les utilisateurs pour autocomplétion
     $users = new Users();
     $users = $this->getRepository('users')->findAll();
@@ -30,9 +32,10 @@ class InvitationController extends AbstractController
     if($this->isSubmited()){
 
       //VARIABLES GLOBALES
-      $invitedPlayersEmail = [];
+      $invitedPlayers = [];
+      $invitedPlayersId = [];
       $randomId = '';
-      $errors = '';
+      
       $uri = 'ttm.io/game/';
 
       //GENERER UN ID ALEATOIRE
@@ -43,20 +46,25 @@ class InvitationController extends AbstractController
       
       $uri .= $randomId;
 
-     
-
-      //RECUPERATION DES EMAILS DE TOUS LES UTILISATEURS ET STOCKAGE DANS UN TABLEAU
+      //RECUPERATION DES UTILISATEURS/ID INVITES ET STOCKAGE DANS UN TABLEAU
       foreach($_POST as $player ){
-        
-        if($player !== ""){
-          $tmpUser = $this->getRepository('users')->findOneBy('username', $player);
-          array_push($invitedPlayersEmail, $tmpUser['email']);
+
+        $tmpUser = $this->getRepository('users')->findOneBy('username', $player);
+
+        if($player !== "" && $tmpUser !== false){
+          array_push($invitedPlayers, $tmpUser);
+          array_push($invitedPlayersId, $tmpUser['id']);
+        }else{
+          $errors = 'Aucun utilisateur';
         }
-     
+
       }
 
-      if(count($invitedPlayersEmail) >= 2) {
-        foreach($invitedPlayersEmail as $email){
+      //ENVOI DU MAIL AUX UTILISATEURS AVEC LIEN DE LA ROOM
+      if(count($invitedPlayers) >= 2) {
+
+        foreach($invitedPlayers as  $player){
+
           //Create a new PHPMailer instance
           $mail = new PHPMailer();
           //Tell PHPMailer to use SMTP
@@ -76,8 +84,8 @@ class InvitationController extends AbstractController
           $mail->Password = 'neofear57';
           $mail->setFrom('test.symfony57155@gmail.com', 'First Last');
           //Set who the message is to be sent to
-          $mail->addAddress($email, 'John Doe');
-          $mail->Body    = 'Cliquez sur ce lien '. $uri . 'pour rejoindre la room !';
+          $mail->addAddress($player['email'], 'John Doe');
+          $mail->Body    = 'Cliquez sur ce <a href="'. $uri . '">lien</a> pour rejoindre la room !<br> l\'ID de la room est : ' . $randomId;
           //Set the subject line
           $mail->Subject = 'Vous êtes invité à jouer une partie de ToTheMoon';
           //Replace the plain text body with one created manually
@@ -85,10 +93,9 @@ class InvitationController extends AbstractController
   
           //send the message, check for errors
           if (!$mail->send()) {
-              echo 'Mailer Error: ' . $mail->ErrorInfo;
+            $errors = $mail->ErrorInfo;
           } else {
-              echo 'Message sent!';
-              
+            $errors = 'Message envoyé !';
           }        
         }
       }else{
@@ -101,7 +108,7 @@ class InvitationController extends AbstractController
         'type' => 'createroom',
         'data' => [
           'roomId' => $randomId,
-          'users' => [42, 43]
+          'users' => $invitedPlayersId
         ]
       ]));
 
@@ -109,19 +116,14 @@ class InvitationController extends AbstractController
 
     }
     
-    
     // Envoyer un mail avec l'url 
-
-
-
-    
     // ttm.io/game/4242
     // sur /game tu recup ton GET roomId et UserID
     // Dans le JS : Socket.io qui contacte le node : 127.0.0.1:8080/joinRoom/4242
 
     return $this->render('play_room/home.html.twig', [
       'users' => $users,
-      'error' => $errors
+      'errors' => $errors
     ]);
 
   }

@@ -10,11 +10,11 @@ use Framework\Controller\AbstractController;
 use Ratchet\WebSocket\MessageComponentInterface;
 
 class QuizController extends AbstractController implements MessageComponentInterface {
-    use SecurityTrait, RepositoryTrait;
+    // use SecurityTrait, RepositoryTrait;
 
     protected $clients;
 
-    protected array $rooms = [];
+    protected  $rooms = [];
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
