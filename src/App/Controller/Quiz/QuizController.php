@@ -74,7 +74,7 @@ class QuizController extends AbstractController implements MessageComponentInter
             ->setUid($data['uid']);
 
         $this->clients->attach($wsUser);
-
+        
         if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
             $this->sendToRoom($data['roomId'], [
                 'type' => 'start-game'
