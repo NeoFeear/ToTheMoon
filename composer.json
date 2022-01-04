@@ -19,6 +19,9 @@
         "twig/twig": "^3.0",
         "symfony/serializer": "^5.4",
         "symfony/property-access": "^5.4",
-        "cboden/ratchet": "^0.4.4"
+        "cboden/ratchet": "^0.4.4",
+        "textalk/websocket": "^1.5",
+        "symfony/mime": "^5.4",
+        "phpmailer/phpmailer": "^6.5"
     }
 }
