@@ -12,12 +12,11 @@ use Ratchet\WebSocket\MessageComponentInterface;
 class QuizController extends AbstractController implements MessageComponentInterface {
     // use SecurityTrait, RepositoryTrait;
 
-    //Recupérer l'id de l'utilisateur qui est connecté
-    //Récupérer l'id de la room qui se trouve dans l'URL
-
+    // TODO: Recupérer l'id de l'utilisateur qui est connecté    
+    // TODO: Récupérer l'id de la room qui se trouve dans l'URL
 
     protected $clients;
-    protected  $rooms = [];
+    protected $rooms = [];
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
@@ -26,7 +25,6 @@ class QuizController extends AbstractController implements MessageComponentInter
     public function __invoke(string $roomId): string {       
         return $this->render('quiz/quiz.html.twig', [
             'roomId' => $roomId,
-
         ]);
     }
 
@@ -35,8 +33,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         echo "New connection with resourceId={$conn->resourceId}\n";
     }
 
-    protected function sendToAllButMe(ConnectionInterface $me, $data)
-    {
+    protected function sendToAllButMe(ConnectionInterface $me, $data) {
         /** @var WsUser $client */
         foreach ($this->clients as $client) {
             if ($client->getClient() !== $me) {
@@ -45,8 +42,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
     }
 
-    protected function sendToRoom(int $roomId, $data)
-    {
+    protected function sendToRoom(int $roomId, $data) {
         $clients = $this->getClientsInRoom($roomId);
 
         /** @var WsUser $client */
@@ -66,13 +62,11 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
     }
 
-    public function createroom(ConnectionInterface $conn, array $data)
-    {
+    public function createroom(ConnectionInterface $conn, array $data) {
         $this->rooms[$data['roomId']] = $data;
     }
 
-    public function joinroom(ConnectionInterface $conn, array $data)
-    {
+    public function joinroom(ConnectionInterface $conn, array $data) {
         $wsUser = new WsUser();
         $wsUser
             ->setClient($conn)
@@ -81,7 +75,6 @@ class QuizController extends AbstractController implements MessageComponentInter
 
         $this->clients->attach($wsUser);
 
-        
         if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
             $this->sendToRoom($data['roomId'], [
                 'type' => 'start-game'
@@ -89,7 +82,6 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
 
         $this->sendToAllButMe($conn, 'Bonjour je suis ' . $wsUser->getUid());
-        
     }
 
     public function onMessage(ConnectionInterface $conn, $msg) {
@@ -111,7 +103,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         $conn->close();
     }
 
-    private function getClientsInRoom(int $roomId): array
+    private function getClientsInRoom(string $roomId): array
     {
         $connections = [];
 
