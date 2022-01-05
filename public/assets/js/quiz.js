@@ -35,6 +35,10 @@ conn.onmessage = function(e) {
             let questions = document.getElementById('questions').dataset.questions;
             questions = JSON.parse(questions);
             console.log('START THE GAME!');
+
+            document.getElementById('waiting').hidden = true;
+            document.getElementById('game').hidden = false;
+
             break;
         
         case 'usersList':
