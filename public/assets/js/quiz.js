@@ -28,10 +28,7 @@ conn.onopen = function() {
 
 conn.onclose = function() {
 
-    let left = document.getElementById('left');
-        left.textContent = "PLAYER" + currentUserSession.username;
 
-    
 }
 
 //En fonction de ce que l'on recoit du server, 
@@ -44,6 +41,7 @@ conn.onmessage = function(e) {
         case 'start-game':
             let questions = document.getElementById('questions').dataset.questions;
             questions = JSON.parse(questions);
+            // Tu dois appeler : $data.allClientsUsernames
             console.log('START THE GAME!');
             break;
         

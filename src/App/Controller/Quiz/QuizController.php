@@ -53,8 +53,6 @@ class QuizController extends AbstractController implements MessageComponentInter
 // ========== FUNCTIONS SOCKET ==========
     public function onOpen(ConnectionInterface $conn) {
         echo "New connection with resourceId={$conn->resourceId}\n";
-
-
     }
 
     protected function sendToAllButMe(ConnectionInterface $me, $data) {
@@ -67,6 +65,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
     }
 
+    //Le server envoi a la ROOM
     protected function sendToRoom(string $roomId, $data) {
         $clients = $this->getClientsInRoom($roomId);
 
@@ -85,11 +84,9 @@ class QuizController extends AbstractController implements MessageComponentInter
             if ($client->getClient() === $conn) {
                 $this->clients->detach($client);  
                 echo "Connection {$clientUsername} has disconnected\n";
+                $key = array_search($clientUsername, $this->usersList);
+                array_splice($this->usersList, $key);
             }
-
-            if($key = array_search($clientUsername, $this->usersList)){
-                array_splice($this->usersList, $key, 1);
-            }; 
 
             $this->sendToRoom($roomId, [
                 'type' => 'usersList',
@@ -101,13 +98,12 @@ class QuizController extends AbstractController implements MessageComponentInter
     }
 
     public function createroom(ConnectionInterface $conn, array $data) {
-        $this->rooms[$data['roomId']] = $data;
+        $this->rooms[$data['roomId']] = $data;  
     }
 
     public function joinroom(ConnectionInterface $conn, array $data) {
 
-        if(in_array($data['uid'], $this->rooms[$data['roomId']]['users'])){
-
+    
             $wsUser = new WsUser();
             $wsUser
                 ->setClient($conn)
@@ -131,14 +127,14 @@ class QuizController extends AbstractController implements MessageComponentInter
                 'clients' => $this->clients
             ]);
             
-            if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
-                $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
-                    'type' => 'start-game',
-                    'allClientsId' => $this->rooms[$data['roomId']]['users']
-                ]);
-            }
+        
+        if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
+            $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
+                'type' => 'start-game',
+                'allClientsId' => $this->rooms[$data['roomId']]['users'],
+                'allClientsUsernames' => $this->rooms[$data['roomId']]['usernames']
 
-
+            ]);
         }
 
     }

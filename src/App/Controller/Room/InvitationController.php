@@ -25,6 +25,7 @@ class InvitationController extends AbstractController {
            
             //VARIABLES GLOBALES
             $invitedPlayers = [];
+            $invitedPlayersUsername = [];
             $invitedPlayersId = [$_SESSION['logged']['id']];
             $randomId = '';
 
@@ -46,6 +47,7 @@ class InvitationController extends AbstractController {
 
                 if (!empty($player) && $tmpUser !== false) {
                     array_push($invitedPlayers, $tmpUser);
+                    array_push($invitedPlayersUsername, $tmpUser['username']);
                     array_push($invitedPlayersId, $tmpUser['id']);
                 } else {
                     $errors = 'Aucun utilisateur';
@@ -86,6 +88,7 @@ class InvitationController extends AbstractController {
                 'data' => [
                     'roomId' => $randomId,
                     'users' => $invitedPlayersId,
+                    'usernames' => $invitedPlayersUsername
                 ]
             ]));
 
