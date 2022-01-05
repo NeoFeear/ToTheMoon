@@ -1,13 +1,34 @@
-<h1><u>ID de la room :</u> {{ roomId }}</h1>
+{% extends 'template1.html.twig' %}
 
-<span id="roomId">{{roomId}}</span>
-<span id="currentUserId">{{session.logged.id}}</span>
-
-
-<ul id="userList">
+{% block body %}
+    <h1><u>ID de la room :</u> {{ roomId }}</h1>
 
 
-</ul>
+    {# Passage de variable au JS #}
+    <h2 hidden><u>ID de la room :</u> <span id="roomId">{{ roomId }}</span></h2>
+    <h2 hidden><u>Utilisateur actuel :</u> <span id="currentUserId">{{ session.logged.id }}</span></h2>
+    <h2 hidden id="currentUserSession"  data-user="{{ session.logged|json_encode }}"></h2>
+    <h2 hidden id="questions"  data-questions="{{ questions }}"></h2>
+    
 
 
-<script src="/assets/js/quiz.js"></script>
+    <ul id="userList"> Liste des joueurs :
+    
+    
+    </ul>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block js %}
+    <script src="/assets/js/quiz.js"></script>
+
+{% endblock %}
+
+
+

@@ -9,8 +9,15 @@ use App\Models\Repository\RepositoryTrait;
 use Framework\Controller\AbstractController;
 use Ratchet\WebSocket\MessageComponentInterface;
 
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+
+
+
 class QuizController extends AbstractController implements MessageComponentInterface {
-    // use SecurityTrait, RepositoryTrait;
+    use SecurityTrait, RepositoryTrait;
 
     // TODO: Recupérer l'id de l'utilisateur qui est connecté    
     // TODO: Récupérer l'id de la room qui se trouve dans l'URL
@@ -18,14 +25,26 @@ class QuizController extends AbstractController implements MessageComponentInter
     protected $clients;
     protected  array $rooms = [];
     protected $usersList = [];
-
+    
     public function __construct() {
         $this->clients = new \SplObjectStorage;
     }
 
-    public function __invoke(string $roomId): string {       
+    public function __invoke(string $roomId): string { 
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+
+        $questions = $this->getRepository('questions')->findAll();
+
+        $jsonQuestions = $serializer->serialize($questions, 'json');
+
+    
         return $this->render('quiz/quiz.html.twig', [
             'roomId' => $roomId,
+            'questions' => $jsonQuestions
         ]);
     }
 
@@ -39,6 +58,7 @@ class QuizController extends AbstractController implements MessageComponentInter
     protected function sendToAllButMe(ConnectionInterface $me, $data) {
         /** @var WsUser $client */
         foreach ($this->clients as $client) {
+            //Pour chaques client dans Clients,
             if ($client->getClient() !== $me) {
                 $client->getClient()->send(json_encode($data));
             }
@@ -69,7 +89,6 @@ class QuizController extends AbstractController implements MessageComponentInter
     }
 
     public function joinroom(ConnectionInterface $conn, array $data) {
-
         $wsUser = new WsUser();
         $wsUser
             ->setClient($conn)
@@ -77,19 +96,26 @@ class QuizController extends AbstractController implements MessageComponentInter
             ->setUid($data['uid']);
 
         $this->clients->attach($wsUser);
+
         
-        if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
-            $this->sendToRoom($data['roomId'], [
-                'type' => 'start-game'
-            ]);
-        }
+        array_push($this->usersList, $data['username']);
+
+
+        $this->sendToAllButMe($conn, 'Bonjour je suis ' . $wsUser->getUid());
 
         $this->sendToRoom($data['roomId'], [
             'type' => 'usersList',
-            'data' => $this->getClientsInRoom($data['roomId'])
-        ]);
+            'usersList' => $this->usersList
 
-        $this->sendToAllButMe($conn, 'Bonjour je suis ' . $wsUser->getUid());
+        ]);
+        
+        if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
+            $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
+                'type' => 'start-game',
+                'allClientsId' => $this->rooms[$data['roomId']]['users'],   
+            ]);
+        }
+
     }
 
     public function onMessage(ConnectionInterface $conn, $msg) {
@@ -111,6 +137,9 @@ class QuizController extends AbstractController implements MessageComponentInter
         $conn->close();
     }
 
+    /**
+     * Retourne les clients qui sont dans la room
+     */
     private function getClientsInRoom(string $roomId): array
     {
         $connections = [];
@@ -118,6 +147,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         /** @var WsUser $client */
         foreach ($this->clients as $client)
         {
+            //Si le ROOMID du client est set a la ROOMID demandé, alors tu ajoutes au tableau connections
             if ($client->getRoomId() === $roomId) {
                 $connections[] = $client;
             }
