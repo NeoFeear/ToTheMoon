@@ -25,7 +25,7 @@ class InvitationController extends AbstractController {
            
             //VARIABLES GLOBALES
             $invitedPlayers = [];
-            $invitedPlayersId = [];
+            $invitedPlayersId = [$_SESSION['logged']['id']];
             $randomId = '';
 
             $uri = 'ttm.io/game/';
