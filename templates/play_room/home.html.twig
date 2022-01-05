@@ -2,19 +2,19 @@
 
 {% block css %}
     <style>
-        #results {
+        div[name="results"] {
             border: 1px dotted #ccc;
             padding: 3px;
         }
-        #results ul {
+        div[name="results"] ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
-        #results ul li {
+        div[name="results"] ul li {
             padding: 5px 0;
         }
-        #results ul li:hover {
+        div[name="results"] ul li:hover {
             background: #eee;
         }
     </style>
@@ -56,8 +56,8 @@
                 {% for i in 1..6 %}
                     <div class="row mb-3">
                         <div class="col form-group d-flex">
-                            <input type="text" class="form-control" name="player{{i}}" id="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
-                            <div id="results"></div>
+                            <input type="text" class="form-control" name="inputPlayer" id="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
+                            <div name="results"></div>
                             <select id="colorPicker{{i}}">
                                 <option value="none" name="color-input" selected disabled hidden>X</option>
                             </select>

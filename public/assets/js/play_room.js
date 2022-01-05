@@ -68,10 +68,12 @@ for (let i = 0; i < usersListChilds.length; i++) {
 }
 console.log(users); // Liste des utilisateurs inscrits
 
-let player = document.getElementById('player1');
-player.addEventListener('keyup', function (e) {
-    showResults(e.target.value);
-});
+let player = document.getElementsByName('inputPlayer');
+for (let i = 0; i < player.length; i++) {
+    player[i].addEventListener('keyup', function (e) {
+        showResults(e.target.value, i);
+    });
+}
 
 document.addEventListener('click', function (e) {
     if (e.target.tagName === 'LI') {
@@ -100,13 +102,24 @@ function autocompleteMatch(input) {
     });
 }
 
-function showResults(val) {
-    res = document.getElementById("results");
-    res.innerHTML = '';
+res = document.getElementsByName("results");
+function showResults(val, num) {
+    res[num].innerHTML = "";
     let list = '';
     let terms = autocompleteMatch(val);
-    for (i = 0; i < terms.length; i++) {
+    for (let i = 0; i < terms.length; i++) {
         list += '<li name="proposition">' + terms[i] + '</li>';
     }
-    res.innerHTML = '<ul>' + list + '</ul>';
+    res[num].innerHTML = '<ul>' + list + '</ul>';
 }
+/* {
+    for (let i = 0; i < res.length; i++) {
+        res[num].innerHTML = '';
+        let list = '';
+        let terms = autocompleteMatch(val);
+        for (i = 0; i < terms.length; i++) {
+            list += '<li name="proposition">' + terms[i] + '</li>';
+        }
+        res[num].innerHTML = '<ul>' + list + '</ul>';
+    }
+} */
