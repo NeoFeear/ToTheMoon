@@ -16,7 +16,8 @@ class QuizController extends AbstractController implements MessageComponentInter
     // TODO: Récupérer l'id de la room qui se trouve dans l'URL
 
     protected $clients;
-    protected $rooms = [];
+    protected  array $rooms = [];
+    protected $usersList = [];
 
     public function __construct() {
         $this->clients = new \SplObjectStorage;
@@ -27,6 +28,8 @@ class QuizController extends AbstractController implements MessageComponentInter
             'roomId' => $roomId,
         ]);
     }
+
+// SERVER
 
 // ========== FUNCTIONS SOCKET ==========
     public function onOpen(ConnectionInterface $conn) {
@@ -42,7 +45,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
     }
 
-    protected function sendToRoom(int $roomId, $data) {
+    protected function sendToRoom(string $roomId, $data) {
         $clients = $this->getClientsInRoom($roomId);
 
         /** @var WsUser $client */
@@ -67,6 +70,7 @@ class QuizController extends AbstractController implements MessageComponentInter
     }
 
     public function joinroom(ConnectionInterface $conn, array $data) {
+
         $wsUser = new WsUser();
         $wsUser
             ->setClient($conn)
@@ -80,6 +84,11 @@ class QuizController extends AbstractController implements MessageComponentInter
                 'type' => 'start-game'
             ]);
         }
+
+        $this->sendToRoom($data['roomId'], [
+            'type' => 'usersList',
+            'data' => $this->rooms[$data['roomId']]['users']
+        ]);
 
         $this->sendToAllButMe($conn, 'Bonjour je suis ' . $wsUser->getUid());
     }

@@ -22,12 +22,13 @@ class InvitationController extends AbstractController {
 
         // A la validation du formulaire : ----------------
         if ($this->isSubmited()) {
+           
             //VARIABLES GLOBALES
             $invitedPlayers = [];
             $invitedPlayersId = [];
             $randomId = '';
 
-            $uri = 'tothemoon2.io/game/';
+            $uri = 'ttm.io/game/';
 
             //GENERER UN ID ALEATOIRE
             for ($i = 0; $i < 5; $i++) {
@@ -39,7 +40,9 @@ class InvitationController extends AbstractController {
 
             //RECUPERATION DES UTILISATEURS/ID INVITES ET STOCKAGE DANS UN TABLEAU
             foreach($_POST as $player) {
+                
                 $tmpUser = $this->getRepository('users')->findOneBy('username', $player);
+                
 
                 if (!empty($player) && $tmpUser !== false) {
                     array_push($invitedPlayers, $tmpUser);
@@ -82,7 +85,8 @@ class InvitationController extends AbstractController {
                 'type' => 'createroom',
                 'data' => [
                     'roomId' => $randomId,
-                    'users' => $invitedPlayersId
+                    'users' => $invitedPlayersId,
+                    'currentUser' => $_SESSION['logged']['id']
                 ]
             ]));
 
