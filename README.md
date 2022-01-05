@@ -1,6 +1,11 @@
 # <p align="center">ToTheMoon<br/>Projet PHP</p>
 ## <p align="center">Par [Florian MARTIN](https://github.com/NeoFeear) et [Allan BREUIL](https://github.com/eSkAah)</p>
 
+## Sommaire
+1. [Introduction](#introduction)
+2. [Comptes pré-créés](#comptes-pré-créés)
+3. [Informations complémentaires](#informations-complémentaires)
+
 ## Introduction
 Le but de ce projet est le développement d’un jeu de plateau multijoueurs dans lequel le joueur répondra à des questions afin d’avancer en cas de bonne réponse ou de reculer en cas de mauvaise réponse.
 
@@ -22,6 +27,9 @@ Le jeu pourra être joué de deux à six joueurs. Un compte sur la plateforme es
 
 Le premier joueur initie la partie en renseignant les pseudos des autres joueurs. Une fois le formulaire de démarrage de partie envoyé, un QR code est généré pour chaque joueur. S’ils sont dans la même pièce, ils pourront scanner le QR Code afin d’arriver sur la page de la partie. Dans le cas contraire, le joueur maître pourra leur envoyer le lien en cliquant sur un bouton “Envoyer le lien par mail”. Vu que le joueur est déjà inscrit sur la plateforme, le lien lui sera envoyé par mail.
 
+## Lancement du serveur
+Pour démarrer le serveur, il suffit d'exécuter la commande suivante :
+`php bin/server.php`
 
 ## Comptes pré-créés
 ADMINISTRATEUR :
