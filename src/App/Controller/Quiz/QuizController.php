@@ -13,9 +13,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-
-
-
 class QuizController extends AbstractController implements MessageComponentInterface {
     use SecurityTrait, RepositoryTrait;
 
@@ -36,12 +33,10 @@ class QuizController extends AbstractController implements MessageComponentInter
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
 
-
         $questions = $this->getRepository('questions')->findAll();
 
         $jsonQuestions = $serializer->serialize($questions, 'json');
 
-    
         return $this->render('quiz/quiz.html.twig', [
             'roomId' => $roomId,
             'questions' => $jsonQuestions
@@ -53,8 +48,6 @@ class QuizController extends AbstractController implements MessageComponentInter
 // ========== FUNCTIONS SOCKET ==========
     public function onOpen(ConnectionInterface $conn) {
         echo "New connection with resourceId={$conn->resourceId}\n";
-
-
     }
 
     protected function sendToAllButMe(ConnectionInterface $me, $data) {
@@ -83,11 +76,8 @@ class QuizController extends AbstractController implements MessageComponentInter
             $clientUsername = $client->getUsername();
 
             if ($client->getClient() === $conn) {
-                $this->clients->detach($client);
-                echo "Connection {$conn->resourceId} has disconnected\n";
+                $this->clients->detach($client);  
                 echo "Connection {$clientUsername} has disconnected\n";
-                echo "Connection {$roomId} has disconnected\n";
-
             }
 
             if($key = array_search($clientUsername, $this->usersList)){
@@ -97,12 +87,10 @@ class QuizController extends AbstractController implements MessageComponentInter
             $this->sendToRoom($roomId, [
                 'type' => 'usersList',
                 'usersList' => $this->usersList,
-                'countNow' => count($this->getClientsInRoom($roomId)),
-                'countRequired' => count($this->rooms[$roomId]['users'])+1 
+                'countNow' => count($this->usersList),
+                'countRequired' => count($this->rooms[$roomId]['users']) 
             ]);
-
         }
-
     }
 
     public function createroom(ConnectionInterface $conn, array $data) {
@@ -110,32 +98,36 @@ class QuizController extends AbstractController implements MessageComponentInter
     }
 
     public function joinroom(ConnectionInterface $conn, array $data) {
-        $wsUser = new WsUser();
-        $wsUser
-            ->setClient($conn)
-            ->setRoomId($data['roomId'])
-            ->setUsername($data['username'])
-            ->setUid($data['uid']);
-
-        $this->clients->attach($wsUser);
-
-        // If user already exist in array usersList, don't add him again
-        if (!in_array($data['username'], $this->usersList)) {
-            array_push($this->usersList, $data['username']);
-        }
-
-        $this->sendToRoom($data['roomId'], [
-            'type' => 'usersList',
-            'usersList' => $this->usersList,
-            'countNow' => count($this->getClientsInRoom($data['roomId'])),
-            'countRequired' => count($this->rooms[$data['roomId']]['users'])+1
-        ]);
-        
-        if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])+1) {
-            $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
-                'type' => 'start-game',
-                'allClientsId' => $this->rooms[$data['roomId']]['users']
+        if(in_array($data['uid'], $this->rooms[$data['roomId']]['users'])){
+            $wsUser = new WsUser();
+            $wsUser
+                ->setClient($conn)
+                ->setRoomId($data['roomId'])
+                ->setUsername($data['username'])
+                ->setUid($data['uid']);
+    
+            $this->clients->attach($wsUser);
+    
+            // If user already exist in array usersList, don't add him again
+            if (!in_array($data['username'], $this->usersList)) {
+                array_push($this->usersList, $data['username']);   
+            }
+    
+            $this->sendToRoom($data['roomId'], [
+                'type' => 'usersList',
+                'usersList' => $this->usersList,//Le pseudo des joueurs dans la room
+                'countNow' => count($this->usersList),
+                'countRequired' => count($this->rooms[$data['roomId']]['users']),
+                'test' => $this->rooms[$data['roomId']]['users'],//Joueurs attendus [18,37, 38]
+                'clients' => $this->clients
             ]);
+            
+            if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
+                $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
+                    'type' => 'start-game',
+                    'allClientsId' => $this->rooms[$data['roomId']]['users']
+                ]);
+            }
         }
     }
 
