@@ -1,29 +1,38 @@
 {% extends 'template1.html.twig' %}
 
 {% block body %}
-    <h1 class="mt-5"><u>ID de la room :</u> {{ roomId }}</h1>
-
-    {# Passage de variable au JS #}
     <h2 hidden><u>ID de la room :</u> <span id="roomId">{{ roomId }}</span></h2>
     <h2 hidden><u>Utilisateur actuel :</u> <span id="currentUserId">{{ session.logged.id }}</span></h2>
-    <h2 hidden id="currentUserSession"  data-user="{{ session.logged|json_encode }}"></h2>
-    <h2 hidden id="questions"  data-questions="{{ questions }}"></h2>
+    <h2 hidden id="currentUserSession" data-user="{{ session.logged|json_encode }}"></h2>
+    <h2 hidden id="questions" data-questions="{{ questions }}"></h2>
 
-    <h2 class="my-5">
-        <span id="countRequired"></span> joueurs attendus
-    </h2>
+    <section id="waiting">
+        <h1 class="my-5"><u>ID de la room :</u> {{ roomId }}</h1>
 
-    <h2 class="text-decoration-underline">
-        <span id="countNow"></span> joueurs présents :
-    </h2>
-    <ul id="usersList"></ul>
+        {# Passage de variable au JS #}
+        <div id="qrcode" class="d-flex justify-content-center"></div>
 
-    <h1 id="left"></h1>
+        <h2 class="my-5">
+            <span id="countRequired"></span> joueurs attendus
+        </h2>
+
+        <h2 class="text-decoration-underline">
+            <span id="countNow"></span> joueurs présents :
+        </h2>
+        <ul id="usersList"></ul>
+    </section>
+
+    <section id="game" hidden>
+        <h1 class="my-5">
+            LE JEU COMMENCE BABY !
+        </h1>
+    </section>
 {% endblock %}
 
 {% block js %}
     <script src="/assets/js/quiz.js"></script>
+    <script src="/assets/js/qrcode.min.js"></script>
+    <script>
+        new QRCode(document.getElementById("qrcode"), window.location.href);
+    </script>
 {% endblock %}
-
-
-

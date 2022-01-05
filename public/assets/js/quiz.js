@@ -26,10 +26,7 @@ conn.onopen = function() {
     }))
 };
 
-conn.onclose = function() {
-
-
-}
+conn.onclose = function() {}
 
 //En fonction de ce que l'on recoit du server, 
 //on éffectue l'action du IF
@@ -43,6 +40,10 @@ conn.onmessage = function(e) {
             questions = JSON.parse(questions);
             // Tu dois appeler : $data.allClientsUsernames
             console.log('START THE GAME!');
+
+            document.getElementById('waiting').hidden = true;
+            document.getElementById('game').hidden = false;
+
             break;
         
         case 'usersList':
@@ -50,7 +51,6 @@ conn.onmessage = function(e) {
             console.log('Joueurs attendus: ', data.countRequired);
             console.log(data.usersList);
             console.log(data.test); 
-            console.log(data.clients);
 
             document.getElementById('countNow').textContent = data.countNow;
             document.getElementById('countRequired').textContent = data.countRequired;
@@ -64,6 +64,5 @@ conn.onmessage = function(e) {
                 usersList.appendChild(li);
             }
             break;
-
     }
 };
