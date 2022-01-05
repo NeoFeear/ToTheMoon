@@ -1,5 +1,9 @@
 var conn = new WebSocket('ws://localhost:8080');
 
+let roomId = document.getElementById('roomId').innerHTML;
+let currentUserId = document.getElementById('currentUserId').innerHTML;
+let currentUserSession = document.getElementById('currentUserSession').dataset.user;
+    currentUserSession = JSON.parse(currentUserSession);
 
 function build(event, data) {
     return JSON.stringify({
@@ -9,13 +13,8 @@ function build(event, data) {
 };
 
 //récupérer l'id de l'utilisateur qui ouvre la page ainsi que la Room ID qui se trouve dans l'URL
-conn.onopen = function() {
-    let roomId = document.getElementById('roomId').innerHTML;
-    let currentUserId = document.getElementById('currentUserId').innerHTML;
-    let currentUserSession = document.getElementById('currentUserSession').dataset.user;
-        currentUserSession = JSON.parse(currentUserSession);
-    
-    console.log("Connection à la room " + roomId);
+conn.onopen = function() {  
+    console.log("Connexion à la room " + roomId);
 
     //Si on veut transmettre une info au server
     conn.send(build('joinroom', {
@@ -23,9 +22,6 @@ conn.onopen = function() {
         roomId: roomId,
         username: currentUserSession.username
     }))
-
-
-
 };
 
 //En fonction de ce que l'on recoit du server, 
@@ -34,20 +30,32 @@ conn.onopen = function() {
 conn.onmessage = function(e) {
     var data = JSON.parse(e.data);
 
-    if (data.type === 'start-game') {
-        let questions = document.getElementById('questions').dataset.questions;
-        questions = JSON.parse(questions);
-
-
-
-        console.log('START THE GAME!');
+    switch (data.type) {
+        case 'start-game':
+            let questions = document.getElementById('questions').dataset.questions;
+            questions = JSON.parse(questions);
+            console.log('START THE GAME!');
+            break;
         
-    }
-    
-    if (data.type === 'usersList') {
+        case 'usersList':
+            console.log('Oui on est dans Userlist', data.usersList);
+            console.log('Joueurs connectés: ', data.countNow);
+            console.log('Joueurs attendus: ', data.countRequired+1);
 
-        console.log('Oui on est dans Userlist');
-        console.log(data.usersList);
-    }
+            let usersList = document.getElementById('usersList');
+            document.getElementById('countNow').textContent = data.countNow;
+            document.getElementById('countRequired').textContent = data.countRequired+1;
 
+            usersList.innerHTML = "";
+            for (let i = 0; i < data.usersList.length; i++) {
+                let li = document.createElement('li');
+                li.innerText = data.usersList[i];
+                usersList.appendChild(li);
+            }
+            break;
+
+        case 'leaveroom':
+            console.log(data.username + ' disconnected');
+            break;
+    }
 };

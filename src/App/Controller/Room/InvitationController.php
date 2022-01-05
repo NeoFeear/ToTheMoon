@@ -90,6 +90,8 @@ class InvitationController extends AbstractController {
             ]));
 
             $client->close();
+
+            return $this->redirect('/game/'.$randomId);
         }
 
         return $this->render('play_room/home.html.twig', [

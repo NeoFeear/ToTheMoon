@@ -84,6 +84,10 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
     }
 
+    public function leaveroom(ConnectionInterface $conn, $data) {
+        $this->sendToRoom($data['roomId'], "NTM LE PROJET");
+    }
+
     public function createroom(ConnectionInterface $conn, array $data) {
         $this->rooms[$data['roomId']] = $data;
     }
@@ -97,25 +101,26 @@ class QuizController extends AbstractController implements MessageComponentInter
 
         $this->clients->attach($wsUser);
 
-        
-        array_push($this->usersList, $data['username']);
-
+        // If user already exist in array usersList, don't add him again
+        if (!in_array($data['username'], $this->usersList)) {
+            array_push($this->usersList, $data['username']);
+        }
 
         $this->sendToAllButMe($conn, 'Bonjour je suis ' . $wsUser->getUid());
 
         $this->sendToRoom($data['roomId'], [
             'type' => 'usersList',
-            'usersList' => $this->usersList
-
+            'usersList' => $this->usersList,
+            'countNow' => count($this->getClientsInRoom($data['roomId'])),
+            'countRequired' => count($this->rooms[$data['roomId']]['users']) 
         ]);
         
-        if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
+        if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])+1) {
             $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
                 'type' => 'start-game',
-                'allClientsId' => $this->rooms[$data['roomId']]['users'],   
+                'allClientsId' => $this->rooms[$data['roomId']]['users']
             ]);
         }
-
     }
 
     public function onMessage(ConnectionInterface $conn, $msg) {

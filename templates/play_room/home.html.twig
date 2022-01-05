@@ -32,7 +32,7 @@
 
     {% else %}
 
-        <div class="col-12 mb-5">
+        <div class="col-12 my-5">
             <h1 id="test">Bienvenue {{ session.logged.username }} !</h1>
             <h4>
                 Vous devez inviter vos amis à jouer une partie avec vous.<br>
@@ -52,8 +52,7 @@
 
         <div class="container w-50">
             <form method="POST">
-            
-                {% for i in 1..6 %}
+                {% for i in 1..5 %}
                     <div class="row mb-3">
                         <div class="col form-group d-flex">
                             <input type="text" class="form-control inputPlayer" name="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
@@ -65,7 +64,7 @@
                     </div>
                 {% endfor %}
 
-                <button class="btn btn-warning btn-lg fw-bolder">ENVOYER</button>
+                <button type="submit" class="btn btn-warning btn-lg fw-bolder">ENVOYER</button>
             </form>
         </div>
     {% endif %}
