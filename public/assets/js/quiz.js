@@ -57,7 +57,6 @@ conn.onmessage = function(e) {
             document.getElementById('countNow').textContent = data.countNow;
             document.getElementById('countRequired').textContent = data.countRequired;
 
-
             //Actualisation de la liste des utilisateurs grâce au tableau data.usersList
             usersList.innerHTML = "";
 
