@@ -4,6 +4,8 @@ let roomId = document.getElementById('roomId').innerHTML;
 let currentUserId = document.getElementById('currentUserId').innerHTML;
 let currentUserSession = document.getElementById('currentUserSession').dataset.user;
     currentUserSession = JSON.parse(currentUserSession);
+let usersList = document.getElementById('usersList');
+
 
 function build(event, data) {
     return JSON.stringify({
@@ -24,6 +26,8 @@ conn.onopen = function() {
     }))
 };
 
+conn.onclose = function() {}
+
 //En fonction de ce que l'on recoit du server, 
 //on éffectue l'action du IF
 
@@ -42,21 +46,22 @@ conn.onmessage = function(e) {
             break;
         
         case 'usersList':
-            console.log('Oui on est dans Userlist', data.usersList);
             console.log('Joueurs connectés: ', data.countNow);
             console.log('Joueurs attendus: ', data.countRequired);
+            console.log(data.usersList);
+            console.log(data.test); 
 
-            let usersList = document.getElementById('usersList');
             document.getElementById('countNow').textContent = data.countNow;
             document.getElementById('countRequired').textContent = data.countRequired;
 
+            //Actualisation de la liste des utilisateurs grâce au tableau data.usersList
             usersList.innerHTML = "";
+
             for (let i = 0; i < data.usersList.length; i++) {
                 let li = document.createElement('li');
                 li.innerText = data.usersList[i];
                 usersList.appendChild(li);
             }
             break;
-
     }
 };
