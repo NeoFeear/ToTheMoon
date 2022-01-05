@@ -53,6 +53,8 @@ class QuizController extends AbstractController implements MessageComponentInter
 // ========== FUNCTIONS SOCKET ==========
     public function onOpen(ConnectionInterface $conn) {
         echo "New connection with resourceId={$conn->resourceId}\n";
+
+
     }
 
     protected function sendToAllButMe(ConnectionInterface $me, $data) {
@@ -77,18 +79,29 @@ class QuizController extends AbstractController implements MessageComponentInter
     public function onClose(ConnectionInterface $conn) {
         /** @var WsUser $client */
         foreach ($this->clients as $client) {
+            $roomId = $client->getRoomId();
+            $clientUsername = $client->getUsername();
+
             if ($client->getClient() === $conn) {
                 $this->clients->detach($client);
                 echo "Connection {$conn->resourceId} has disconnected\n";
+                echo "Connection {$clientUsername} has disconnected\n";
+                echo "Connection {$roomId} has disconnected\n";
+
             }
 
-            if (array_key_exists($client->getUsername(), $this->usersList)) {
-                unset($this->usersList[$client->getUsername()]);
-            }
+            if($key = array_search($clientUsername, $this->usersList)){
+                array_splice($this->usersList, $key, 1);
+            }; 
+
+            $this->sendToRoom($roomId, [
+                'type' => 'usersList',
+                'usersList' => $this->usersList,
+                'countNow' => count($this->getClientsInRoom($roomId)),
+                'countRequired' => count($this->rooms[$roomId]['users'])+1 
+            ]);
 
         }
-
-        
 
     }
 
@@ -110,8 +123,6 @@ class QuizController extends AbstractController implements MessageComponentInter
         if (!in_array($data['username'], $this->usersList)) {
             array_push($this->usersList, $data['username']);
         }
-
-        $this->sendToAllButMe($conn, 'Bonjour je suis ' . $wsUser->getUid());
 
         $this->sendToRoom($data['roomId'], [
             'type' => 'usersList',

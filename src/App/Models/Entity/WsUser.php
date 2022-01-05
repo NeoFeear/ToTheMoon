@@ -51,7 +51,7 @@ class WsUser
 
     public function setUsername(string $username): WsUser
     {
-        $this->roomId = $username;
+        $this->username = $username;
         return $this;
     }
 

@@ -40,11 +40,11 @@ conn.onmessage = function(e) {
         case 'usersList':
             console.log('Oui on est dans Userlist', data.usersList);
             console.log('Joueurs connectés: ', data.countNow);
-            console.log('Joueurs attendus: ', data.countRequired+1);
+            console.log('Joueurs attendus: ', data.countRequired);
 
             let usersList = document.getElementById('usersList');
             document.getElementById('countNow').textContent = data.countNow;
-            document.getElementById('countRequired').textContent = data.countRequired+1;
+            document.getElementById('countRequired').textContent = data.countRequired;
 
             usersList.innerHTML = "";
             for (let i = 0; i < data.usersList.length; i++) {
