@@ -8,6 +8,7 @@ class WsUser
 {
     protected $client;
     protected int $uid;
+    protected string $username;
     protected string $roomId;
 
     public function getClient(): ConnectionInterface
@@ -42,4 +43,23 @@ class WsUser
         $this->roomId = $roomId;
         return $this;
     }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): WsUser
+    {
+        $this->roomId = $username;
+        return $this;
+    }
+
+
+    
+
+
+    
+
+
 }

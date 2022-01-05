@@ -54,8 +54,5 @@ conn.onmessage = function(e) {
             }
             break;
 
-        case 'leaveroom':
-            console.log(data.username + ' disconnected');
-            break;
     }
 };

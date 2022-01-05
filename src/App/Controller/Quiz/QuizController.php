@@ -81,11 +81,15 @@ class QuizController extends AbstractController implements MessageComponentInter
                 $this->clients->detach($client);
                 echo "Connection {$conn->resourceId} has disconnected\n";
             }
-        }
-    }
 
-    public function leaveroom(ConnectionInterface $conn, $data) {
-        $this->sendToRoom($data['roomId'], "NTM LE PROJET");
+            if (array_key_exists($client->getUsername(), $this->usersList)) {
+                unset($this->usersList[$client->getUsername()]);
+            }
+
+        }
+
+        
+
     }
 
     public function createroom(ConnectionInterface $conn, array $data) {
@@ -97,6 +101,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         $wsUser
             ->setClient($conn)
             ->setRoomId($data['roomId'])
+            ->setUsername($data['username'])
             ->setUid($data['uid']);
 
         $this->clients->attach($wsUser);
