@@ -1,4 +1,4 @@
-// COLORS
+// ============================ COLORS ============================
 let colorsTable = ['green','red','blue','yellow','Tomato','cyan','Plum','Indigo','LightPink','Khaki','DeepSkyBLue'];
 
 let colorsPicked = [];
@@ -57,9 +57,7 @@ function updateColorInputs() {
     }
 }
 
-// ============================================================
-
-// USERS
+// ========================== AUTO COMPLETE ============================
 let users = [];
 let usersList = document.getElementById('usersList');
 let usersListChilds = Array.from(usersList.children);
@@ -68,19 +66,22 @@ for (let i = 0; i < usersListChilds.length; i++) {
 }
 console.log(users); // Liste des utilisateurs inscrits
 
-let player = document.getElementsByName('inputPlayer');
+let player = document.getElementsByClassName('inputPlayer');
 for (let i = 0; i < player.length; i++) {
     player[i].addEventListener('keyup', function (e) {
         showResults(e.target.value, i);
     });
 }
 
-document.addEventListener('click', function (e) {
-    if (e.target.tagName === 'LI') {
-        e.target.hidden = true;
-        player.value = e.target.innerText;
+// TODO: BIEN FAIRE
+/* document.addEventListener('click', function (e) {
+    for (let i = 0; i < player.length; i++) {
+        if (e.target.tagName === 'LI') {
+            player[i].value = e.target.innerText;
+            res[i].innerHTML = "";
+        }
     }
-});
+}); */
 
 function autocompleteMatch(input) {
     if (input == '') {
@@ -112,14 +113,3 @@ function showResults(val, num) {
     }
     res[num].innerHTML = '<ul>' + list + '</ul>';
 }
-/* {
-    for (let i = 0; i < res.length; i++) {
-        res[num].innerHTML = '';
-        let list = '';
-        let terms = autocompleteMatch(val);
-        for (i = 0; i < terms.length; i++) {
-            list += '<li name="proposition">' + terms[i] + '</li>';
-        }
-        res[num].innerHTML = '<ul>' + list + '</ul>';
-    }
-} */

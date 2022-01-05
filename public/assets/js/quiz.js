@@ -11,6 +11,11 @@ function build(event, data) {
 conn.onopen = function() {
     console.log("Connection established!");
 
+    let currentUserId = document.getElementById('currentUserId').innerHTML;
+    let roomId = document.getElementById('roomId').innerHTML;
+
+   
+
     conn.send(build('joinroom', {
         uid: currentUserId,
         roomId: roomId,
@@ -24,7 +29,6 @@ conn.onmessage = function(e) {
     if (data.type === 'start-game') {
         console.log('START THE GAME!');
     }
-
     
     if (data.type === 'usersList') {
         console.log(data.data);

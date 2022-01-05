@@ -7,8 +7,8 @@ use Ratchet\ConnectionInterface;
 class WsUser
 {
     protected $client;
-    protected $uid;
-    protected $roomId;
+    protected int $uid;
+    protected string $roomId;
 
     public function getClient(): ConnectionInterface
     {

@@ -54,7 +54,6 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
     }
 
-
     public function onClose(ConnectionInterface $conn) {
         /** @var WsUser $client */
         foreach ($this->clients as $client) {
@@ -87,7 +86,7 @@ class QuizController extends AbstractController implements MessageComponentInter
 
         $this->sendToRoom($data['roomId'], [
             'type' => 'usersList',
-            'data' => $this->rooms[$data['roomId']]['users']
+            'data' => $this->getClientsInRoom($data['roomId'])
         ]);
 
         $this->sendToAllButMe($conn, 'Bonjour je suis ' . $wsUser->getUid());

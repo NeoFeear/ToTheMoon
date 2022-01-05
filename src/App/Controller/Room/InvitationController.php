@@ -86,7 +86,6 @@ class InvitationController extends AbstractController {
                 'data' => [
                     'roomId' => $randomId,
                     'users' => $invitedPlayersId,
-                    'currentUser' => $_SESSION['logged']['id']
                 ]
             ]));
 
