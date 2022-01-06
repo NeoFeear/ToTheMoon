@@ -63,10 +63,6 @@ JOUEUR :
 
 ## Informations complémentaires
 
-
-
-## Bilan 
-
 Ce projet a été très formateur pour nous deux, malgrès la frustration de ne pas avoir un résultat abouti comme souhaité, nous ne pouvons pas être déçu car notre investissement a été maximum dans ce projet.
 
 #Difficultés majeures rencontrés : 
@@ -88,7 +84,7 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - Gestion des Rooms aléatoires, et sécurisation des joueurs attendus.
 - Autocomplétion lors de l'invitation des joueurs
 
-## Ce qui ne fonctionne pas ou partiellement :
+# Ce qui ne fonctionne pas ou partiellement :
 - Gestion d'aller-retour des utilisateurs dans une Room (Améliorable++)
 - Gestion d'attribution des couleurs 
 - Plateau de jeu (Améliorable++) Adapté en fonction du temps restant
