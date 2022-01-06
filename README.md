@@ -3,7 +3,7 @@
 
 ## Sommaire
 1. [Introduction](#introduction)
-2. [Manuel d'installation](#Manuel d'installation)
+2. [Manuel d'installation](#manuel-d'installation)
 3. [Lancement du serveur](#lancement-du-serveur)
 4. [Comptes pré-créés](#comptes-pré-créés)
 5. [Informations complémentaires](#informations-complémentaires)
