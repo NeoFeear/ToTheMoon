@@ -7,6 +7,10 @@
 3. [Lancement du serveur](#lancement-du-serveur)
 4. [Comptes pré-créés](#comptes-pré-créés)
 5. [Informations complémentaires](#informations-complémentaires)
+6. [Technologies utilisées](#technologies-utilisées)
+
+
+
 
 
 ## Introduction
@@ -59,21 +63,7 @@ JOUEUR :
 
 ## Informations complémentaires
 
-## Technologies utilisées:
-- Bootstrap 5
-- PHP v8.0.13
-- Websocket Ratchet v0.4.4
-- Textalk Websocket v1.5
-- Twig
-- Javascript
-- MySQL
-- GitHub
-- PHPMailer v6.5
-- Serializer v5.4
-- Fastroute 1.3
-- WAMP v3.2.5
-- Apache v2.4.5
-- Composer
+
 
 ## Bilan 
 
@@ -136,6 +126,22 @@ Lors du développement du projet nous avons su travailler de manière complémen
   -> Formulaire d'invitation des joueurs.
   -> Developpement partie Serveur Ratchet Websocket.
   
+  
+  ## Technologies utilisées:
+- Bootstrap 5
+- PHP v8.0.13
+- Websocket Ratchet v0.4.4
+- Textalk Websocket v1.5
+- Twig
+- Javascript
+- MySQL
+- GitHub
+- PHPMailer v6.5
+- Serializer v5.4
+- Fastroute 1.3
+- WAMP v3.2.5
+- Apache v2.4.5
+- Composer
 
 
 
