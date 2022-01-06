@@ -3,9 +3,11 @@
 
 ## Sommaire
 1. [Introduction](#introduction)
-2. [Lancement du serveur](#lancement-du-serveur)
-3. [Comptes pré-créés](#comptes-pré-créés)
-4. [Informations complémentaires](#informations-complémentaires)
+2. [Manuel d'installation](#Manuel d'installation)
+3. [Lancement du serveur](#lancement-du-serveur)
+4. [Comptes pré-créés](#comptes-pré-créés)
+5. [Informations complémentaires](#informations-complémentaires)
+
 
 ## Introduction
 Le but de ce projet est le développement d’un jeu de plateau multijoueurs dans lequel le joueur répondra à des questions afin d’avancer en cas de bonne réponse ou de reculer en cas de mauvaise réponse.
