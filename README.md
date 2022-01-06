@@ -88,7 +88,7 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - Gestion des Rooms aléatoires, et sécurisation des joueurs attendus.
 - Autocomplétion lors de l'invitation des joueurs
 
-# Ce qui ne fonctionne pas ou partiellement :
+## Ce qui ne fonctionne pas ou partiellement :
 - Gestion d'aller-retour des utilisateurs dans une Room (Améliorable++)
 - Gestion d'attribution des couleurs 
 - Plateau de jeu (Améliorable++) Adapté en fonction du temps restant
@@ -96,7 +96,7 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - La partie serveur du Socket est améliorable
 
 
-## tâches de chaque membre du groupe
+# tâches de chaque membre du groupe
 
 Lors du développement du projet nous avons su travailler de manière complémentaire, souvent en présentiel ou sur discord en double partage d'écran pour s'aider en directe lors du développement. Peu de parties de projet on été faites uniquement par un seul des deux développeurs.
 
