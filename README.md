@@ -38,7 +38,7 @@ Le premier joueur initie la partie en renseignant les pseudos des autres joueurs
 
 - Connectez vous avec le compte `Admin` cliquez sur #JOUER!, invitez vos amis, et que le meilleur gagne. 
 
-# Let's play!
+Let's play!
 
 ## Lancement du serveur
 
