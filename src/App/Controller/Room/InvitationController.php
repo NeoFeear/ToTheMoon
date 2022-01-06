@@ -19,44 +19,54 @@ class InvitationController extends AbstractController {
         // Récupération de tous les utilisateurs pour autocomplétion
         $users = new Users();
         $users = $this->getRepository('users')->findAll();
+        
 
         // A la validation du formulaire : ----------------
         if ($this->isSubmited()) {
-
             //VARIABLES GLOBALES
             //Invitation automatique de l'admin dans les users invités
+            $randomId = '';
+            $uri = 'ttm.io/game/';
             $invitedPlayers = [$_SESSION['logged']];
             $invitedPlayers[0]['color'] = 'white';
             
-            $randomId = '';
-            
-            $uri = 'ttm.io/game/';
-
+ 
             //GENERER UN ID ALEATOIRE
             for ($i = 0; $i < 5; $i++) {
                 $randomId .= rand(0, 9);
                 $randomId .= chr(rand(97, 122));
             }
 
+            //Génération de l'url avec la ROOMID
             $uri .= $randomId;
             
             //RECUPERATION DES UTILISATEURS/ID INVITES ET STOCKAGE DANS UN TABLEAU
             //Récupération des couleurs en plus pour les push dans l'array de chaques users
 
-            for($i = 1; $i < count($_POST); $i++) 
+            for($i = 1; $i < count($_POST)-1; $i++) 
             {
-                if (!empty($_POST['player'.$i]) ) {
+                if (!empty($_POST['player'.$i])) 
+                {
+                    //Faisable plus facilement en JS merci la fatigue.
+                    if(!isset($_POST['color'.$i]) || $_POST['player'.$i] == ''){
+                        $errors = 'Utilisateur introuvable, ou veuillez selectionner une couleur.';
+                        return $this->render('play_room/home.html.twig', [
+                            'errors' => $errors
+                        ]);
+                    }
+                    
                     $player = $_POST['player'.$i];
                     $color = $_POST['color'.$i];
                     $tmpUser = $this->getRepository('users')->findOneBy('username', $player); 
                     $tmpUser['color'] = $color; 
                     array_push($invitedPlayers, $tmpUser);
+
                 } else {
-                    $errors = 'Aucun utilisateur';
+                    
                 }
             }
-            echo '<pre>';print_r($invitedPlayers);
 
+            // echo '<pre>';print_r($invitedPlayers);die;
             //ENVOI DU MAIL AUX UTILISATEURS AVEC LIEN DE LA ROOM
             if (count($invitedPlayers) >= 2) {
                 foreach($invitedPlayers as $player) {
@@ -80,28 +90,34 @@ class InvitationController extends AbstractController {
                         $errors = 'Message envoyé !';
                     }
                 }
+
+                 //Envoi un message au Serveur de création de la room
+                $client = new Client("ws://127.0.0.1:8080/");
+                $client->text(json_encode([
+                    'type' => 'createroom',
+                    'data' => [
+                        'roomId' => $randomId,
+                        'users' => $invitedPlayers
+                    ]
+                ]));
+
+                $client->close();
+
+                return $this->redirect('/game/'.$randomId);
+
             } else {
                 $errors = "Vous ne pouvez pas jouer tout seul ABRUTI VA!";
+
+                return $this->render('play_room/home.html.twig', [
+                    'errors' => $errors
+                ]);
+                
             }
 
-            //Envoi un message au Serveur de création de la room
-            $client = new Client("ws://127.0.0.1:8080/");
-            $client->text(json_encode([
-                'type' => 'createroom',
-                'data' => [
-                    'roomId' => $randomId,
-                    'users' => $invitedPlayers
-                ]
-            ]));
-
-            $client->close();
-
-            return $this->redirect('/game/'.$randomId);
         }
 
         return $this->render('play_room/home.html.twig', [
             'users' => $users,
-            'errors' => $errors
         ]);
     }
 }

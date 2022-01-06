@@ -1,5 +1,17 @@
 {% extends 'template1.html.twig' %}
 
+{% block css %}
+    <link rel="stylesheet" href="/assets/css/quiz.css" />
+
+    <style>
+    
+   
+  
+    </style>
+{% endblock %}
+
+
+
 {% block body %}
     <h2 hidden><u>ID de la room :</u> <span id="roomId">{{ roomId }}</span></h2>
     <h2 hidden><u>Utilisateur actuel :</u> <span id="currentUserId">{{ session.logged.id }}</span></h2>
@@ -14,6 +26,7 @@
         <h2 class="my-5">
             <span id="countRequired"></span> joueurs attendus
         </h2>
+        <div class="loader">Loading...</div>
         <h2 class="text-decoration-underline">
             <span id="countNow"></span> joueurs présents :
         </h2>

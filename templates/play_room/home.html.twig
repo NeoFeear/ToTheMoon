@@ -1,6 +1,7 @@
 {% extends "template1.html.twig" %}
 
 {% block css %}
+    
     <style>
         div[name="results"] {
             border: 1px dotted #ccc;
@@ -17,6 +18,8 @@
         div[name="results"] ul li:hover {
             background: #eee;
         }
+
+        
     </style>
 {% endblock %}
 
@@ -39,6 +42,8 @@
                 Pour cela, inscrivez le pseudo de vos amis dans les champs suivants.<br>
                 Bon jeu à vous !
             </h4>
+
+            <div class=" mt-4 text-danger" >{{ errors }}</div>
 
             <div hidden>
                 <ul id="usersList">

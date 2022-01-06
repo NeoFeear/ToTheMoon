@@ -92,14 +92,14 @@ for (let i = 0; i < player.length; i++) {
 }
 
 // TODO: BIEN FAIRE
-/* document.addEventListener('click', function (e) {
+ document.addEventListener('click', function (e) {
     for (let i = 0; i < player.length; i++) {
         if (e.target.tagName === 'LI') {
             player[i].value = e.target.innerText;
             res[i].innerHTML = "";
         }
     }
-}); */
+}); 
 
 function autocompleteMatch(input) {
     if (input == '') {
