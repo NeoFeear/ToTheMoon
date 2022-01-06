@@ -37,7 +37,7 @@ function setColorInput(selected) {
 
     let childs = Array.from(selected.children)
     
-    console.log(selected);
+    //console.log(selected);
 
     for (let j = 0; j < childs.length; j++) {
         if (selected.value == (childs[j].value)) {
@@ -53,12 +53,11 @@ function setColorInput(selected) {
         }
     }
 
-    console.log(colorsPicked);
+    //console.log(colorsPicked);
 }
 
 function updateColorInputs() {
-
-    console.log(colorsPicked);
+    //console.log(colorsPicked);
 
     for (let i = 1; i <= 5; i++) {
         let si = document.getElementById('colorPicker' + i);
@@ -82,7 +81,7 @@ let usersListChilds = Array.from(usersList.children);
 for (let i = 0; i < usersListChilds.length; i++) {
     users.push(usersListChilds[i].innerText);
 }
-console.log(users); // Liste des utilisateurs inscrits
+//console.log(users); // Liste des utilisateurs inscrits
 
 let player = document.getElementsByClassName('inputPlayer');
 for (let i = 0; i < player.length; i++) {

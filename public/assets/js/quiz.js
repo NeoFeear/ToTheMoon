@@ -1,5 +1,10 @@
 var conn = new WebSocket('ws://localhost:8080');
 
+/**
+ * TODO: 
+ * - si il gagne, il joue plus
+ * - cacher réponses admin
+ */
 
 // ==================== VARIABLES ====================
 let roomId = document.getElementById('roomId').innerHTML;
@@ -15,12 +20,7 @@ let currentPlayer = document.getElementById('currentPlayer'); // Joueur actuel
 let divChoixDifficulte = document.getElementById('choixDifficulte'); // Div qui contient les choix de difficulté
 let divAffichage = document.getElementById('affichage'); // Div qui contient les questions et réponses
 
-let choixDifficulte1 = document.getElementById('difficulty1'); // Difficulté 1 : very easy
-let choixDifficulte2 = document.getElementById('difficulty2'); // Difficulté 2 : easy
-let choixDifficulte3 = document.getElementById('difficulty3'); // Difficulté 3 : medium
-let choixDifficulte4 = document.getElementById('difficulty4'); // Difficulté 4 : hard
-let choixDifficulte5 = document.getElementById('difficulty5'); // Difficulté 5 : very hard
-let choixDifficulte6 = document.getElementById('difficulty6'); // Difficulté 6 : impossible
+let choixDifficulte = document.getElementsByName('difficulty');
 
 let question = document.getElementById('question'); // Label de la question actuelle
 let difficulty = document.getElementById('difficulty'); // Difficulté de la question actuelle
@@ -50,6 +50,17 @@ let divRepOuverte = document.getElementById('repOuverte'); // Div qui contient l
     let divRepOuverteJoueur = document.getElementById('repOuverteJoueur'); // div qui contient l'input pour répondre
     let inputReponseProposee = document.getElementById('reponseProposee'); // Saisie de la réponse
     let btnValiderReponseProposee = document.getElementById('btnReponseProposee'); // Valider l'envoi de la réponse
+
+divAffichage.style.display = 'none';
+divChoix.style.display = 'none';
+divVraiFaux.style.display = 'none';
+divRepOuverteAdmin.style.display = 'none';
+divRepOuverteJoueur.style.display = 'none';
+
+let players = [];
+let winners = {};
+let i = 0; // Afin de retrouver le joueur actuel
+let ordre = 1; // Afin de placer dans le tableau des winners
 
 // ====================================================
 
@@ -108,9 +119,144 @@ conn.onmessage = function(e) {
     switch (data.type) {
 
         case 'difficultyChosen':
-            console.log(data);break;
-            let questionServerReturn = document.getElementById('question');
-                questionServerReturn.textContent = data.data.question;
+            divAffichage.style.display = 'block';
+            question.innerText = data.data.question;
+            difficulty.innerText = data.data.difficulty;
+            trueAnswer.innerText = data.data.trueAnswer;
+            divChoixDifficulte.style.display = 'none';
+
+            if (whoAmI.textContent === "MAITRE DU JEU") {
+                trueAnswer.style.display = 'block';
+            } else {
+                trueAnswer.style.display = 'block';
+                document.getElementById('h5TrueAnswer').style.display = 'none';
+            } 
+
+            if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
+                if ((data.data.answers).length > 2) {
+                    divChoix.style.display = 'block';
+                    divVraiFaux.style.display = 'none';
+                    divRepOuverteJoueur.style.display = 'none';
+                    reponse1.innerText = `${data.data.answers[0].answer}`;
+                    reponse2.innerText = `${data.data.answers[1].answer}`;
+                    reponse3.innerText = `${data.data.answers[2].answer}`;
+                    reponse4.innerText = `${data.data.answers[3].answer}`;
+                } else if (data.data.answers.length === 2) {
+                    divChoix.style.display = 'none';
+                    divVraiFaux.style.display = 'block';
+                    divRepOuverteJoueur.style.display = 'none';
+                } else {
+                    divChoix.style.display = 'none';
+                    divVraiFaux.style.display = 'none';
+                    divRepOuverteJoueur.style.display = 'block';
+                }
+            }
+
+            break;
+
+        case 'goodAnswer':
+            console.log(i, "/", data.allClients.length);
+            if (i > data.allClients.length-1) { i = 0; }
+
+            numTour.innerHTML = parseInt(numTour.innerHTML) + 1;
+
+            let $usernames2 = data.allClients;
+            for (let i = 0; i < $usernames2.length; i++) {
+                players.push({ "name": $usernames2[i].username, "score": 0 });
+            }
+
+            if (difficulty.innerText === '1') {
+                players[i].score += 1;
+            } else if (difficulty.innerText === '2') {
+                players[i].score += 2;
+            } else if (difficulty.innerText === '3') {
+                players[i].score += 3;
+            } else if (difficulty.innerText === '4') {
+                players[i].score += 4;
+            } else if (difficulty.innerText === '5') {
+                players[i].score += 5;
+            } else if (difficulty.innerText === '6') {
+                players[i].score += 6;
+            }
+
+            document.getElementById(`score${i}`).innerHTML = players[i].score;
+
+            trueAnswer.innerText = "";
+            divAffichage.style.display = 'none';
+            divChoix.style.display = 'none';
+            divVraiFaux.style.display = 'none';
+            divRepOuverteJoueur.style.display = 'none';
+        
+            //skipIfWin();
+            i++;
+            currentPlayer.innerHTML = players[i].name;
+            if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
+                divChoixDifficulte.style.display = 'block';
+            } else {
+                divChoixDifficulte.style.display = 'none';
+            }
+            tableWinners();
+
+            break;
+
+        case 'badAnswer':
+            console.log(i, "/", data.allClients.length);
+            if (i > data.allClients.length-1) { i = 0; }
+
+            numTour.innerHTML = parseInt(numTour.innerHTML) + 1;
+
+            let $usernames3 = data.allClients;
+            for (let i = 0; i < $usernames3.length; i++) {
+                players.push({ "name": $usernames3[i].username, "score": 0 });
+            }
+
+            if (difficulty.innerText === '1') {
+                players[i].score -= 1;
+            } else if (difficulty.innerText === '2') {
+                players[i].score -= 2;
+            } else if (difficulty.innerText === '3') {
+                players[i].score -= 3;
+            } else if (difficulty.innerText === '4') {
+                players[i].score -= 4;
+            } else if (difficulty.innerText === '5') {
+                players[i].score -= 5;
+            } else if (difficulty.innerText === '6') {
+                players[i].score -= 6;
+            }
+
+            // Si le score est négatif, on le remet à 0
+            if (players[i].score < 0) {
+                players[i].score = 0;
+            }
+            document.getElementById(`score${i}`).innerHTML = players[i].score;
+
+            trueAnswer.innerText = "";
+            divAffichage.style.display = 'none';
+            divChoixDifficulte.style.display = 'block';
+            divChoix.style.display = 'none';
+            divVraiFaux.style.display = 'none';
+            divRepOuverteJoueur.style.display = 'none';
+
+            // skipIfWin();
+            i++;
+            currentPlayer.innerHTML = players[i].name;
+            if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
+                divChoixDifficulte.style.display = 'block';
+            } else {
+                divChoixDifficulte.style.display = 'none';
+            }
+            tableWinners();
+
+            break;
+
+        case 'demandeValidationReponse':
+            console.log(data.data);
+            if (currentUserSession.username.toLowerCase() === document.getElementById('mdj').innerText.toLowerCase()) {
+                divRepOuverteAdmin.style.display = 'block';
+                player.innerHTML = `${players[i].name}`;
+                reponseProposeeAdmin.innerText = data.data.reponseProposee;
+            }
+
             break;
 
         case 'start-game':
@@ -126,87 +272,97 @@ conn.onmessage = function(e) {
                 allAnswers = JSON.parse(allAnswers);
             let tabQandA = arrayQR(allQuestions, allAnswers); // Tableau des questions et réponses fusionnées
 
-            let i = 0; // Afin de retrouver le joueur actuel
-            let ordre = 1; // Afin de placer dans le tableau des winners
-
             // Récupération des données de l'utilisateur
             let $usernames = data.allClients;
-            let players = [];
-            function getPlayers() {
-                // players = [];
-                for (let i = 0; i < $usernames.length; i++) {
-                    players.push({ "name": $usernames[i].username, "score": 0 });
-                }
-                return players;
+            for (let i = 0; i < $usernames.length; i++) {
+                players.push({ "name": $usernames[i].username, "score": 0 });
             }
-            getPlayers();
            
             // Initialisation
             numTour.innerText = 1;
             currentPlayer.innerText = players[0].name;
-            divChoixDifficulte.style.display = 'block';
-            divAffichage.style.display = 'none';
-            divChoix.style.display = 'none';
-            divVraiFaux.style.display = 'none';
-            divRepOuverteAdmin.style.display = 'none';
-            divRepOuverteJoueur.style.display = 'none';
 
             // ================== PARTIE ADMIN ================== //
             if (currentUserSession.username === data.allClients[0].username) {
                 whoAmI.textContent = 'MAITRE DU JEU';
                 console.log("Tableau des joueurs actuels :", players);
                 console.log("Tableau des questions et réponses :", tabQandA);
+                trueAnswer.style.display = 'block';
             }
             // ================== PARTIE JOUEUR ================== //
             else {
                 whoAmI.textContent = 'JOUEUR'; 
             }
 
-            // JOUEUR ACTUEL
-            if (currentUserSession.username === data.allClients[i].username) {
+            if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
+                divChoixDifficulte.style.display = 'block';
                 console.log("Joueur actuel :", players[i]);
             } else {
                 divChoixDifficulte.style.display = 'none';
             }
 
-            choixDifficulte1.addEventListener('click', () => { 
-                conn.send(build('difficultyChosen', {
+            // Affichage de la question
+            for (let j = 0; j < 6; j++) {
+                (choixDifficulte[j]).addEventListener('click', function() {
+                    let questionChoisie = difficultyChoice(String(j+1));
+                    conn.send(build('difficultyChosen', {
+                        roomId: roomId,
+                        question: questionChoisie.question,
+                        difficulty: questionChoisie.difficulty,
+                        answers: questionChoisie.answers,
+                        trueAnswer: questionChoisie.correct,
+                    }));
+                });
+            }
+        
+            // Vrai ou faux
+            btnVrai.addEventListener('click', function() {
+                if(i > data.allClients.length) { i = 0; }
+                conn.send(build('goodAnswer', {
                     roomId: roomId,
-                    question: "TEST"
-                })); 
+                }));
             });
-            choixDifficulte2.addEventListener('click', () => { 
-                conn.send(build('difficultyChosen', {
+            btnFaux.addEventListener('click', function() {
+                if(i > data.allClients.length) { i = 0; }
+                conn.send(build('badAnswer', {
                     roomId: roomId,
-                    question: "TEST"
-                })); 
-            });
-            choixDifficulte3.addEventListener('click', () => { 
-                conn.send(build('difficultyChosen', {
-                    roomId: roomId,
-                    question: "TEST"
-                })); 
-            });
-            choixDifficulte4.addEventListener('click', () => { 
-                conn.send(build('difficultyChosen', {
-                    roomId: roomId,
-                    question: "TEST"
-                })); 
-            });
-            choixDifficulte5.addEventListener('click', () => { 
-                conn.send(build('difficultyChosen', {
-                    roomId: roomId,
-                    question: "TEST"
-                })); 
-            });
-            choixDifficulte6.addEventListener('click', () => { 
-                conn.send(build('difficultyChosen', {
-                    roomId: roomId,
-                    question: "TEST"
-                })); 
+                }));
             });
 
-            
+            // Plusieurs réponses
+            for (let j = 0; j < reponse.length; j++) {
+                reponse[j].addEventListener('click', () => {
+                    console.log("i :", i);
+                    if(i > data.allClients.length) { i = 0; }
+                    if (reponse[j].innerText === trueAnswer.innerText) {
+                        conn.send(build('goodAnswer', {
+                            roomId: roomId,
+                        }));
+                    } else {
+                        conn.send(build('badAnswer', {
+                            roomId: roomId,
+                        }));
+                    }
+                });
+            }
+
+            // Question ouverte
+            btnValiderReponseProposee.addEventListener('click', () => {
+                conn.send(build('demandeValidationReponse', {
+                    roomId: roomId,
+                    reponseProposee: inputReponseProposee.value,
+                }));
+            });
+            btnReponseProposeeVrai.addEventListener('click', () => {
+                conn.send(build('goodAnswer', {
+                    roomId: roomId,
+                }));
+            });
+            btnReponseProposeeFaux.addEventListener('click', () => {
+                conn.send(build('badAnswer', {
+                    roomId: roomId,
+                }));
+            });
 
         // ================== LES FONCTIONS ================== //
 
@@ -256,6 +412,7 @@ conn.onmessage = function(e) {
             }
 
             // Choix de la difficulté
+            // Retourne un tableau avec les question de la difficulté choisie
             function difficultyChoice(level) {
                 divChoixDifficulte.style.display = 'none';
                 divAffichage.style.display = 'block';
@@ -266,84 +423,8 @@ conn.onmessage = function(e) {
                         selectedQuestions.push(tabQandA[i]);
                     }
                 }
-                showQuestion(selectedQuestions);
-            }
-
-            // Affiche la question et ses réponses
-            function showQuestion(tabQuestions) {
-                const random = Math.floor(Math.random() * tabQuestions.length);
-                question.innerText = `${tabQuestions[random].question}`;
-                difficulty.innerText = `${tabQuestions[random].difficulty}`;
-                trueAnswer.innerText = `${tabQuestions[random].correct}`;
-
-                if (tabQuestions[random].answers.length > 2) {
-                    divChoix.style.display = 'block';
-                    divVraiFaux.style.display = 'none';
-                    divRepOuverteJoueur.style.display = 'none';
-                    reponse1.innerText = `${tabQuestions[random].answers[0]}`;
-                    reponse2.innerText = `${tabQuestions[random].answers[1]}`;
-                    reponse3.innerText = `${tabQuestions[random].answers[2]}`;
-                    reponse4.innerText = `${tabQuestions[random].answers[3]}`;
-                } else if (tabQuestions[random].answers.length === 2) {
-                    divChoix.style.display = 'none';
-                    divVraiFaux.style.display = 'block';
-                    divRepOuverteJoueur.style.display = 'none';
-                } else {
-                    divChoix.style.display = 'none';
-                    divVraiFaux.style.display = 'none';
-                    divRepOuverteJoueur.style.display = 'block';
-                }
-            }
-
-            // Ajout d'un tour
-            function incrementTour() {
-                numTour.innerHTML = parseInt(numTour.innerHTML) + 1;
-            }
-
-            // Bonne réponse
-            function goodAnswer(noPlayer) {
-                if (difficulty.innerText === 'easy') {
-                    players[noPlayer].score += 1;
-                } else if (difficulty.innerText === 'medium') {
-                    players[noPlayer].score += 2;
-                } else if (difficulty.innerText === 'hard') {
-                    players[noPlayer].score += 3;
-                }
-                document.getElementById(`score${noPlayer}`).innerHTML = players[noPlayer].score;
-
-                trueAnswer.innerText = "";
-                divChoixDifficulte.style.display = 'block';
-                divAffichage.style.display = 'none';
-                currentPlayer.innerHTML = players[(noPlayer + 1) % players.length].name;
-            }
-            // Mauvaise réponse
-            function badAnswer(noPlayer) {
-                if (difficulty.innerText === 'easy') {
-                    players[noPlayer].score -= 1;
-                } else if (difficulty.innerText === 'medium') {
-                    players[noPlayer].score -= 2;
-                } else if (difficulty.innerText === 'hard') {
-                    players[noPlayer].score -= 3;
-                }
-                // Si le score est négatif, on le remet à 0
-                if (players[noPlayer].score < 0) {
-                    players[noPlayer].score = 0;
-                }
-                document.getElementById(`score${noPlayer}`).innerHTML = players[noPlayer].score;
-
-                trueAnswer.innerText = "";
-                divChoixDifficulte.style.display = 'block';
-                divAffichage.style.display = 'none';
-                currentPlayer.innerHTML = players[(noPlayer + 1) % players.length].name;
-            }
-
-            // Passe le tour du joueur s'il a déjà gagné
-            function skipIfWin() {
-                while(players[(i + 1) % players.length].score >= 48) {
-                    i++;
-                    currentPlayer.innerHTML = players[(i + 1) % players.length].name;
-                    if (i > 5) { i = 0; }
-                }
+                const random = Math.floor(Math.random() * selectedQuestions.length)
+                return selectedQuestions[random];
             }
 
             tableScore();
