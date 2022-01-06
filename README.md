@@ -3,7 +3,7 @@
 
 ## Sommaire
 1. [Introduction](#introduction)
-2. [Manuel d'installation](#manuel-d\'installation)
+2. [Installation](#installation)
 3. [Lancement du serveur](#lancement-du-serveur)
 4. [Comptes pré-créés](#comptes-pré-créés)
 5. [Informations complémentaires](#informations-complémentaires)
@@ -31,7 +31,7 @@ Le jeu pourra être joué de deux à six joueurs. Un compte sur la plateforme es
 Le premier joueur initie la partie en renseignant les pseudos des autres joueurs. Une fois le formulaire de démarrage de partie envoyé, un QR code est généré pour chaque joueur. S’ils sont dans la même pièce, ils pourront scanner le QR Code afin d’arriver sur la page de la partie. Dans le cas contraire, le joueur maître pourra leur envoyer le lien en cliquant sur un bouton “Envoyer le lien par mail”. Vu que le joueur est déjà inscrit sur la plateforme, le lien lui sera envoyé par mail.
 
 
-## Manuel d'installation
+## Installation
 
 - Utilisez le fichier .sql qui se trouve dans le projet et l'importer dans votre PHPMYADMIN.
 - Entrer dans le terminal `composer i ` afin d'installer les différents modules nécessaire au bon fonctionnement de l'application.
