@@ -39,7 +39,7 @@ class QuizController extends AbstractController implements MessageComponentInter
 
         return $this->render('quiz/quiz.html.twig', [
             'roomId' => $roomId,
-            'questions' => $jsonQuestions
+            'questions' => $jsonQuestions,
         ]);
     }
 
@@ -97,7 +97,6 @@ class QuizController extends AbstractController implements MessageComponentInter
     }
 
     public function joinroom(ConnectionInterface $conn, array $data) {
-        
         $wsUser = new WsUser();
         $wsUser
             ->setClient($conn)
@@ -108,8 +107,8 @@ class QuizController extends AbstractController implements MessageComponentInter
         $this->clients->attach($wsUser);
 
         // If user already exist in array usersList, don't add him again
-        if (!in_array($data['username'], $this->usersList)) {
-            array_push($this->usersList, $data['username']);   
+        if (!in_array($data['userSession'], $this->usersList)) {
+            array_push($this->usersList, $data['userSession']);   
         }
 
         $this->sendToRoom($data['roomId'], [
@@ -121,16 +120,12 @@ class QuizController extends AbstractController implements MessageComponentInter
             'clients' => $this->clients
         ]);
         
-        
         if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
             $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
                 'type' => 'start-game',
-                'allClientsId' => $this->rooms[$data['roomId']]['users'],
-                'allClientsUsernames' => $this->rooms[$data['roomId']]['usernames']
-
+                'allClients' => $this->usersList
             ]);
         }
-    
     }
 
     public function onMessage(ConnectionInterface $conn, $msg) {
@@ -145,6 +140,13 @@ class QuizController extends AbstractController implements MessageComponentInter
             $method = $msg['type'];
             $this->$method($conn, $msg['data']);
         }
+    }
+
+    public function eval(ConnectionInterface $conn, array $data) {
+        $this->sendToRoom($data['roomId'], [
+            'type' => 'eval',
+            'data' => $data
+        ]);
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {

@@ -5,13 +5,6 @@ body {
 }
 
 /* PLATEAU */
-#row1, #row2, #row3, #row4, #row5 {
-  margin-right: 30px;
-}
-
-#row1 td, #row2 td, #row3 td, #row4 td, #row5 td, #row6 td {
-  border: 1px solid black;
-}
 
 /* FOOTER */
 footer {

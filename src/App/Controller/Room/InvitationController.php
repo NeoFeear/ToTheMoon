@@ -24,9 +24,7 @@ class InvitationController extends AbstractController {
         if ($this->isSubmited()) {
            
             //VARIABLES GLOBALES
-            $invitedPlayers = [];
-            $invitedPlayersUsername = [];
-            $invitedPlayersId = [$_SESSION['logged']['id']];
+            $invitedPlayers = [$_SESSION['logged']];
             $randomId = '';
 
             $uri = 'ttm.io/game/';
@@ -47,8 +45,6 @@ class InvitationController extends AbstractController {
 
                 if (!empty($player) && $tmpUser !== false) {
                     array_push($invitedPlayers, $tmpUser);
-                    array_push($invitedPlayersUsername, $tmpUser['username']);
-                    array_push($invitedPlayersId, $tmpUser['id']);
                 } else {
                     $errors = 'Aucun utilisateur';
                 }
@@ -87,8 +83,7 @@ class InvitationController extends AbstractController {
                 'type' => 'createroom',
                 'data' => [
                     'roomId' => $randomId,
-                    'users' => $invitedPlayersId,
-                    'usernames' => $invitedPlayersUsername
+                    'users' => $invitedPlayers
                 ]
             ]));
 
