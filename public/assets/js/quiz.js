@@ -1,10 +1,57 @@
 var conn = new WebSocket('ws://localhost:8080');
 
+
+// ==================== VARIABLES ====================
 let roomId = document.getElementById('roomId').innerHTML;
 let currentUserId = document.getElementById('currentUserId').innerHTML;
 let currentUserSession = document.getElementById('currentUserSession').dataset.user;
     currentUserSession = JSON.parse(currentUserSession);
 let usersList = document.getElementById('usersList');
+
+let whoAmI = document.getElementById('whoAmI');
+let numTour = document.getElementById('numTour'); // Numéro du tour actuel
+let currentPlayer = document.getElementById('currentPlayer'); // Joueur actuel
+
+let divChoixDifficulte = document.getElementById('choixDifficulte'); // Div qui contient les choix de difficulté
+let divAffichage = document.getElementById('affichage'); // Div qui contient les questions et réponses
+
+let choixDifficulte1 = document.getElementById('difficulty1'); // Difficulté 1 : very easy
+let choixDifficulte2 = document.getElementById('difficulty2'); // Difficulté 2 : easy
+let choixDifficulte3 = document.getElementById('difficulty3'); // Difficulté 3 : medium
+let choixDifficulte4 = document.getElementById('difficulty4'); // Difficulté 4 : hard
+let choixDifficulte5 = document.getElementById('difficulty5'); // Difficulté 5 : very hard
+let choixDifficulte6 = document.getElementById('difficulty6'); // Difficulté 6 : impossible
+
+let question = document.getElementById('question'); // Label de la question actuelle
+let difficulty = document.getElementById('difficulty'); // Difficulté de la question actuelle
+let trueAnswer = document.getElementById('trueAnswer'); // Réponse vraie de la question actuelle
+// =========== 4 réponses possibles ===========
+let divChoix = document.getElementById('choix'); // Div qui contient les choix de réponses
+    let reponse1 = document.getElementById('reponse1'); // Bouton réponse 1 => pour afficher a l'intérieur
+    let reponse2 = document.getElementById('reponse2'); // Bouton réponse 2 => pour afficher a l'intérieur
+    let reponse3 = document.getElementById('reponse3'); // Bouton réponse 3 => pour afficher a l'intérieur
+    let reponse4 = document.getElementById('reponse4'); // Bouton réponse 4 => pour afficher a l'intérieur
+    let reponse = document.getElementsByName('reponse'); // Tous les boutons assemblés
+      
+// =========== Vrai ou faux ===========
+let divVraiFaux = document.getElementById('vraiFaux'); // Div qui contient les choix de réponses
+    let btnFaux = document.getElementById('btnFaux'); // Bouton faux
+    let btnVrai = document.getElementById('btnVrai'); // Bouton vrai
+
+// =========== Réponse ouverte ===========
+let divRepOuverte = document.getElementById('repOuverte'); // Div qui contient les choix de réponses
+    // Côté Admin
+    let divRepOuverteAdmin = document.getElementById('repOuverteAdmin'); // div qui contient ce que le joueur a saisi
+    let player = document.getElementById('player'); // Joueur qui a proposé la réponse
+    let reponseProposeeAdmin = document.getElementById('reponseProposeeAdmin'); // Validation de la part de l'admin
+    let btnReponseProposeeFaux = document.getElementById('reponseProposeeFaux'); // Bouton faux
+    let btnReponseProposeeVrai = document.getElementById('reponseProposeeVrai'); // Bouton vrai
+    // Côté Joueur
+    let divRepOuverteJoueur = document.getElementById('repOuverteJoueur'); // div qui contient l'input pour répondre
+    let inputReponseProposee = document.getElementById('reponseProposee'); // Saisie de la réponse
+    let btnValiderReponseProposee = document.getElementById('btnReponseProposee'); // Valider l'envoi de la réponse
+
+// ====================================================
 
 function build(event, data) {
     return JSON.stringify({
@@ -60,7 +107,8 @@ conn.onmessage = function(e) {
 
     switch (data.type) {
 
-        case 'showQuestions':
+        case 'difficultyChosen':
+            console.log(data);break;
             let questionServerReturn = document.getElementById('question');
                 questionServerReturn.textContent = data.data.question;
             break;
@@ -78,6 +126,9 @@ conn.onmessage = function(e) {
                 allAnswers = JSON.parse(allAnswers);
             let tabQandA = arrayQR(allQuestions, allAnswers); // Tableau des questions et réponses fusionnées
 
+            let i = 0; // Afin de retrouver le joueur actuel
+            let ordre = 1; // Afin de placer dans le tableau des winners
+
             // Récupération des données de l'utilisateur
             let $usernames = data.allClients;
             let players = [];
@@ -89,50 +140,6 @@ conn.onmessage = function(e) {
                 return players;
             }
             getPlayers();
-            
-            // Récupération des données de la room
-            let whoAmI = document.getElementById('whoAmI');
-            let numTour = document.getElementById('numTour'); // Numéro du tour actuel
-            let currentPlayer = document.getElementById('currentPlayer'); // Joueur actuel
-
-            let divChoixDifficulte = document.getElementById('choixDifficulte'); // Div qui contient les choix de difficulté
-            let divAffichage = document.getElementById('affichage'); // Div qui contient les questions et réponses
-
-            let choixDifficulte1 = document.getElementById('difficulty1'); // Difficulté 1 : very easy
-            let choixDifficulte2 = document.getElementById('difficulty2'); // Difficulté 2 : easy
-            let choixDifficulte3 = document.getElementById('difficulty3'); // Difficulté 3 : medium
-
-            let question = document.getElementById('question'); // Label de la question actuelle
-            let difficulty = document.getElementById('difficulty'); // Difficulté de la question actuelle
-            let trueAnswer = document.getElementById('trueAnswer'); // Réponse vraie de la question actuelle
-            // =========== 4 réponses possibles ===========
-            let divChoix = document.getElementById('choix'); // Div qui contient les choix de réponses
-                let reponse1 = document.getElementById('reponse1'); // Bouton réponse 1 => pour afficher a l'intérieur
-                let reponse2 = document.getElementById('reponse2'); // Bouton réponse 2 => pour afficher a l'intérieur
-                let reponse3 = document.getElementById('reponse3'); // Bouton réponse 3 => pour afficher a l'intérieur
-                let reponse4 = document.getElementById('reponse4'); // Bouton réponse 4 => pour afficher a l'intérieur
-                let reponse = document.getElementsByName('reponse'); // Tous les boutons assemblés
-            
-            // =========== Vrai ou faux ===========
-            let divVraiFaux = document.getElementById('vraiFaux'); // Div qui contient les choix de réponses
-                let btnFaux = document.getElementById('btnFaux'); // Bouton faux
-                let btnVrai = document.getElementById('btnVrai'); // Bouton vrai
-            
-            // =========== Réponse ouverte ===========
-            let divRepOuverte = document.getElementById('repOuverte'); // Div qui contient les choix de réponses
-                // Côté Admin
-                let divRepOuverteAdmin = document.getElementById('repOuverteAdmin'); // div qui contient ce que le joueur a saisi
-                let player = document.getElementById('player'); // Joueur qui a proposé la réponse
-                let reponseProposeeAdmin = document.getElementById('reponseProposeeAdmin'); // Validation de la part de l'admin
-                let btnReponseProposeeFaux = document.getElementById('reponseProposeeFaux'); // Bouton faux
-                let btnReponseProposeeVrai = document.getElementById('reponseProposeeVrai'); // Bouton vrai
-                // Côté Joueur
-                let divRepOuverteJoueur = document.getElementById('repOuverteJoueur'); // div qui contient l'input pour répondre
-                let inputReponseProposee = document.getElementById('reponseProposee'); // Saisie de la réponse
-                let btnValiderReponseProposee = document.getElementById('btnReponseProposee'); // Valider l'envoi de la réponse
-
-            let i = 0; // Afin de retrouver le joueur actuel
-            let ordre = 1; // Afin de placer dans le tableau des winners
            
             // Initialisation
             numTour.innerText = 1;
@@ -155,16 +162,53 @@ conn.onmessage = function(e) {
                 whoAmI.textContent = 'JOUEUR'; 
             }
 
-            choixDifficulte1.addEventListener('click', () => { difficultyChoice('1'); });
-            choixDifficulte2.addEventListener('click', () => { difficultyChoice('2'); });
-            choixDifficulte3.addEventListener('click', () => { difficultyChoice('3'); });
+            // JOUEUR ACTUEL
+            if (currentUserSession.username === data.allClients[i].username) {
+                console.log("Joueur actuel :", players[i]);
+            } else {
+                divChoixDifficulte.style.display = 'none';
+            }
 
-            // ENVOI DE DONNEES AU SERVEUR
-            conn.send(build('showQuestions', {
-                roomId: roomId,
-                command: "showQuestions",
-                question: showQuestion(tabQandA),
-            }))
+            choixDifficulte1.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte2.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte3.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte4.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte5.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte6.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+
+            
+
+        // ================== LES FONCTIONS ================== //
 
             // Génération du tableau des scores
             function tableScore() {
@@ -222,24 +266,24 @@ conn.onmessage = function(e) {
                         selectedQuestions.push(tabQandA[i]);
                     }
                 }
-                //showQuestion(selectedQuestions);
+                showQuestion(selectedQuestions);
             }
 
             // Affiche la question et ses réponses
             function showQuestion(tabQuestions) {
                 const random = Math.floor(Math.random() * tabQuestions.length);
-                question.innerHTML = `${tabQuestions[random].question}`;
-                difficulty.innerHTML = `${tabQuestions[random].difficulty}`;
-                trueAnswer.innerHTML = `${tabQuestions[random].correct}`;
+                question.innerText = `${tabQuestions[random].question}`;
+                difficulty.innerText = `${tabQuestions[random].difficulty}`;
+                trueAnswer.innerText = `${tabQuestions[random].correct}`;
 
                 if (tabQuestions[random].answers.length > 2) {
                     divChoix.style.display = 'block';
                     divVraiFaux.style.display = 'none';
                     divRepOuverteJoueur.style.display = 'none';
-                    reponse1.innerHTML = `${tabQuestions[random].answers[0]}`;
-                    reponse2.innerHTML = `${tabQuestions[random].answers[1]}`;
-                    reponse3.innerHTML = `${tabQuestions[random].answers[2]}`;
-                    reponse4.innerHTML = `${tabQuestions[random].answers[3]}`;
+                    reponse1.innerText = `${tabQuestions[random].answers[0]}`;
+                    reponse2.innerText = `${tabQuestions[random].answers[1]}`;
+                    reponse3.innerText = `${tabQuestions[random].answers[2]}`;
+                    reponse4.innerText = `${tabQuestions[random].answers[3]}`;
                 } else if (tabQuestions[random].answers.length === 2) {
                     divChoix.style.display = 'none';
                     divVraiFaux.style.display = 'block';
@@ -301,9 +345,6 @@ conn.onmessage = function(e) {
                     if (i > 5) { i = 0; }
                 }
             }
-
-
-
 
             tableScore();
             break;
