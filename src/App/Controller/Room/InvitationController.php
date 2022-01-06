@@ -22,11 +22,14 @@ class InvitationController extends AbstractController {
 
         // A la validation du formulaire : ----------------
         if ($this->isSubmited()) {
-           
-            //VARIABLES GLOBALES
-            $invitedPlayers = [$_SESSION['logged']];
-            $randomId = '';
 
+            //VARIABLES GLOBALES
+            //Invitation automatique de l'admin dans les users invités
+            $invitedPlayers = [$_SESSION['logged']];
+            $invitedPlayers[0]['color'] = 'white';
+            
+            $randomId = '';
+            
             $uri = 'ttm.io/game/';
 
             //GENERER UN ID ALEATOIRE
@@ -36,19 +39,23 @@ class InvitationController extends AbstractController {
             }
 
             $uri .= $randomId;
-
+            
             //RECUPERATION DES UTILISATEURS/ID INVITES ET STOCKAGE DANS UN TABLEAU
-            foreach($_POST as $player) {
-                
-                $tmpUser = $this->getRepository('users')->findOneBy('username', $player);
-                
+            //Récupération des couleurs en plus pour les push dans l'array de chaques users
 
-                if (!empty($player) && $tmpUser !== false) {
+            for($i = 1; $i < count($_POST); $i++) 
+            {
+                if (!empty($_POST['player'.$i]) ) {
+                    $player = $_POST['player'.$i];
+                    $color = $_POST['color'.$i];
+                    $tmpUser = $this->getRepository('users')->findOneBy('username', $player); 
+                    $tmpUser['color'] = $color; 
                     array_push($invitedPlayers, $tmpUser);
                 } else {
                     $errors = 'Aucun utilisateur';
                 }
             }
+            echo '<pre>';print_r($invitedPlayers);
 
             //ENVOI DU MAIL AUX UTILISATEURS AVEC LIEN DE LA ROOM
             if (count($invitedPlayers) >= 2) {

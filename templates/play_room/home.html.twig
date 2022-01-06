@@ -57,8 +57,8 @@
                         <div class="col form-group d-flex">
                             <input type="text" class="form-control inputPlayer" name="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
                             <div name="results"></div>
-                            <select id="colorPicker{{i}}">
-                                <option value="none" name="color-input" selected disabled hidden>X</option>
+                            <select name="color{{i}}" id="colorPicker{{i}}">
+                                <option value="none" disabled hidden selected>X</option>
                             </select>
                         </div>
                     </div>
@@ -72,8 +72,7 @@
 
 {% block js %}
     <!--  ============================= TODO: Supprimer ============================= -->
-    <script>
-        document.getElementsByName("player1")[0].value = "NeoFeear";
-        document.getElementsByName("player2")[0].value = "User";
+    <script src="assets/js/play_room.js">
+        
     </script>
 {% endblock %}

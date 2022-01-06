@@ -6,14 +6,12 @@ let colorsPicked = [];
 generateInputColors();
 
 function generateInputColors() {
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= 5; i++) {
         let selectColorInput = document.getElementById('colorPicker' + i);
-        selectColorInput.dataset.color = "";
-
-        selectColorInput.addEventListener('change', () => {
-            setColorInput(selectColorInput);
-            updateColorInputs();
-        });
+            selectColorInput.addEventListener('change', () => {
+                setColorInput(selectColorInput);
+                updateColorInputs();
+            });
 
         for (let i = 0; i < colorsTable.length; i++) {
             let addOption = document.createElement('option');
@@ -37,20 +35,40 @@ function setColorInput(selected) {
     selected.dataset.color = selected.value;
     colorsPicked.push(selected.value);
 
+    let childs = Array.from(selected.children)
+    
+    console.log(selected);
+
+    for (let j = 0; j < childs.length; j++) {
+        if (selected.value == (childs[j].value)) {
+            
+            childs[j].setAttribute('selected', 'selected');
+            childs[j].hidden = true;
+            
+        } else {
+           
+            childs[j].removeAttribute('selected', 'selected');
+            childs[j].hidden = false;
+            
+        }
+    }
+
     console.log(colorsPicked);
 }
 
 function updateColorInputs() {
-    for (let i = 1; i <= 6; i++) {
+
+    console.log(colorsPicked);
+
+    for (let i = 1; i <= 5; i++) {
         let si = document.getElementById('colorPicker' + i);
         let childs = Array.from(si.children);
 
         for (let j = 0; j < childs.length; j++) {
             if (colorsPicked.includes(childs[j].value)) {
-                childs[j].disabled = true;
                 childs[j].hidden = true;
             } else {
-                childs[j].disabled = false;
+                // childs[j].disabled = false;
                 childs[j].hidden = false;
             }
         }
