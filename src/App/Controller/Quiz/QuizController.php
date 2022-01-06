@@ -145,9 +145,8 @@ class QuizController extends AbstractController implements MessageComponentInter
         }
     }
 
-    public function showQuestions(ConnectionInterface $conn, array $data) {
+    public function difficultyChosen(ConnectionInterface $conn, array $data) {
         $this->sendToRoom($data['roomId'], [
-            'type' => 'showQuestions',
             'data' => $data
         ]);
     }

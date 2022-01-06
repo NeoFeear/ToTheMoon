@@ -24,13 +24,10 @@
     <section id="game" hidden>
         <h2 class="mt-5"><u>MDJ :</u> <span id="mdj"></span></h2>
         <h1><u>Mon rôle :</u> <span id="whoAmI"></span></h1>
-
-        <h1 class="text-decoration-underline my-4">Tour <span id="numTour">0</span></h1>
         <hr>
 
-        <h2><span id="question">QUESTION</span></h2>
-        <h3 class="mb-4"><u>Difficulté :</u> <span id="difficulty"></span></h3>
-        <h5 class="mb-4"><u>Bonne réponse :</u> <span id="trueAnswer"></span></h5>
+        <h1 class="text-decoration-underline my-4">Tour <span id="numTour">0</span></h1>
+        <h5 hidden class="my-4"><u>Bonne réponse :</u> <span id="trueAnswer"></span></h5>
 
         <div id="repOuverteAdmin">
             <h3><span id="player">JOUEUR</span> propose comme réponse :</h3>
@@ -39,13 +36,16 @@
             <button id="reponseProposeeVrai">VRAI</button>
         </div>
 
-        <h1 class="mb-4 text-uppercase"><span id="currentPlayer"></span></h1>
+        <h1 class="mb-4">C'est au tour de <span id="currentPlayer" class="text-uppercase"></span></h1>
 
         <div id="choixDifficulte">
             <h2 class="mb-3 text-decoration-underline">Veuillez choisir une difficulté :</h2>
-            <button id="difficulty1" class="btn btn-light">Easy</button>
-            <button id="difficulty2" class="btn btn-light">Medium</button>
-            <button id="difficulty3" class="btn btn-light">Hard</button>
+            <button id="difficulty1" class="btn btn-light">[-1-]</button>
+            <button id="difficulty2" class="btn btn-light">[-2-]</button>
+            <button id="difficulty3" class="btn btn-light">[-3-]</button>
+            <button id="difficulty4" class="btn btn-light">[-4-]</button>
+            <button id="difficulty5" class="btn btn-light">[-5-]</button>
+            <button id="difficulty6" class="btn btn-light">[-6-]</button>
         </div>
 
         <div id="affichage">
@@ -53,7 +53,7 @@
             <h3 class="mb-4"><u>Difficulté :</u> <span id="difficulty"></span></h3>
                     
             <!-- 4 réponses -->
-            <div id="choix">
+            <div id="choix" hidden>
                 <h3><u>Réponses possibles :</u></h3>
                 <div class="d-inline-flex justify-content-evenly">
                     <h2><button id="reponse1" name="reponse" class="btn btn-warning me-2">RÉPONSE</button></h2>
@@ -64,18 +64,17 @@
             </div>
 
             <!-- Vrai ou faux -->
-            <div id="vraiFaux">
+            <div id="vraiFaux" hidden>
                 <h2>Vrai ou faux ?</h2>
                 <button id="btnFaux">FAUX</button>
                 <button id="btnVrai">VRAI</button>
             </div>
 
             <!-- Réponse ouverte -->
-            <div id="repOuverteJoueur">
+            <div id="repOuverteJoueur" hidden>
                 <h3><u>Réponse proposée :</u></h3>
                 <input type="text" id="reponseProposee" name="reponseProposee" placeholder="Réponse proposée" required>
                 <button id="btnReponseProposee">Valider</button>
-                <p id="waiting" hidden>En attente de la décision du MDJ</p>
             </div>
         </div>
 

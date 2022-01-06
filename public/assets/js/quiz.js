@@ -1,10 +1,57 @@
 var conn = new WebSocket('ws://localhost:8080');
 
+
+// ==================== VARIABLES ====================
 let roomId = document.getElementById('roomId').innerHTML;
 let currentUserId = document.getElementById('currentUserId').innerHTML;
 let currentUserSession = document.getElementById('currentUserSession').dataset.user;
     currentUserSession = JSON.parse(currentUserSession);
 let usersList = document.getElementById('usersList');
+
+let whoAmI = document.getElementById('whoAmI');
+let numTour = document.getElementById('numTour'); // Numéro du tour actuel
+let currentPlayer = document.getElementById('currentPlayer'); // Joueur actuel
+
+let divChoixDifficulte = document.getElementById('choixDifficulte'); // Div qui contient les choix de difficulté
+let divAffichage = document.getElementById('affichage'); // Div qui contient les questions et réponses
+
+let choixDifficulte1 = document.getElementById('difficulty1'); // Difficulté 1 : very easy
+let choixDifficulte2 = document.getElementById('difficulty2'); // Difficulté 2 : easy
+let choixDifficulte3 = document.getElementById('difficulty3'); // Difficulté 3 : medium
+let choixDifficulte4 = document.getElementById('difficulty4'); // Difficulté 4 : hard
+let choixDifficulte5 = document.getElementById('difficulty5'); // Difficulté 5 : very hard
+let choixDifficulte6 = document.getElementById('difficulty6'); // Difficulté 6 : impossible
+
+let question = document.getElementById('question'); // Label de la question actuelle
+let difficulty = document.getElementById('difficulty'); // Difficulté de la question actuelle
+let trueAnswer = document.getElementById('trueAnswer'); // Réponse vraie de la question actuelle
+// =========== 4 réponses possibles ===========
+let divChoix = document.getElementById('choix'); // Div qui contient les choix de réponses
+    let reponse1 = document.getElementById('reponse1'); // Bouton réponse 1 => pour afficher a l'intérieur
+    let reponse2 = document.getElementById('reponse2'); // Bouton réponse 2 => pour afficher a l'intérieur
+    let reponse3 = document.getElementById('reponse3'); // Bouton réponse 3 => pour afficher a l'intérieur
+    let reponse4 = document.getElementById('reponse4'); // Bouton réponse 4 => pour afficher a l'intérieur
+    let reponse = document.getElementsByName('reponse'); // Tous les boutons assemblés
+      
+// =========== Vrai ou faux ===========
+let divVraiFaux = document.getElementById('vraiFaux'); // Div qui contient les choix de réponses
+    let btnFaux = document.getElementById('btnFaux'); // Bouton faux
+    let btnVrai = document.getElementById('btnVrai'); // Bouton vrai
+
+// =========== Réponse ouverte ===========
+let divRepOuverte = document.getElementById('repOuverte'); // Div qui contient les choix de réponses
+    // Côté Admin
+    let divRepOuverteAdmin = document.getElementById('repOuverteAdmin'); // div qui contient ce que le joueur a saisi
+    let player = document.getElementById('player'); // Joueur qui a proposé la réponse
+    let reponseProposeeAdmin = document.getElementById('reponseProposeeAdmin'); // Validation de la part de l'admin
+    let btnReponseProposeeFaux = document.getElementById('reponseProposeeFaux'); // Bouton faux
+    let btnReponseProposeeVrai = document.getElementById('reponseProposeeVrai'); // Bouton vrai
+    // Côté Joueur
+    let divRepOuverteJoueur = document.getElementById('repOuverteJoueur'); // div qui contient l'input pour répondre
+    let inputReponseProposee = document.getElementById('reponseProposee'); // Saisie de la réponse
+    let btnValiderReponseProposee = document.getElementById('btnReponseProposee'); // Valider l'envoi de la réponse
+
+// ====================================================
 
 function build(event, data) {
     return JSON.stringify({
@@ -13,9 +60,33 @@ function build(event, data) {
     });
 };
 
-//TODOLIST
+// Fonction qui fusionne le tableau des questions avec leurs réponses correspondantes
 function arrayQR(objQuestions, objAnswers){
-    //Créer un objet qui a comme answers la même question_id,  que l'id de la question
+    let arrayQR = [];
+
+    for (let i = 0; i < objQuestions.length; i++) {
+        // Push des questions
+        arrayQR.push({
+            id: objQuestions[i].id,
+            question: objQuestions[i].label,
+            difficulty: objQuestions[i].level,
+            answers: [],
+            correct: ""
+        });
+
+        // Push des réponses correspondantes
+        for (let j = 0; j < objAnswers.length; j++) {
+            if (objQuestions[i].id == objAnswers[j].question_id) {
+                arrayQR[i].answers.push({
+                    answer: objAnswers[j].answer,
+                });
+                if (objAnswers[j].is_correct == 1) {
+                    arrayQR[i].correct = objAnswers[j].answer;
+                }
+            }
+        }    
+    }
+    return arrayQR;
 }
 
 //récupérer l'id de l'utilisateur qui ouvre la page ainsi que la Room ID qui se trouve dans l'URL
@@ -36,97 +107,43 @@ conn.onmessage = function(e) {
 
     switch (data.type) {
 
-        case 'showQuestions':
+        case 'difficultyChosen':
+            console.log(data);break;
             let questionServerReturn = document.getElementById('question');
                 questionServerReturn.textContent = data.data.question;
             break;
 
         case 'start-game':
-            
-            let numTour = document.getElementById('numTour');
-            let currentPlayer = document.getElementById('currentPlayer');
-
-            let divChoixDifficulte = document.getElementById('choixDifficulte');
-            let divAffichage = document.getElementById('affichage');
-
-            let choixDifficulte1 = document.getElementById('difficulty1');
-            let choixDifficulte2 = document.getElementById('difficulty2');
-            let choixDifficulte3 = document.getElementById('difficulty3');
-
-            let question = document.getElementById('question');
-
-            let questions = document.getElementById('questions').dataset.questions;
-                questions = JSON.parse(questions);
-
-            let answers = document.getElementById('answers').dataset.answers;
-                answers = JSON.parse(answers);
-
-            console.log(questions);
-            console.log(answers);
-
-            let difficulty = document.getElementById('difficulty');
-            let trueAnswer = document.getElementById('trueAnswer');
-            // 4 réponses possibles
-            let divChoix = document.getElementById('choix');
-            let reponse1 = document.getElementById('reponse1');
-            let reponse2 = document.getElementById('reponse2');
-            let reponse3 = document.getElementById('reponse3');
-            let reponse4 = document.getElementById('reponse4');
-            let reponse = document.getElementsByName('reponse');
-            // Vrai ou faux
-            let divVraiFaux = document.getElementById('vraiFaux');
-            let btnFaux = document.getElementById('btnFaux');
-            let btnVrai = document.getElementById('btnVrai');
-            // Réponse ouverte
-            let divRepOuverte = document.getElementById('repOuverte');
-                // Côté Admin
-            let divRepOuverteAdmin = document.getElementById('repOuverteAdmin');
-            let player = document.getElementById('player');
-            let reponseProposeeAdmin = document.getElementById('reponseProposeeAdmin');
-            let btnReponseProposeeFaux = document.getElementById('reponseProposeeFaux');
-            let btnReponseProposeeVrai = document.getElementById('reponseProposeeVrai');
-                // Côté Joueur
-            let inputReponseProposee = document.getElementById('reponseProposee');
-            let divRepOuverteJoueur = document.getElementById('repOuverteJoueur');
-            let btnReponseProposee = document.getElementById('btnReponseProposee');
-
-            let i = 0;
-            let ordre = 1;
-
-            conn.send(build('showQuestions', {
-                roomId: roomId,
-                question: showQuestion(questions),
-                command: "showQuestions",
-                response: "45 et demi",
-                currentPlayer: data.allClients[0].username
-            }))
-
-
-            //TODO : Récupérér dans le tableau de réponses, 
-            //Les réponses avec la meme id 
-            
-            document.getElementById('mdj').innerText = data.allClients[0].username;
-
-            
             console.log('START THE GAME!');
-
+            document.getElementById('mdj').innerText = data.allClients[0].username;
             document.getElementById('waiting').hidden = true;
             document.getElementById('game').hidden = false;
 
+            // Récupération des questions et des réponses
+            let allQuestions = document.getElementById('questions').dataset.questions; // Tableau des questions
+                allQuestions = JSON.parse(allQuestions);
+            let allAnswers = document.getElementById('answers').dataset.answers; // Tableau des réponses
+                allAnswers = JSON.parse(allAnswers);
+            let tabQandA = arrayQR(allQuestions, allAnswers); // Tableau des questions et réponses fusionnées
+
+            let i = 0; // Afin de retrouver le joueur actuel
+            let ordre = 1; // Afin de placer dans le tableau des winners
+
+            // Récupération des données de l'utilisateur
             let $usernames = data.allClients;
             let players = [];
-
             function getPlayers() {
+                // players = [];
                 for (let i = 0; i < $usernames.length; i++) {
                     players.push({ "name": $usernames[i].username, "score": 0 });
                 }
                 return players;
             }
-            console.log(getPlayers());
-
-            let whoAmI = document.getElementById('whoAmI');
-            numTour.innerHTML = 1;
-            currentPlayer.innerHTML = `${players[0].name}`;
+            getPlayers();
+           
+            // Initialisation
+            numTour.innerText = 1;
+            currentPlayer.innerText = players[0].name;
             divChoixDifficulte.style.display = 'block';
             divAffichage.style.display = 'none';
             divChoix.style.display = 'none';
@@ -134,26 +151,64 @@ conn.onmessage = function(e) {
             divRepOuverteAdmin.style.display = 'none';
             divRepOuverteJoueur.style.display = 'none';
 
-
-
             // ================== PARTIE ADMIN ================== //
             if (currentUserSession.username === data.allClients[0].username) {
-
                 whoAmI.textContent = 'MAITRE DU JEU';
-
-                console.log(questions);
-
+                console.log("Tableau des joueurs actuels :", players);
+                console.log("Tableau des questions et réponses :", tabQandA);
             }
             // ================== PARTIE JOUEUR ================== //
             else {
-
-                whoAmI.textContent = 'JOUEUR';
-                
+                whoAmI.textContent = 'JOUEUR'; 
             }
 
-            choixDifficulte1.addEventListener('click', () => { difficultyChoice('1');});
-            choixDifficulte2.addEventListener('click', () => { difficultyChoice('2'); });
-            choixDifficulte3.addEventListener('click', () => { difficultyChoice('3'); });
+            // JOUEUR ACTUEL
+            if (currentUserSession.username === data.allClients[i].username) {
+                console.log("Joueur actuel :", players[i]);
+            } else {
+                divChoixDifficulte.style.display = 'none';
+            }
+
+            choixDifficulte1.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte2.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte3.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte4.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte5.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+            choixDifficulte6.addEventListener('click', () => { 
+                conn.send(build('difficultyChosen', {
+                    roomId: roomId,
+                    question: "TEST"
+                })); 
+            });
+
+            
+
+        // ================== LES FONCTIONS ================== //
 
             // Génération du tableau des scores
             function tableScore() {
@@ -196,8 +251,7 @@ conn.onmessage = function(e) {
                         }
                     }
                 }
-                console.log("Tableau des gagnants :");
-                console.log(winners);
+                console.log("Tableau des gagnants :", winners);
                 return winners;
             }
 
@@ -207,9 +261,9 @@ conn.onmessage = function(e) {
                 divAffichage.style.display = 'block';
                 // On met dans un tableau les questions avec la difficulté choisie
                 let selectedQuestions = [];
-                for (let i = 0; i < questions.length; i++) {
-                    if (questions[i].difficulty === level) {
-                        selectedQuestions.push(questions[i]);
+                for (let i = 0; i < tabQandA.length; i++) {
+                    if (tabQandA[i].difficulty === level) {
+                        selectedQuestions.push(tabQandA[i]);
                     }
                 }
                 showQuestion(selectedQuestions);
@@ -218,21 +272,18 @@ conn.onmessage = function(e) {
             // Affiche la question et ses réponses
             function showQuestion(tabQuestions) {
                 const random = Math.floor(Math.random() * tabQuestions.length);
-                question.innerHTML = `${tabQuestions[random].question}`;
-                difficulty.innerHTML = `${tabQuestions[random].difficulty}`;
-                trueAnswer.innerHTML = `${tabQuestions[random].correct}`;
+                question.innerText = `${tabQuestions[random].question}`;
+                difficulty.innerText = `${tabQuestions[random].difficulty}`;
+                trueAnswer.innerText = `${tabQuestions[random].correct}`;
 
-
-
-                
                 if (tabQuestions[random].answers.length > 2) {
                     divChoix.style.display = 'block';
                     divVraiFaux.style.display = 'none';
                     divRepOuverteJoueur.style.display = 'none';
-                    reponse1.innerHTML = `${tabQuestions[random].answers[0]}`;
-                    reponse2.innerHTML = `${tabQuestions[random].answers[1]}`;
-                    reponse3.innerHTML = `${tabQuestions[random].answers[2]}`;
-                    reponse4.innerHTML = `${tabQuestions[random].answers[3]}`;
+                    reponse1.innerText = `${tabQuestions[random].answers[0]}`;
+                    reponse2.innerText = `${tabQuestions[random].answers[1]}`;
+                    reponse3.innerText = `${tabQuestions[random].answers[2]}`;
+                    reponse4.innerText = `${tabQuestions[random].answers[3]}`;
                 } else if (tabQuestions[random].answers.length === 2) {
                     divChoix.style.display = 'none';
                     divVraiFaux.style.display = 'block';
@@ -296,19 +347,11 @@ conn.onmessage = function(e) {
             }
 
             tableScore();
-
-
-
-
-
-
             break;
         
         case 'usersList':
-            console.log('Joueurs connectés: ', data.countNow);
-            console.log('Joueurs attendus: ', data.countRequired);
-            console.log(data.usersList);
-            console.log(data.test); 
+            console.log(data.countNow + " joueur présent sur " + data.countRequired + " attendus");
+            console.log("usersList", data.usersList);
 
             document.getElementById('countNow').textContent = data.countNow;
             document.getElementById('countRequired').textContent = data.countRequired;
