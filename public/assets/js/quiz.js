@@ -30,17 +30,13 @@ conn.onmessage = function(e) {
     var data = JSON.parse(e.data);
 
     switch (data.type) {
-        case 'eval':
-            console.log(data);
+
+        case 'showQuestions':
+            let questionServerReturn = document.getElementById('question');
+                questionServerReturn.textContent = data.data.question;
             break;
 
         case 'start-game':
-            conn.send(build('eval', {
-                roomId: roomId,
-                command: "eval",
-                response: "TA MERE LE PROJET DE PUTE DE PD DE CON DE CONNARD DE MERDE"
-            }))
-            break;
             
             let numTour = document.getElementById('numTour');
             let currentPlayer = document.getElementById('currentPlayer');
@@ -82,6 +78,14 @@ conn.onmessage = function(e) {
             let i = 0;
             let ordre = 1;
 
+            conn.send(build('showQuestions', {
+                roomId: roomId,
+                question: "Combien tu as de dents?",
+                command: "showQuestions",
+                response: "45 et demi",
+                currentPlayer: data.allClients[0].username
+            }))
+            
 
             document.getElementById('mdj').innerText = data.allClients[0].username;
 
@@ -112,24 +116,6 @@ conn.onmessage = function(e) {
             divVraiFaux.style.display = 'none';
             divRepOuverteAdmin.style.display = 'none';
             divRepOuverteJoueur.style.display = 'none';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
