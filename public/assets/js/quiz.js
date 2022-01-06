@@ -1,5 +1,10 @@
 var conn = new WebSocket('ws://localhost:8080');
 
+/**
+ * TODO: 
+ * - si il gagne, il joue plus
+ * - cacher réponses admin
+ */
 
 // ==================== VARIABLES ====================
 let roomId = document.getElementById('roomId').innerHTML;
