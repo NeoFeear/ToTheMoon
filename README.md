@@ -29,10 +29,12 @@ Le jeu pourra être joué de deux à six joueurs. Un compte sur la plateforme es
 Le premier joueur initie la partie en renseignant les pseudos des autres joueurs. Une fois le formulaire de démarrage de partie envoyé, un QR code est généré pour chaque joueur. S’ils sont dans la même pièce, ils pourront scanner le QR Code afin d’arriver sur la page de la partie. Dans le cas contraire, le joueur maître pourra leur envoyer le lien en cliquant sur un bouton “Envoyer le lien par mail”. Vu que le joueur est déjà inscrit sur la plateforme, le lien lui sera envoyé par mail.
 
 ## Lancement du serveur
+
 Pour démarrer le serveur, il suffit d'exécuter la commande suivante :
 `php bin/server.php`
 
 ## Comptes pré-créés
+
 ADMINISTRATEUR :
 - Pseudo : Admin
 - Mot de passe : azer
@@ -42,4 +44,85 @@ JOUEUR :
 - Mot de passe : azer
 
 ## Informations complémentaires
-Il n'y a des réponses que pour les trois premières questions pour le moment.
+
+## Technologies utilisées:
+- Bootstrap 5
+- PHP v8.0.13
+- Websocket Ratchet v0.4.4
+- Textalk Websocket v1.5
+- Twig
+- Javascript
+- MySQL
+- GitHub
+- PHPMailer v6.5
+- Serializer v5.4
+- Fastroute 1.3
+- WAMP v3.2.5
+- Apache v2.4.5
+- Composer
+
+## Bilan 
+
+Ce projet a été très formateur pour nous deux, malgrès la frustration de ne pas avoir un résultat abouti comme souhaité, nous ne pouvons pas être déçu car notre investissement a été maximum dans ce projet.
+
+#Difficultés majeures rencontrés : 
+
+- Nous avons décidé de développer un système de Repository/Entity/EntityManager inspiré de Symfony qui nous a pris pas mal de temps a reproduire, mais qui nous a ensuite fais gagné du temps lors de nos requêtes dans les Controllers.
+
+- Nous avions commencé la partie Websocket avec un coté serveur sur Node.js/Express/Socket.io, qui fonctionnait bien mais en passant uniquement par la partie client. A 3 jours de rendre le projet, nous avons modifié la technologie utilisé pour Ratchet qui nous a mis en difficulté, car la Documentation de Ratchet n'est pas non plus des plus précises, la library la plus connu n'est plus maintenu, et Socket.io dominant les projets Websocket, la communauté autour de Ratchet n'est pas trés présente sur le Web. De plus notre manque de compétence initiales en Websocket a fait que nous avons appris "lentement" et perdu du temps, mais nous avons appris, et améliorer nos compétences d'analyse et de réflexion. 
+
+#Ce qui fonctionne : 
+- Le système d'Administartion.
+- La navigation sur le site.
+- L'inscription et la gestion de l'espace membre.
+- le CRUD Questions / Utilisateurs.
+- L'invitation des joueurs en fonction des rôles.
+- Le choix des couleurs des joueurs (Améliorable, dans le code et dans l'utilisation).
+- L'invitation via QR Code.
+- Invitation par Email automatique.
+- Le système de jeu en ligne.
+- Gestion des Rooms aléatoires, et sécurisation des joueurs attendus.
+- Autocomplétion lors de l'invitation des joueurs
+
+#Ce qui ne fonctionne pas ou partiellement :
+- Gestion d'aller-retour des utilisateurs dans une Room (Améliorable++)
+- Gestion d'attribution des couleurs 
+- Plateau de jeu (Améliorable++) Adapté en fonction du temps restant
+- Pas assez de questions en base de données
+- La partie serveur du Socket est améliorable
+
+
+##tâches de chaque membre du groupe
+
+Lors du développement du projet nous avons su travailler de manière complémentaire, souvent en présentiel ou sur discord en double partage d'écran pour s'aider en directe lors du développement. Peu de parties de projet on été fait uniquement par un seul des deux développeurs.
+
+#1er partie du projet : 
+
+- Florian : 
+  -> Partie Front et mise en place des vues Twig.
+  -> M'a Rejoint developpement de la partie Back end Repo/Entity/EM
+  -> CRUD Question
+  -> CRUD Réponses
+  
+- Allan : 
+  -> Developpement de la partie Back end Repo/Entity/EM
+  -> CRUD Utilisateurs
+  
+  #2eme partie du Projet :
+  
+ - Florian : 
+  -> Developpement du jeu en JavaScript.
+  -> Autocomplétion formulaire d'invitations.
+  -> Intégration du jeu en Javascript dans le projet, et avec le Socket.
+  
+ - Allan : 
+  -> Developpement partie Serveur NodeJs/Express/Socket.io Fonctionnel ( Arreté lorsque les utilisateurs étaient dans une même room).
+  -> Envoi des Mail avec PHPMailer.
+  -> Input de selection des couleurs pour les joueurs.
+  -> Formulaire d'invitation des joueurs.
+  -> Developpement partie Serveur Ratchet Websocket.
+  
+
+
+
+
