@@ -42,7 +42,7 @@ class QuizController extends AbstractController implements MessageComponentInter
         return $this->render('quiz/quiz.html.twig', [
             'roomId' => $roomId,
             'questions' => $jsonQuestions,
-            'answers' => $jsonAnswers
+            'answers' => $jsonAnswers,
         ]);
     }
 
@@ -147,6 +147,31 @@ class QuizController extends AbstractController implements MessageComponentInter
 
     public function difficultyChosen(ConnectionInterface $conn, array $data) {
         $this->sendToRoom($data['roomId'], [
+            'type' => 'difficultyChosen',
+            'data' => $data
+        ]);
+    }
+
+    public function goodAnswer(ConnectionInterface $conn, array $data) {
+        $this->sendToRoom($data['roomId'], [
+            'type' => 'goodAnswer',
+            'allClients' => $this->usersList,
+            'data' => $data
+        ]);
+    }
+
+    public function badAnswer(ConnectionInterface $conn, array $data) {
+        $this->sendToRoom($data['roomId'], [
+            'type' => 'badAnswer',
+            'allClients' => $this->usersList,
+            'data' => $data
+        ]);
+    }
+
+    public function demandeValidationReponse(ConnectionInterface $conn, array $data) {
+        $this->sendToRoom($data['roomId'], [
+            'type' => 'demandeValidationReponse',
+            'allClients' => $this->usersList,
             'data' => $data
         ]);
     }
