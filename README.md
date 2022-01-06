@@ -28,6 +28,18 @@ Le jeu pourra être joué de deux à six joueurs. Un compte sur la plateforme es
 
 Le premier joueur initie la partie en renseignant les pseudos des autres joueurs. Une fois le formulaire de démarrage de partie envoyé, un QR code est généré pour chaque joueur. S’ils sont dans la même pièce, ils pourront scanner le QR Code afin d’arriver sur la page de la partie. Dans le cas contraire, le joueur maître pourra leur envoyer le lien en cliquant sur un bouton “Envoyer le lien par mail”. Vu que le joueur est déjà inscrit sur la plateforme, le lien lui sera envoyé par mail.
 
+
+## Manuel d'installation
+
+- Utilisez le fichier .sql qui se trouve dans le projet et l'importer dans votre PHPMYADMIN.
+- Entrer dans le terminal `composer i ` afin d'installer les différents modules nécessaire au bon fonctionnement de l'application.
+- Entrez les informations de votre base de données dans /config/app.php.
+- Démarrez le serveur.
+
+- Connectez vous avec le compte `Admin` cliquez sur #JOUER!, invitez vos amis, et que le meilleur gagne. 
+
+# Let's play!
+
 ## Lancement du serveur
 
 Pour démarrer le serveur, il suffit d'exécuter la commande suivante :
@@ -71,7 +83,7 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 
 - Nous avions commencé la partie Websocket avec un coté serveur sur Node.js/Express/Socket.io, qui fonctionnait bien mais en passant uniquement par la partie client. A 3 jours de rendre le projet, nous avons modifié la technologie utilisé pour Ratchet qui nous a mis en difficulté, car la Documentation de Ratchet n'est pas non plus des plus précises, la library la plus connu n'est plus maintenu, et Socket.io dominant les projets Websocket, la communauté autour de Ratchet n'est pas trés présente sur le Web. De plus notre manque de compétence initiales en Websocket a fait que nous avons appris "lentement" et perdu du temps, mais nous avons appris, et améliorer nos compétences d'analyse et de réflexion. 
 
-#Ce qui fonctionne : 
+# Ce qui fonctionne : 
 - Le système d'Administartion.
 - La navigation sur le site.
 - L'inscription et la gestion de l'espace membre.
@@ -84,7 +96,7 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - Gestion des Rooms aléatoires, et sécurisation des joueurs attendus.
 - Autocomplétion lors de l'invitation des joueurs
 
-#Ce qui ne fonctionne pas ou partiellement :
+# Ce qui ne fonctionne pas ou partiellement :
 - Gestion d'aller-retour des utilisateurs dans une Room (Améliorable++)
 - Gestion d'attribution des couleurs 
 - Plateau de jeu (Améliorable++) Adapté en fonction du temps restant
@@ -92,11 +104,11 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - La partie serveur du Socket est améliorable
 
 
-##tâches de chaque membre du groupe
+## tâches de chaque membre du groupe
 
-Lors du développement du projet nous avons su travailler de manière complémentaire, souvent en présentiel ou sur discord en double partage d'écran pour s'aider en directe lors du développement. Peu de parties de projet on été fait uniquement par un seul des deux développeurs.
+Lors du développement du projet nous avons su travailler de manière complémentaire, souvent en présentiel ou sur discord en double partage d'écran pour s'aider en directe lors du développement. Peu de parties de projet on été faites uniquement par un seul des deux développeurs.
 
-#1er partie du projet : 
+# 1er partie du projet : 
 
 - Florian : 
   -> Partie Front et mise en place des vues Twig.
