@@ -5,6 +5,7 @@
     <h2 hidden><u>Utilisateur actuel :</u> <span id="currentUserId">{{ session.logged.id }}</span></h2>
     <h2 hidden id="currentUserSession" data-user="{{ session.logged|json_encode }}"></h2>
     <h2 hidden id="questions" data-questions="{{ questions }}"></h2>
+    <h2 hidden id="answers" data-answers="{{ answers }}"></h2>
 
     <!-- ============= PARTIE ATTENTE ============= -->
     <section id="waiting">

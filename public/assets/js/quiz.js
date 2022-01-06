@@ -13,6 +13,11 @@ function build(event, data) {
     });
 };
 
+//TODOLIST
+function arrayQR(objQuestions, objAnswers){
+    //Créer un objet qui a comme answers la même question_id,  que l'id de la question
+}
+
 //récupérer l'id de l'utilisateur qui ouvre la page ainsi que la Room ID qui se trouve dans l'URL
 conn.onopen = function() {
     console.log("Connexion à la room " + roomId);
@@ -49,6 +54,16 @@ conn.onmessage = function(e) {
             let choixDifficulte3 = document.getElementById('difficulty3');
 
             let question = document.getElementById('question');
+
+            let questions = document.getElementById('questions').dataset.questions;
+                questions = JSON.parse(questions);
+
+            let answers = document.getElementById('answers').dataset.answers;
+                answers = JSON.parse(answers);
+
+            console.log(questions);
+            console.log(answers);
+
             let difficulty = document.getElementById('difficulty');
             let trueAnswer = document.getElementById('trueAnswer');
             // 4 réponses possibles
@@ -80,17 +95,19 @@ conn.onmessage = function(e) {
 
             conn.send(build('showQuestions', {
                 roomId: roomId,
-                question: "Combien tu as de dents?",
+                question: showQuestion(questions),
                 command: "showQuestions",
                 response: "45 et demi",
                 currentPlayer: data.allClients[0].username
             }))
-            
 
+
+            //TODO : Récupérér dans le tableau de réponses, 
+            //Les réponses avec la meme id 
+            
             document.getElementById('mdj').innerText = data.allClients[0].username;
 
-            let questions = document.getElementById('questions').dataset.questions;
-            questions = JSON.parse(questions);
+            
             console.log('START THE GAME!');
 
             document.getElementById('waiting').hidden = true;
@@ -205,6 +222,9 @@ conn.onmessage = function(e) {
                 difficulty.innerHTML = `${tabQuestions[random].difficulty}`;
                 trueAnswer.innerHTML = `${tabQuestions[random].correct}`;
 
+
+
+                
                 if (tabQuestions[random].answers.length > 2) {
                     divChoix.style.display = 'block';
                     divVraiFaux.style.display = 'none';
@@ -276,22 +296,6 @@ conn.onmessage = function(e) {
             }
 
             tableScore();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

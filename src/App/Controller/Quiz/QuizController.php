@@ -34,12 +34,15 @@ class QuizController extends AbstractController implements MessageComponentInter
         $serializer = new Serializer($normalizers, $encoders);
 
         $questions = $this->getRepository('questions')->findAll();
+        $answers = $this->getRepository('answers')->findAll();
 
         $jsonQuestions = $serializer->serialize($questions, 'json');
+        $jsonAnswers = $serializer->serialize($answers, 'json');
 
         return $this->render('quiz/quiz.html.twig', [
             'roomId' => $roomId,
             'questions' => $jsonQuestions,
+            'answers' => $jsonAnswers
         ]);
     }
 
