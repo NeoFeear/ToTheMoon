@@ -119,7 +119,7 @@ class QuizController extends AbstractController implements MessageComponentInter
             'usersList' => $this->usersList,//Le pseudo des joueurs dans la room
             'countNow' => count($this->usersList),
             'countRequired' => count($this->rooms[$data['roomId']]['users']),
-            'test' => $this->rooms[$data['roomId']]['users'],//Joueurs attendus [18,37, 38]
+            'users_infos' => $this->rooms[$data['roomId']]['users'],//Joueurs attendus [18,37, 38]
             'clients' => $this->clients
         ]);
         

@@ -103,12 +103,13 @@ function arrayQR(objQuestions, objAnswers){
 //récupérer l'id de l'utilisateur qui ouvre la page ainsi que la Room ID qui se trouve dans l'URL
 conn.onopen = function() {
     console.log("Connexion à la room " + roomId);
-
+    console.log(currentUserSession);
     //Si on veut transmettre une info au server
     conn.send(build('joinroom', {
         uid: currentUserId,
         roomId: roomId,
         userSession: currentUserSession,
+        
         username: currentUserSession.username,
     }))
 };
@@ -264,6 +265,8 @@ conn.onmessage = function(e) {
             document.getElementById('mdj').innerText = data.allClients[0].username;
             document.getElementById('waiting').hidden = true;
             document.getElementById('game').hidden = false;
+
+
 
             // Récupération des questions et des réponses
             let allQuestions = document.getElementById('questions').dataset.questions; // Tableau des questions
@@ -432,8 +435,9 @@ conn.onmessage = function(e) {
         
         case 'usersList':
             console.log(data.countNow + " joueur présent sur " + data.countRequired + " attendus");
-            console.log("usersList", data.usersList);
-
+            // console.log("usersList", data.usersList);
+            console.log(data.users_infos);
+        
             document.getElementById('countNow').textContent = data.countNow;
             document.getElementById('countRequired').textContent = data.countRequired;
 

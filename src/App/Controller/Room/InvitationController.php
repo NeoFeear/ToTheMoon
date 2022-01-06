@@ -91,6 +91,8 @@ class InvitationController extends AbstractController {
                     }
                 }
 
+                // echo '<pre>';print_r($invitedPlayers);die;
+
                  //Envoi un message au Serveur de création de la room
                 $client = new Client("ws://127.0.0.1:8080/");
                 $client->text(json_encode([
