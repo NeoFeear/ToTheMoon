@@ -19,9 +19,10 @@
     <h2 hidden id="answers" data-answers="{{ answers }}"></h2>
 
     <!-- ============= PARTIE ATTENTE ============= -->
-    <h1 class="my-5 fw-bold"><u>ID de la room :</u> {{ roomId }}</h1>
     <section class="d-sm-flex" id="waiting">
         <div class="col-sm-4 col-12 ">
+            <h1 class="my-5 fw-bold"><u>ID de la room :</u> {{ roomId }}</h1>
+
             <h2 class="my-5 text-decoration-underline " >
                 <span id="countRequired"></span> joueurs attendus
             </h2>
@@ -41,9 +42,6 @@
 
             <div class="m-3" id="usersList"></div>
         </div>
-        
-    
-
     </section>
 
     <!-- ============= PARTIE JEU ============= -->
@@ -54,7 +52,7 @@
 
         <h1 class="text-decoration-underline my-4">Tour <span id="numTour">0</span></h1>
 
-        <h1 class="mb-4">C'est au tour de <span id="currentPlayer" class="text-uppercase"></span></h1>
+        <h1 class="mb-4 border border-3 border-dark">C'est au tour de <span id="currentPlayer" class="text-uppercase"></span></h1>
 
         <div id="choixDifficulte">
             <h2 class="mb-3 text-decoration-underline">Veuillez choisir une difficulté :</h2>
@@ -107,6 +105,9 @@
         <hr>
         <h3><u>Tableau des scores :</u></h3>
         <div id="tabScore" class="table table-light d-flex justify-content-center"></div>
+    </section>
+
+    <section id="endgame">
     </section>
 {% endblock %}
 

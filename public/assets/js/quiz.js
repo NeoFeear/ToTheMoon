@@ -262,6 +262,7 @@ conn.onmessage = function(e) {
         case 'start-game':
             console.log('START THE GAME!');
             document.getElementById('mdj').innerText = data.allClients[0].username;
+            document.getElementById('waiting').classList.remove('d-sm-flex');
             document.getElementById('waiting').hidden = true;
             document.getElementById('game').hidden = false;
 
