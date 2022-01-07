@@ -53,15 +53,15 @@ class QuizController extends AbstractController implements MessageComponentInter
         echo "New connection with resourceId={$conn->resourceId}\n";
     }
 
-    protected function sendToAllButMe(ConnectionInterface $me, $data) {
-        /** @var WsUser $client */
-        foreach ($this->clients as $client) {
-            //Pour chaques client dans Clients,
-            if ($client->getClient() !== $me) {
-                $client->getClient()->send(json_encode($data));
-            }
-        }
-    }
+    // protected function sendToAllButMe(ConnectionInterface $me, $data) {
+    //     /** @var WsUser $client */
+    //     foreach ($this->clients as $client) {
+    //         //Pour chaques client dans Clients,
+    //         if ($client->getClient() !== $me) {
+    //             $client->getClient()->send(json_encode($data));
+    //         }
+    //     }
+    // }
 
     //Le server envoi a la ROOM
     protected function sendToRoom(string $roomId, $data) {
@@ -75,12 +75,13 @@ class QuizController extends AbstractController implements MessageComponentInter
 
     public function onClose(ConnectionInterface $conn) {
         /** @var WsUser $client */
+
         foreach ($this->clients as $client) {
             $roomId = $client->getRoomId();
             $clientUsername = $client->getUsername();
 
             if ($client->getClient() === $conn) {
-                $this->clients->detach($client);  
+                $this->clients->detach($client);
                 echo "Connection {$clientUsername} has disconnected\n";
                 $key = array_search($clientUsername, $this->usersList);
                 array_splice($this->usersList, $key);
@@ -109,6 +110,7 @@ class QuizController extends AbstractController implements MessageComponentInter
 
         $this->clients->attach($wsUser);
 
+        
         // If user already exist in array usersList, don't add him again
         if (!in_array($data['userSession'], $this->usersList)) {
             array_push($this->usersList, $data['userSession']);   
@@ -200,4 +202,6 @@ class QuizController extends AbstractController implements MessageComponentInter
 
         return $connections;
     }
+
+   
 }

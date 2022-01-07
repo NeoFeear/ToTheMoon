@@ -89,6 +89,7 @@ let inputPlayer2 = document.getElementById('player2');
 let inputPlayer3 = document.getElementById('player3');
 let inputPlayer4 = document.getElementById('player4');
 let inputPlayer5 = document.getElementById('player5');
+let playersUsernameSelected = [];
 
 for (let i = 0; i < player.length; i++) {
     player[i].addEventListener('keyup', function (e) {
@@ -97,10 +98,19 @@ for (let i = 0; i < player.length; i++) {
 }
 
 document.addEventListener('click', function (e) {
+    
     if (e.target.tagName === 'LI') {
-        e.target.parentElement.parentElement.previousElementSibling.value = e.target.innerText;
+        console.log(e.target.parentElement.parentElement.previousElementSibling.firstChild.nextElementSibling)
+        e.target.parentElement.parentElement.previousElementSibling.firstChild.nextElementSibling.value = e.target.innerText;
         e.target.parentElement.innerHTML = '';
     }   
+
+    //Push dans le tableau joueurs invités la valeur du e.target
+    playersUsernameSelected.push(e.target);
+
+    //Verifier lors de l'afficahge des users si il est présent dans le tableau playersUsernameSelected
+    // Si oui on ne l'affiche pas.
+    
 }); 
 
 
