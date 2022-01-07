@@ -124,7 +124,7 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 
 Lors du développement du projet, nous avons su travailler de manière complémentaire, souvent en présentiel ou sur discord en double partage d'écran pour s'aider en direct lors du développement. Peu de parties de projet, on été faites uniquement par un seul des deux développeurs.
 
-# Première partie du projet : 
+## Première partie du projet : 
 
 - Florian : 
   -> Partie Front et mise en place des vues Twig.
@@ -136,7 +136,7 @@ Lors du développement du projet, nous avons su travailler de manière compléme
   -> Développement de la partie Back end Repo/Entity/EM.
   -> CRUD Utilisateurs.
   
-# Deuxième partie du Projet :
+## Deuxième partie du Projet :
   
  - Florian : 
   -> Développement du jeu en JavaScript.
