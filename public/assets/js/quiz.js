@@ -109,7 +109,6 @@ conn.onopen = function() {
         uid: currentUserId,
         roomId: roomId,
         userSession: currentUserSession,
-        
         username: currentUserSession.username,
     }))
 };
@@ -266,7 +265,8 @@ conn.onmessage = function(e) {
             document.getElementById('waiting').hidden = true;
             document.getElementById('game').hidden = false;
 
-
+            // LES COULEURS SONT LA
+            console.log(data.users_infos);
 
             // Récupération des questions et des réponses
             let allQuestions = document.getElementById('questions').dataset.questions; // Tableau des questions
@@ -386,6 +386,7 @@ conn.onmessage = function(e) {
                     body.appendChild(row);
                     let player = document.createElement('td');
                     player.setAttribute('id', `player${i}`);
+                    player.style.color = data.users_infos[i].color;
                     player.innerHTML = players[i].name;
                     row.appendChild(player);
                     let score = document.createElement('td');
@@ -447,6 +448,7 @@ conn.onmessage = function(e) {
             for (let i = 0; i < data.usersList.length; i++) {
                 let li = document.createElement('li');
                 li.innerText = data.usersList[i].username;
+                li.style.color = data.users_infos[i].color;
                 usersList.appendChild(li);
             }
 

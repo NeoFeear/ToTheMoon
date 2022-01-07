@@ -126,7 +126,8 @@ class QuizController extends AbstractController implements MessageComponentInter
         if (count($this->getClientsInRoom($data['roomId'])) === count($this->rooms[$data['roomId']]['users'])) {
             $this->sendToRoom($data['roomId'], [ // sendToRoom envoi un evenement a la room spécifique 
                 'type' => 'start-game',
-                'allClients' => $this->usersList
+                'allClients' => $this->usersList,
+                'users_infos' => $this->rooms[$data['roomId']]['users']
             ]);
         }
     }
