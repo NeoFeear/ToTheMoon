@@ -59,6 +59,7 @@ Pour faire fonctionner notre projet qui est en PHP nous avons utilisé  WAMP64 e
 - En bas a gauche cliquez sur `Ajouter un Virtual Host`.
 - Dans l'input : `Nom du Virtual Host` entrez l'url que vous souhaitez utiliser pour vous connecter a votre site, nous utiliserons `ttm.io`.
 - Dans l'input : `Chemin absolu du dossier` ciblez le dossier `public` de notre projet donc si vous avez suivis ce guide : `C:\wamp64\www\tothemoon\public` .
+- Redémarrez votre WAMP64.
 
 Voila ! vous êtes prêt à passer a l'étape suivante.
 
