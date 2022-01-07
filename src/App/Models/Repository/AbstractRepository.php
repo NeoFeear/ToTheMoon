@@ -30,6 +30,7 @@ class AbstractRepository
       if(is_null(self::$instance))
       {
         self::$instance = new PDO ('mysql:host=localhost;dbname='.Config::get('SQL_DTB'),Config::get('SQL_USER'), Config::get('SQL_PASS'));
+        self::$instance->exec("SET NAMES 'utf8'");
       }
       return self::$instance;
     }catch (Exception $e){
