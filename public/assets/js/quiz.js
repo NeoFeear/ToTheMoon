@@ -2,8 +2,8 @@ var conn = new WebSocket('ws://localhost:8080');
 
 /**
  * TODO: 
- * - si il gagne, il joue plus
  * - cacher réponses admin
+ * - Tableau des gagnants
  */
 
 // ==================== VARIABLES ====================

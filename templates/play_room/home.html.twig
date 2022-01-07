@@ -60,7 +60,7 @@
                 {% for i in 1..5 %}
                     <div class="row mb-3">
                         <div class="col form-group d-flex">
-                            <input type="text" class="form-control inputPlayer" id="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
+                            <input type="text" class="form-control inputPlayer" id="player{{i}}" name="player{{i}}" placeholder="Pseudo du joueur {{i}}" />
                             <div name="results"></div>
                             <select name="color{{i}}" id="colorPicker{{i}}">
                                 <option value="none" disabled hidden selected>X</option>
