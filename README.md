@@ -41,7 +41,7 @@ Le premier joueur initie la partie en renseignant les pseudos des autres joueurs
 - Entrer dans le terminal `composer i ` afin d'installer les différents modules nécessaire au bon fonctionnement de l'application.
 - Entrez les informations de votre base de données dans /config/app.php.
 - Démarrez le serveur.
-- Connectez vous avec le compte `Admin` cliquez sur #JOUER!, invitez vos amis, et que le meilleur gagne. 
+- Connectez vous avec le compte `Admin` cliquez sur `#JOUER!`, invitez vos amis, et que le meilleur gagne. 
 
 Let's play!
 
@@ -110,25 +110,24 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - Nous avions commencé la partie Websocket avec un coté serveur sur Node.js/Express/Socket.io, qui fonctionnait bien, mais en passant uniquement par la partie client. A 3 jours de rendre le projet, nous avons modifié la technologie utilisée pour Ratchet qui nous a mis en difficulté, car la Documentation de Ratchet n'est pas non plus des plus précises, la library la plus connue n'est plus maintenu, et Socket.io dominant les projets Websocket, la communauté autour de Ratchet n'est pas très présente sur le Web. De plus notre manque de compétence initiale en Websocket a fait que nous avons appris "lentement" et perdu du temps, mais nous avons appris, et améliorer nos compétences d'analyse et de réflexion. 
 
 ## Ce qui fonctionne : 
-- Le système d'Administartion.
-- La navigation sur le site.
-- L'inscription et la gestion de l'espace membre.
-- le CRUD Questions / Utilisateurs.
-- L'invitation des joueurs en fonction des rôles.
-- Le choix des couleurs des joueurs (améliorable, dans le code et dans l'utilisation).
-- L'invitation via QR Code.
-- Invitation par Email automatique.
+- Le système d'Administartion
+- La navigation sur le site
+- L'inscription et la gestion de l'espace membre
+- le CRUD Questions / Utilisateurs
+- L'invitation des joueurs en fonction des rôles
+- Le choix des couleurs des joueurs (améliorable, dans le code et dans l'utilisation)
+- L'invitation via QR Code
+- Invitation par Email automatique
 - Gestion d'attribution des couleurs 
-- Le système de jeu en ligne.
-- Gestion des Rooms aléatoires, et sécurisation des joueurs attendus.
+- Le système de jeu en ligne
+- Gestion des Rooms aléatoires, et sécurisation des joueurs attendus
 - Autocomplétion lors de l'invitation des joueurs
 
 ## Ce qui ne fonctionne pas ou partiellement :
 - Gestion d'aller-retour des utilisateurs dans une Room (améliorable++)
 - Plateau de jeu (Améliorable++) adapté en fonction du temps restant
-- Autocomplétion des joueurs à inviter
-- La partie serveur du Socket est améliorable.
-- C'est l'admin qui choisis les couleurs et pas les joueurs.
+- La partie serveur du Socket est améliorable
+- C'est l'admin qui choisis les couleurs et pas les joueurs
 
 # Tâches de chaque membre du groupe
 
@@ -137,24 +136,24 @@ Lors du développement du projet, nous avons su travailler de manière compléme
 ## Première partie du projet : 
 
 - Florian : 
-  -> Partie Front et mise en place des vues Twig.
-  -> M'a Rejoint développement de la partie Back end Repo/Entity/EM.
-  -> CRUD Question.
-  -> CRUD Réponses.
+  -> Partie Front et mise en place des vues Twig
+  -> Développement de la partie Back end Repo/Entity/EM
+  -> CRUD Question
+  -> CRUD Réponses
   
 - Allan : 
-  -> Développement de la partie Back end Repo/Entity/EM.
-  -> CRUD Utilisateurs.
+  -> Développement de la partie Back end Repo/Entity/EM
+  -> CRUD Utilisateurs
   
 ## Deuxième partie du Projet :
   
  - Florian : 
   -> Développement du jeu en JavaScript.
   -> Autocomplétion formulaire d'invitations.
-  -> Intégration du jeu dans le projet, et avec le Socket.
+  -> Fonctionnement du jeu dans le projet, et avec le Socket.
   
  - Allan : 
-  -> Développement partie Serveur NodeJs/Express/Socket.io Fonctionnel ( Arreté lorsque les utilisateurs étaient dans une même room).
+  -> Développement partie Serveur NodeJs/Express/Socket.io Fonctionnel (Arreté lorsque les utilisateurs étaient dans une même room).
   -> Envoi des Mail avec PHPMailer.
   -> Input de sélection des couleurs pour les joueurs.
   -> Formulaire d'invitation des joueurs.
