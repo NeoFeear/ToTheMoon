@@ -8,6 +8,7 @@ namespace App\Models\Repository;
 date_default_timezone_set('Europe/Paris');
 
 use App\Models\Repository\AbstractRepository;
+use PDOException;
 use PDO;
 
 class Repository extends AbstractRepository {
@@ -34,7 +35,7 @@ class Repository extends AbstractRepository {
         return $data; 
     }
 
-    public function findOneBy(string $champ, $data):array {
+    public function findOneBy(string $champ, $data):array|bool  {
         $db = $this->getInstance(); 
 
         $query = "SELECT * FROM $this->_table WHERE $champ = :data";
@@ -43,7 +44,7 @@ class Repository extends AbstractRepository {
 
         $req->execute();
         $data = $req->fetch(PDO::FETCH_ASSOC);
-
+        
         return $data; 
     }
 

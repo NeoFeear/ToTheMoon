@@ -1,0 +1,116 @@
+{% extends 'template1.html.twig' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/assets/css/quiz.css" />
+{% endblock %}
+
+{% block body %}
+    <h2 hidden><u>ID de la room :</u> <span id="roomId">{{ roomId }}</span></h2>
+    <h2 hidden><u>Utilisateur actuel :</u> <span id="currentUserId">{{ session.logged.id }}</span></h2>
+    <h2 hidden id="currentUserSession" data-user="{{ session.logged|json_encode }}"></h2>
+    <h2 hidden id="questions" data-questions="{{ questions }}"></h2>
+    <h2 hidden id="answers" data-answers="{{ answers }}"></h2>
+
+    <!-- ============= PARTIE ATTENTE ============= -->
+    <section class="d-sm-flex" id="waiting">
+        <div class="col-sm-4 col-12 ">
+            <h1 class="my-5 fw-bold"><u>ID de la room :</u> {{ roomId }}</h1>
+
+            <h2 class="my-5 text-decoration-underline " >
+                <span id="countRequired"></span> joueurs attendus
+            </h2>
+
+            <div id="qrcode" class="d-flex justify-content-center"></div>
+            <p style="font-size:80%;font-style: italic;">scannez ce QR code pour rejoindre la room</p>   
+        </div>
+
+        <div class="my-5 col-sm-4 col-12">
+            <div class="loader">Veuillez patienter...</div>
+        </div>
+            
+        <div class="col-sm-4 col-12 ">
+            <h2 class="my-5 text-decoration-underline">
+                <span id="countNow"></span> joueurs présents :
+            </h2>
+
+            <div class="m-3" id="usersList"></div>
+        </div>
+    </section>
+
+    <!-- ============= PARTIE JEU ============= -->
+    <section id="game" hidden>
+        <h5><div class=" mt-5  fst-italic">MDJ : <span id="mdj"></span></div> </h5>
+        <h5><div class=" fst-italic">Mon rôle : <span id="whoAmI"></span></div> </h5>
+        <hr>
+
+        <h1 class="fw-bolder my-4">Tour <span id="numTour">0</span></h1>
+
+        <h4 class="mb-4 border border-1 border-dark ">C'est au tour de <span id="currentPlayer" class="text-uppercase"></span></h4>
+
+        <div id="choixDifficulte">
+            <h2 class="mb-3 ">Veuillez choisir une difficulté :</h2>
+            <button id="difficulty1" name="difficulty" class="btn btn-light" style="background-color: DodgerBlue;">&nbsp;&nbsp;1&nbsp;&nbsp;</button>
+            <button id="difficulty2" name="difficulty" class="btn btn-light" style="background-color: LawnGreen;">&nbsp;&nbsp;2&nbsp;&nbsp;</button>
+            <button id="difficulty3" name="difficulty" class="btn btn-light" style="background-color: Gold;">&nbsp;&nbsp;3&nbsp;&nbsp;</button>
+            <button id="difficulty4" name="difficulty" class="btn btn-light" style="background-color: Orange;">&nbsp;&nbsp;4&nbsp;&nbsp;</button>
+            <button id="difficulty5" name="difficulty" class="btn btn-light" style="background-color: Crimson;">&nbsp;&nbsp;5&nbsp;&nbsp;</button>
+            <button id="difficulty6" name="difficulty" class="btn btn-light" style="background-color: Black; color: white;">&nbsp;&nbsp;6&nbsp;&nbsp;</button>
+        </div>
+
+        <div id="affichage">
+            <h2><span id="question">QUESTION</span></h2>
+            <h3 class="mb-4"><u>Difficulté :</u> <span id="difficulty"></span></h3>
+            <!-- Bouton pour afficher ou cacher la réponse -->
+            <button id="showAnswer" class="btn btn-light">Afficher la réponse</button>
+            <h5 class="my-4" id="h5TrueAnswer" style="display: none;"><u>Bonne réponse :</u> <span id="trueAnswer"></span></h5>
+                    
+            <!-- 4 réponses -->
+            <div id="choix">
+                <h3><u>Réponses possibles :</u></h3>
+                <div class="d-inline-flex justify-content-evenly">
+                    <h2><button id="reponse1" name="reponse" class="btn btn-warning me-2">RÉPONSE</button></h2>
+                    <h2><button id="reponse2" name="reponse" class="btn btn-warning me-2">RÉPONSE</button></h2>
+                    <h2><button id="reponse3" name="reponse" class="btn btn-warning me-2">RÉPONSE</button></h2>
+                    <h2><button id="reponse4" name="reponse" class="btn btn-warning">RÉPONSE</button></h2>
+                </div>
+            </div>
+
+            <!-- Vrai ou faux -->
+            <div id="vraiFaux">
+                <h2>Vrai ou faux ?</h2>
+                <button id="btnFaux"class="btn btn-danger">FAUX</button>
+                <button id="btnVrai"class="btn btn-success">VRAI</button>
+            </div>
+
+            <!-- Réponse ouverte -->
+            <div id="repOuverteJoueur">
+                <h3><u>Réponse proposée :</u></h3>
+                <input type="text" id="reponseProposee" name="reponseProposee" placeholder="Réponse proposée" required>
+                <button id="btnReponseProposee" class="btn btn-primary">Valider</button>
+            </div>
+            
+            <div id="repOuverteAdmin">
+                <h3><span id="player">JOUEUR</span> propose comme réponse :</h3>
+                <h2><span id="reponseProposeeAdmin">RÉPONSE</span></h2>
+                <button id="reponseProposeeFaux" class="btn btn-danger">FAUX</button>
+                <button id="reponseProposeeVrai" class="btn btn-success">VRAI</button>
+            </div>
+        </div>
+
+        <hr>
+        <h3>Tableau des scores :</h3>
+        <div id="tabScore" class="table table-light d-flex justify-content-center"></div>
+    </section>
+
+    <section id="endgame" class="d-flex justify-content-center" hidden>
+        <div id="listWinners"class="justify-content-center border border-5 border-dark w-75 mt-5 p-4" hidden></div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script src="/assets/js/quiz.js"></script>
+    <script src="/assets/js/qrcode.min.js"></script>
+    <script>
+        new QRCode(document.getElementById("qrcode"), window.location.href);
+    </script>
+{% endblock %}

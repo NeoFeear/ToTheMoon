@@ -14,63 +14,39 @@
             </lottie-player>
         </div>
 
-        <button class="btn btn-lg btn-warning m-5 fw-bold" onclick="location.href='/login'">COMMENCER UNE PARTIE</button>
+        <button class="btn btn-lg btn-warning m-5 fw-bold" onclick="location.href='/login'">SE CONNECTER</button>
 
     {% else %}
 
-        <div>
-            <h1>Bienvenue {{ session.logged.username }} !</h1>
-            <h2 style="color: rgb(255,30,30);">A ton tour !</h2>
+        <div class="d-flex justify-content-center">  
+            <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_ZQhQzO.json" 
+                mode="bounce" 
+                background="transparent" 
+                speed="1" 
+                style="width:90%; max-width: 550px;" 
+                loop autoplay>
+            </lottie-player>
         </div>
 
+        <h1>Bienvenue {{ session.logged.username }} !</h1>
+
         <div class="my-5">
-            <h1><strong>DÉPART</strong></h1>
-            
-            <div class="table-responsive text-nowrap">
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr class="d-inline-flex flex-column" id="row1" style="background: var(--bs-blue);">
-                            {% for i in 1..10 %}
-                                <td>Cell {{ i }}</td>
-                            {% endfor %}
-                        </tr>
-
-                        <tr class="d-inline-flex flex-column" id="row2" style="background: var(--bs-purple);">
-                            {% for i in 1..10 %}
-                                <td>Cell {{ i }}</td>
-                            {% endfor %}
-                        </tr>
-
-                        <tr class="d-inline-flex flex-column" id="row3" style="background: var(--bs-pink);">
-                            {% for i in 1..10 %}
-                                <td>Cell {{ i }}</td>
-                            {% endfor %}
-                        </tr>
-
-                        <tr class="d-inline-flex flex-column" id="row4" style="background: var(--bs-red);">
-                            {% for i in 1..10 %}
-                                <td>Cell {{ i }}</td>
-                            {% endfor %}
-                        </tr>
-
-                        <tr class="d-inline-flex flex-column" id="row5" style="background: var(--bs-orange);">
-                            {% for i in 1..10 %}
-                                <td>Cell {{ i }}</td>
-                            {% endfor %}
-                        </tr>
-
-                        <tr class="d-inline-flex flex-column" id="row6" style="background: var(--bs-yellow);">
-                            {% for i in 1..10 %}
-                                <td>Cell {{ i }}</td>
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h1><strong>ARRIVÉE</strong></h1>
+            <form method="post">
+                <input type="text" id="roomId" placeholder="Room ID" required>
+                <button type="submit" class="btn btn-warning" id="joinRoom">Join</button>
+            </form>
         </div>
 
     {% endif %}
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        document.getElementById('joinRoom').addEventListener('click', function(e) {
+            e.preventDefault();
+            var roomId = document.getElementById('roomId').value;
+            window.location.href = '/game/' + roomId;
+        });
+    </script>
 {% endblock %}

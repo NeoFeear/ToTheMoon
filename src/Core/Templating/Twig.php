@@ -23,8 +23,8 @@ class Twig
         // }
 
         $this->templating = new Environment($loader, $params);
-
         $this->templating->addGlobal('session', $_SESSION);
+        
     }
 
     public function render(string $template, array $args = []): string
