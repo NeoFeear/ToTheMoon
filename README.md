@@ -7,8 +7,9 @@
 3. [Virtual Host](#virtual-host)
 4. [Lancement du serveur](#lancement-du-serveur)
 5. [Comptes pré-créés](#comptes-pré-créés)
-6. [Informations complémentaires](#informations-complémentaires)
-7. [Technologies utilisées](#technologies-utilisées)
+6. [Comment lancer une partie](#comment-lancer-une-partie)
+7. [Informations complémentaires](#informations-complémentaires)
+8. [Technologies utilisées](#technologies-utilisées)
 
 
 
@@ -78,6 +79,16 @@ JOUEUR :
 - Pseudo : User
 - Mot de passe : azer
 
+## Comment lancer une partie 
+
+- Connectez vous avec le compte `Admin`.
+- Cliquez sur le bouton dans la barre de navigation `JOUER!`.
+- Entrez le pseudo EXACTE de vos amis dans les inputs, et choisissez leur une couleur.
+- Vos amis reçoivent un Email qui les redirigent dans la room.
+- Vous pouvez aussi faire en sorte qu'ils scannent le `QRcode` de la salle d'attente pour vous rejoindre.
+
+La partie commence, bon jeu !
+
 ## Informations complémentaires
 
 Ce projet a été très formateur pour nous deux, malgrès la frustration de ne pas avoir un résultat abouti comme souhaité, nous ne pouvons pas être déçu car notre investissement a été maximum dans ce projet.
@@ -88,7 +99,7 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 
 - Nous avions commencé la partie Websocket avec un coté serveur sur Node.js/Express/Socket.io, qui fonctionnait bien, mais en passant uniquement par la partie client. A 3 jours de rendre le projet, nous avons modifié la technologie utilisée pour Ratchet qui nous a mis en difficulté, car la Documentation de Ratchet n'est pas non plus des plus précises, la library la plus connue n'est plus maintenu, et Socket.io dominant les projets Websocket, la communauté autour de Ratchet n'est pas très présente sur le Web. De plus notre manque de compétence initiale en Websocket a fait que nous avons appris "lentement" et perdu du temps, mais nous avons appris, et améliorer nos compétences d'analyse et de réflexion. 
 
-# Ce qui fonctionne : 
+## Ce qui fonctionne : 
 - Le système d'Administartion.
 - La navigation sur le site.
 - L'inscription et la gestion de l'espace membre.
@@ -101,12 +112,12 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - Gestion des Rooms aléatoires, et sécurisation des joueurs attendus.
 - Autocomplétion lors de l'invitation des joueurs
 
-# Ce qui ne fonctionne pas ou partiellement :
+## Ce qui ne fonctionne pas ou partiellement :
 - Gestion d'aller-retour des utilisateurs dans une Room (améliorable++)
 - Gestion d'attribution des couleurs 
 - Plateau de jeu (Améliorable++) Adapté en fonction du temps restant
-- Pas assez de questions en base de données
 - La partie serveur du Socket est améliorable.
+- C'est l'admin qui choisis les couleurs et pas les joueurs.
 
 
 # tâches de chaque membre du groupe
