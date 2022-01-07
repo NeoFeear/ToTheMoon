@@ -157,6 +157,7 @@ conn.onmessage = function(e) {
                 if ((data.data.answers).length > 2) {
                     divChoix.style.display = 'block';
                     divVraiFaux.style.display = 'none';
+                    divRepOuverteAdmin.style.display = 'none';
                     divRepOuverteJoueur.style.display = 'none';
                     reponse1.innerText = `${data.data.answers[0].answer}`;
                     reponse2.innerText = `${data.data.answers[1].answer}`;
@@ -206,6 +207,7 @@ conn.onmessage = function(e) {
             divAffichage.style.display = 'none';
             divChoix.style.display = 'none';
             divVraiFaux.style.display = 'none';
+            divRepOuverteAdmin.style.display = 'none';
             divRepOuverteJoueur.style.display = 'none';
         
             //skipIfWin();
@@ -256,6 +258,7 @@ conn.onmessage = function(e) {
             divChoixDifficulte.style.display = 'block';
             divChoix.style.display = 'none';
             divVraiFaux.style.display = 'none';
+            divRepOuverteAdmin.style.display = 'none';
             divRepOuverteJoueur.style.display = 'none';
 
             // skipIfWin();
@@ -382,11 +385,13 @@ conn.onmessage = function(e) {
                 conn.send(build('goodAnswer', {
                     roomId: roomId,
                 }));
+                divRepOuverteAdmin.style.display = 'none';
             });
             btnReponseProposeeFaux.addEventListener('click', () => {
                 conn.send(build('badAnswer', {
                     roomId: roomId,
                 }));
+                divRepOuverteAdmin.style.display = 'none';
             });
 
         // ================== LES FONCTIONS ================== //
