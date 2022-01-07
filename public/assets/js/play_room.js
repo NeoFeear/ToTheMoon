@@ -93,18 +93,15 @@ let inputPlayer5 = document.getElementById('player5');
 for (let i = 0; i < player.length; i++) {
     player[i].addEventListener('keyup', function (e) {
         showResults(e.target.value, i);
-        test(i);
     });
 }
 
-function test(value) {
-    document.addEventListener('click', function (e) {
-        if (e.target.tagName === 'LI') {
-            player[value].value = e.target.innerText;
-            res[value].innerHTML = "";
-        }        
-    }); 
-}
+document.addEventListener('click', function (e) {
+    if (e.target.tagName === 'LI') {
+        e.target.parentElement.parentElement.previousElementSibling.value = e.target.innerText;
+        e.target.parentElement.innerHTML = '';
+    }   
+}); 
 
 
 
