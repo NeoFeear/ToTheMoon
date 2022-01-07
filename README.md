@@ -40,6 +40,7 @@ Le premier joueur initie la partie en renseignant les pseudos des autres joueurs
 
 - Placer le dossier du projet dans votre dossier `C:\wamp64\www`.
 - Utilisez le fichier .sql qui se trouve dans le projet et l'importer dans votre PHPMYADMIN.
+- Ouvrez le projet dans votre IDE ( Vscode / Php Storm etc...)
 - Entrer dans le terminal `composer i ` afin d'installer les différents modules nécessaire au bon fonctionnement de l'application.
 - Entrez les informations de votre base de données dans /config/app.php.
 - Démarrez le serveur.
