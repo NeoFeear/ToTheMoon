@@ -2,14 +2,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="/assets/css/quiz.css" />
-
-    <style>
-    
-
-    </style>
 {% endblock %}
-
-
 
 {% block body %}
     <h2 hidden><u>ID de la room :</u> <span id="roomId">{{ roomId }}</span></h2>
@@ -107,7 +100,8 @@
         <div id="tabScore" class="table table-light d-flex justify-content-center"></div>
     </section>
 
-    <section id="endgame">
+    <section id="endgame" hidden>
+        <div id="tabWinners" class="table table-light d-flex justify-content-center"></div>
     </section>
 {% endblock %}
 
