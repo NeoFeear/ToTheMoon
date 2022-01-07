@@ -122,6 +122,27 @@ conn.onmessage = function(e) {
             divAffichage.style.display = 'block';
             question.innerText = data.data.question;
             difficulty.innerText = data.data.difficulty;
+            switch (data.data.difficulty) {
+                case "1":
+                    difficulty.style.backgroundColor = "DodgerBlue";
+                    break;
+                case "2":
+                    difficulty.style.backgroundColor = "LawnGreen";
+                    break;
+                case "3":
+                    difficulty.style.backgroundColor = "Gold";
+                    break;
+                case "4":
+                    difficulty.style.backgroundColor = "Orange";
+                    break;
+                case "5":
+                    difficulty.style.backgroundColor = "Crimson";
+                    break;
+                case "6":
+                    difficulty.style.backgroundColor = "Black";
+                    difficulty.style.color = "white";
+                    break;
+            }
             trueAnswer.innerText = data.data.trueAnswer;
             divChoixDifficulte.style.display = 'none';
 
@@ -401,7 +422,7 @@ conn.onmessage = function(e) {
             function tableWinners() {
                 // Tableau associatif avec les gagnants et leur ordre d'arrivée
                 for (let i = 0; i < players.length; i++) {
-                    if (players[i].score >= 48) {
+                    if (players[i].score >= 10) {
                         // Si le joueur est déjà dans le tableau, alors on ne l'ajoute pas
                         if (winners.hasOwnProperty(players[i].name)) {
                             continue;
