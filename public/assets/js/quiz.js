@@ -62,7 +62,7 @@ let winners = {};
 let i = 0; // Afin de retrouver le joueur actuel
 let ordre = 1; // Afin de placer dans le tableau des winners
 
-let MAX_POINTS = 10;
+let MAX_POINTS = 48;
 
 // ====================================================
 
