@@ -84,21 +84,29 @@ for (let i = 0; i < usersListChilds.length; i++) {
 //console.log(users); // Liste des utilisateurs inscrits
 
 let player = document.getElementsByClassName('inputPlayer');
+let inputPlayer1 = document.getElementById('player1');
+let inputPlayer2 = document.getElementById('player2');
+let inputPlayer3 = document.getElementById('player3');
+let inputPlayer4 = document.getElementById('player4');
+let inputPlayer5 = document.getElementById('player5');
+
 for (let i = 0; i < player.length; i++) {
     player[i].addEventListener('keyup', function (e) {
         showResults(e.target.value, i);
+        test(i);
     });
 }
 
-// TODO: BIEN FAIRE
- document.addEventListener('click', function (e) {
-    for (let i = 0; i < player.length; i++) {
+function test(value) {
+    document.addEventListener('click', function (e) {
         if (e.target.tagName === 'LI') {
-            player[i].value = e.target.innerText;
-            res[i].innerHTML = "";
-        }
-    }
-}); 
+            player[value].value = e.target.innerText;
+            res[value].innerHTML = "";
+        }        
+    }); 
+}
+
+
 
 function autocompleteMatch(input) {
     if (input == '') {
