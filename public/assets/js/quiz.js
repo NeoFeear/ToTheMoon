@@ -62,6 +62,8 @@ let winners = {};
 let i = 0; // Afin de retrouver le joueur actuel
 let ordre = 1; // Afin de placer dans le tableau des winners
 
+let MAX_POINTS = 10;
+
 // ====================================================
 
 function build(event, data) {
@@ -100,11 +102,10 @@ function arrayQR(objQuestions, objAnswers){
     return arrayQR;
 }
 
-//récupérer l'id de l'utilisateur qui ouvre la page ainsi que la Room ID qui se trouve dans l'URL
+// Récupérer l'id de l'utilisateur qui ouvre la page ainsi que la Room ID qui se trouve dans l'URL
 conn.onopen = function() {
     console.log("Connexion à la room " + roomId);
-    console.log(currentUserSession);
-    //Si on veut transmettre une info au server
+
     conn.send(build('joinroom', {
         uid: currentUserId,
         roomId: roomId,
@@ -177,15 +178,9 @@ conn.onmessage = function(e) {
             break;
 
         case 'goodAnswer':
-            console.log(i, "/", data.allClients.length);
             if (i > data.allClients.length-1) { i = 0; }
 
             numTour.innerHTML = parseInt(numTour.innerHTML) + 1;
-
-            let $usernames2 = data.allClients;
-            for (let i = 0; i < $usernames2.length; i++) {
-                players.push({ "name": $usernames2[i].username, "score": 0 });
-            }
 
             if (difficulty.innerText === '1') {
                 players[i].score += 1;
@@ -209,9 +204,14 @@ conn.onmessage = function(e) {
             divVraiFaux.style.display = 'none';
             divRepOuverteAdmin.style.display = 'none';
             divRepOuverteJoueur.style.display = 'none';
+            document.getElementById('h5TrueAnswer').style.display = 'none'
         
-            //skipIfWin();
             i++;
+            if (i > data.allClients.length-1) { i = 0; }
+            if (players[i].score > MAX_POINTS) {
+                i++;
+                if (i > data.allClients.length-1) { i = 0; }
+            }
             currentPlayer.innerHTML = players[i].name;
             if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
                 divChoixDifficulte.style.display = 'block';
@@ -223,15 +223,9 @@ conn.onmessage = function(e) {
             break;
 
         case 'badAnswer':
-            console.log(i, "/", data.allClients.length);
             if (i > data.allClients.length-1) { i = 0; }
 
             numTour.innerHTML = parseInt(numTour.innerHTML) + 1;
-
-            let $usernames3 = data.allClients;
-            for (let i = 0; i < $usernames3.length; i++) {
-                players.push({ "name": $usernames3[i].username, "score": 0 });
-            }
 
             if (difficulty.innerText === '1') {
                 players[i].score -= 1;
@@ -260,9 +254,14 @@ conn.onmessage = function(e) {
             divVraiFaux.style.display = 'none';
             divRepOuverteAdmin.style.display = 'none';
             divRepOuverteJoueur.style.display = 'none';
+            document.getElementById('h5TrueAnswer').style.display = 'none'
 
-            // skipIfWin();
             i++;
+            if (i > data.allClients.length-1) { i = 0; }
+            if (players[i].score > MAX_POINTS) {
+                i++;
+                if (i > data.allClients.length-1) { i = 0; }
+            }
             currentPlayer.innerHTML = players[i].name;
             if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
                 divChoixDifficulte.style.display = 'block';
@@ -274,7 +273,6 @@ conn.onmessage = function(e) {
             break;
 
         case 'demandeValidationReponse':
-            console.log(data.data);
             if (currentUserSession.username.toLowerCase() === document.getElementById('mdj').innerText.toLowerCase()) {
                 divRepOuverteAdmin.style.display = 'block';
                 player.innerHTML = `${players[i].name}`;
@@ -290,9 +288,6 @@ conn.onmessage = function(e) {
             document.getElementById('waiting').hidden = true;
             document.getElementById('game').hidden = false;
 
-            // LES COULEURS SONT LA
-            console.log(data.users_infos);
-
             // Récupération des questions et des réponses
             let allQuestions = document.getElementById('questions').dataset.questions; // Tableau des questions
                 allQuestions = JSON.parse(allQuestions);
@@ -300,12 +295,6 @@ conn.onmessage = function(e) {
                 allAnswers = JSON.parse(allAnswers);
             let tabQandA = arrayQR(allQuestions, allAnswers); // Tableau des questions et réponses fusionnées
 
-            // Récupération des données de l'utilisateur
-            let $usernames = data.allClients;
-            for (let i = 0; i < $usernames.length; i++) {
-                players.push({ "name": $usernames[i].username, "score": 0 });
-            }
-           
             // Initialisation
             numTour.innerText = 1;
             currentPlayer.innerText = players[0].name;
@@ -316,15 +305,19 @@ conn.onmessage = function(e) {
                 console.log("Tableau des joueurs actuels :", players);
                 console.log("Tableau des questions et réponses :", tabQandA);
                 trueAnswer.style.display = 'block';
+                document.getElementById("showAnswer").addEventListener('click', () => {
+                    showAnswer();
+                });
             }
             // ================== PARTIE JOUEUR ================== //
             else {
-                whoAmI.textContent = 'JOUEUR'; 
+                whoAmI.textContent = 'JOUEUR';
+                document.getElementById("showAnswer").style.display = 'none';
+                trueAnswer.style.display = 'none';
             }
 
             if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
                 divChoixDifficulte.style.display = 'block';
-                console.log("Joueur actuel :", players[i]);
             } else {
                 divChoixDifficulte.style.display = 'none';
             }
@@ -360,7 +353,6 @@ conn.onmessage = function(e) {
             // Plusieurs réponses
             for (let j = 0; j < reponse.length; j++) {
                 reponse[j].addEventListener('click', () => {
-                    console.log("i :", i);
                     if(i > data.allClients.length) { i = 0; }
                     if (reponse[j].innerText === trueAnswer.innerText) {
                         conn.send(build('goodAnswer', {
@@ -408,6 +400,7 @@ conn.onmessage = function(e) {
                 body.setAttribute('id', 'body');
                 table.appendChild(body);
                 for (let i = 0; i < players.length; i++) {
+                    console.log(data.users_infos);
                     let row = document.createElement('tr');
                     row.setAttribute('id', `row${i}`);
                     body.appendChild(row);
@@ -423,11 +416,19 @@ conn.onmessage = function(e) {
                 }
             }
 
+            function showAnswer() {
+                if (document.getElementById('h5TrueAnswer').style.display == 'none') {
+                    document.getElementById('h5TrueAnswer').style.display = 'block';
+                } else {
+                    document.getElementById('h5TrueAnswer').style.display = 'none';
+                }
+            }
+
             // Tableau des gagnants
             function tableWinners() {
                 // Tableau associatif avec les gagnants et leur ordre d'arrivée
                 for (let i = 0; i < players.length; i++) {
-                    if (players[i].score >= 10) {
+                    if (players[i].score >= MAX_POINTS) {
                         // Si le joueur est déjà dans le tableau, alors on ne l'ajoute pas
                         if (winners.hasOwnProperty(players[i].name)) {
                             continue;
@@ -440,11 +441,33 @@ conn.onmessage = function(e) {
                 }
                 console.log("Tableau des gagnants :", winners);
 
-                if (Object.keys(winners).length = players.length) {
-                    console.log("Tous les joueurs ont gagné");
+                if (Object.keys(winners).length === players.length) {
+                    console.log("Partie terminée");
+
+                    document.getElementById('game').hidden = true;
+                    document.getElementById('endgame').hidden = false;
+
+                    let listWinners = document.getElementById('listWinners');
+                    listWinners.hidden = false;
+                    let text = document.createElement('h1');
+                    text.innerText = 'Partie terminée !';
+                    listWinners.appendChild(text);
+                    let hr = document.createElement('hr');
+                    listWinners.appendChild(hr);
+                    let h1 = document.createElement('h1');
+                    h1.innerHTML = `#1 - ${Object.keys(winners)[0]}`;
+                    listWinners.appendChild(h1);
+                    let h2 = document.createElement('h2');
+                    h2.innerHTML = `#2 - ${Object.keys(winners)[1]}`;
+                    listWinners.appendChild(h2);
+                    for (let i = 2; i < Object.keys(winners).length; i++) {
+                        let h3 = document.createElement('h3');
+                        h3.innerHTML = `#${i+1} - ${Object.keys(winners)[i]}`;
+                        listWinners.appendChild(h3);
+                    }
                 }
-                console.log("Combien de gagnants :", Object.keys(winners).length);
-                console.log("Combien de joueurs : ", players.length);
+
+
                 return winners;
             }
 
@@ -469,16 +492,15 @@ conn.onmessage = function(e) {
         
         case 'usersList':
             console.log(data.countNow + " joueur présent sur " + data.countRequired + " attendus");
-            // console.log("usersList", data.usersList);
-            console.log(data.users_infos);
         
             document.getElementById('countNow').textContent = data.countNow;
             document.getElementById('countRequired').textContent = data.countRequired;
 
             //Actualisation de la liste des utilisateurs grâce au tableau data.usersList
             usersList.innerHTML = "";
-
+            players = [];
             for (let i = 0; i < data.usersList.length; i++) {
+                players.push({ "name": data.usersList[i].username, "score": 0 });
                 let li = document.createElement('h2');
                 li.innerText = (data.usersList[i].username).toUpperCase();
                 li.style.fontWeight = "bold";

@@ -60,7 +60,9 @@
         <div id="affichage">
             <h2><span id="question">QUESTION</span></h2>
             <h3 class="mb-4"><u>Difficulté :</u> <span id="difficulty"></span></h3>
-            <h5 class="my-4" id="h5TrueAnswer"><u>Bonne réponse :</u> <span id="trueAnswer"></span></h5>
+            <!-- Bouton pour afficher ou cacher la réponse -->
+            <button id="showAnswer" class="btn btn-light">Afficher la réponse</button>
+            <h5 class="my-4" id="h5TrueAnswer" style="display: none;"><u>Bonne réponse :</u> <span id="trueAnswer"></span></h5>
                     
             <!-- 4 réponses -->
             <div id="choix">
@@ -100,8 +102,8 @@
         <div id="tabScore" class="table table-light d-flex justify-content-center"></div>
     </section>
 
-    <section id="endgame" hidden>
-        <div id="tabWinners" class="table table-light d-flex justify-content-center"></div>
+    <section id="endgame" class="d-flex justify-content-center" hidden>
+        <div id="listWinners"class="justify-content-center border border-5 border-dark w-75 mt-5 p-4" hidden></div>
     </section>
 {% endblock %}
 
