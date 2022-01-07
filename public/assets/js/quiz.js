@@ -439,6 +439,12 @@ conn.onmessage = function(e) {
                     }
                 }
                 console.log("Tableau des gagnants :", winners);
+
+                if (Object.keys(winners).length = players.length) {
+                    console.log("Tous les joueurs ont gagné");
+                }
+                console.log("Combien de gagnants :", Object.keys(winners).length);
+                console.log("Combien de joueurs : ", players.length);
                 return winners;
             }
 
