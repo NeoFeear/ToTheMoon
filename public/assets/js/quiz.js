@@ -113,6 +113,7 @@ conn.onopen = function() {
     }))
 };
 
+
 conn.onmessage = function(e) {
     var data = JSON.parse(e.data);
 
@@ -324,7 +325,7 @@ conn.onmessage = function(e) {
 
             if (currentUserSession.username.toLowerCase() === currentPlayer.innerText.toLowerCase()) {
                 divChoixDifficulte.style.display = 'block';
-                console.log("Joueur actuel :", players[i]);
+                            
             } else {
                 divChoixDifficulte.style.display = 'none';
             }
@@ -468,9 +469,10 @@ conn.onmessage = function(e) {
             break;
         
         case 'usersList':
-            console.log(data.countNow + " joueur présent sur " + data.countRequired + " attendus");
+            // console.log(data.countNow + " joueur présent sur " + data.countRequired + " attendus");
             // console.log("usersList", data.usersList);
-            console.log(data.users_infos);
+            // console.log(data.users_infos);
+            console.log(data.getClientsInRoom);
         
             document.getElementById('countNow').textContent = data.countNow;
             document.getElementById('countRequired').textContent = data.countRequired;
