@@ -28,7 +28,7 @@ class InvitationController extends AbstractController {
             $randomId = '';
             $uri = 'ttm.io/game/';
             $invitedPlayers = [$_SESSION['logged']];
-            $invitedPlayers[0]['color'] = 'white';
+            $invitedPlayers[0]['color'] = 'teal';
             
  
             //GENERER UN ID ALEATOIRE
@@ -108,7 +108,7 @@ class InvitationController extends AbstractController {
                 return $this->redirect('/game/'.$randomId);
 
             } else {
-                $errors = "Vous ne pouvez pas jouer tout seul ABRUTI VA!";
+                $errors = "Hey ! Passe a la teverne pour chercher des amis et reviens !";
 
                 return $this->render('play_room/home.html.twig', [
                     'errors' => $errors
