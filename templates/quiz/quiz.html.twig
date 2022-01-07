@@ -5,8 +5,7 @@
 
     <style>
     
-   
-  
+
     </style>
 {% endblock %}
 
@@ -20,17 +19,31 @@
     <h2 hidden id="answers" data-answers="{{ answers }}"></h2>
 
     <!-- ============= PARTIE ATTENTE ============= -->
-    <section id="waiting">
-        <h1 class="my-5"><u>ID de la room :</u> {{ roomId }}</h1>
-        <div id="qrcode" class="d-flex justify-content-center"></div>
-        <h2 class="my-5">
-            <span id="countRequired"></span> joueurs attendus
-        </h2>
-        <div class="loader">Loading...</div>
-        <h2 class="text-decoration-underline">
-            <span id="countNow"></span> joueurs présents :
-        </h2>
-        <ul id="usersList"></ul>
+    <h1 class="my-5 fw-bold"><u>ID de la room :</u> {{ roomId }}</h1>
+    <section class="d-sm-flex" id="waiting">
+        <div class="col-sm-4 col-12 ">
+            <h2 class="my-5 text-decoration-underline " >
+                <span id="countRequired"></span> joueurs attendus
+            </h2>
+
+            <div id="qrcode" class="d-flex justify-content-center"></div>
+            <p style="font-size:80%;font-style: italic;">scannez ce QR code pour rejoindre la room</p>   
+        </div>
+
+        <div class="my-5 col-sm-4 col-12">
+            <div class="loader">Veuillez patienter...</div>
+        </div>
+            
+        <div class="col-sm-4 col-12 ">
+            <h2 class="my-5 text-decoration-underline">
+                <span id="countNow"></span> joueurs présents :
+            </h2>
+
+            <div class="m-3" id="usersList"></div>
+        </div>
+        
+    
+
     </section>
 
     <!-- ============= PARTIE JEU ============= -->
@@ -93,7 +106,7 @@
 
         <hr>
         <h3><u>Tableau des scores :</u></h3>
-        <div id="tabScore" class="table table-danger d-flex justify-content-center"></div>
+        <div id="tabScore" class="table table-light d-flex justify-content-center"></div>
     </section>
 {% endblock %}
 

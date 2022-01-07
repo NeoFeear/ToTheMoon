@@ -446,8 +446,9 @@ conn.onmessage = function(e) {
             usersList.innerHTML = "";
 
             for (let i = 0; i < data.usersList.length; i++) {
-                let li = document.createElement('li');
-                li.innerText = data.usersList[i].username;
+                let li = document.createElement('h2');
+                li.innerText = (data.usersList[i].username).toUpperCase();
+                li.style.fontWeight = "bold";
                 li.style.color = data.users_infos[i].color;
                 usersList.appendChild(li);
             }
