@@ -11,10 +11,6 @@
 7. [Informations complémentaires](#informations-complémentaires)
 8. [Technologies utilisées](#technologies-utilisées)
 
-
-
-
-
 ## Introduction
 Le but de ce projet est le développement d’un jeu de plateau multijoueurs dans lequel le joueur répondra à des questions afin d’avancer en cas de bonne réponse ou de reculer en cas de mauvaise réponse.
 
@@ -45,7 +41,6 @@ Le premier joueur initie la partie en renseignant les pseudos des autres joueurs
 - Entrer dans le terminal `composer i ` afin d'installer les différents modules nécessaire au bon fonctionnement de l'application.
 - Entrez les informations de votre base de données dans /config/app.php.
 - Démarrez le serveur.
-
 - Connectez vous avec le compte `Admin` cliquez sur #JOUER!, invitez vos amis, et que le meilleur gagne. 
 
 Let's play!
@@ -53,7 +48,6 @@ Let's play!
 ## Virtual Host
 
 Pour faire fonctionner notre projet qui est en PHP nous avons utilisé  WAMP64 et crée un Virtual Host, pour cela suivez les étapes suivantes :
-
 
 - Démarrez votre WAMP64.
 - Ensuite allez dans votre navigateur et tappez dans l'url `http://localhost/` ou `http://127.0.0.1/`;
@@ -75,8 +69,24 @@ ADMINISTRATEUR :
 - Pseudo : Admin
 - Mot de passe : azer
 
-JOUEUR :
-- Pseudo : User
+JOUEUR 1 :
+- Pseudo : Player1
+- Mot de passe : azer
+
+JOUEUR 2 :
+- Pseudo : Player2
+- Mot de passe : azer
+
+JOUEUR 3 :
+- Pseudo : Player3
+- Mot de passe : azer
+
+JOUEUR 4 :
+- Pseudo : Player4
+- Mot de passe : azer
+
+JOUEUR 5 :
+- Pseudo : Player5
 - Mot de passe : azer
 
 ## Comment lancer une partie 
@@ -108,21 +118,21 @@ Ce projet a été très formateur pour nous deux, malgrès la frustration de ne 
 - Le choix des couleurs des joueurs (améliorable, dans le code et dans l'utilisation).
 - L'invitation via QR Code.
 - Invitation par Email automatique.
+- Gestion d'attribution des couleurs 
 - Le système de jeu en ligne.
 - Gestion des Rooms aléatoires, et sécurisation des joueurs attendus.
 - Autocomplétion lors de l'invitation des joueurs
 
 ## Ce qui ne fonctionne pas ou partiellement :
 - Gestion d'aller-retour des utilisateurs dans une Room (améliorable++)
-- Gestion d'attribution des couleurs 
-- Plateau de jeu (Améliorable++) Adapté en fonction du temps restant
+- Plateau de jeu (Améliorable++) adapté en fonction du temps restant
+- Autocomplétion des joueurs à inviter
 - La partie serveur du Socket est améliorable.
 - C'est l'admin qui choisis les couleurs et pas les joueurs.
 
-
 # Tâches de chaque membre du groupe
 
-Lors du développement du projet, nous avons su travailler de manière complémentaire, souvent en présentiel ou sur discord en double partage d'écran pour s'aider en direct lors du développement. Peu de parties de projet, on été faites uniquement par un seul des deux développeurs.
+Lors du développement du projet, nous avons su travailler de manière complémentaire, souvent en présentiel ou sur Discord en double partage d'écran pour s'aider en direct lors du développement. Peu de parties du projet ont été réalisées uniquement par un seul des deux développeurs.
 
 ## Première partie du projet : 
 
@@ -141,7 +151,7 @@ Lors du développement du projet, nous avons su travailler de manière compléme
  - Florian : 
   -> Développement du jeu en JavaScript.
   -> Autocomplétion formulaire d'invitations.
-  -> Intégration du jeu en Javascript dans le projet, et avec le Socket.
+  -> Intégration du jeu dans le projet, et avec le Socket.
   
  - Allan : 
   -> Développement partie Serveur NodeJs/Express/Socket.io Fonctionnel ( Arreté lorsque les utilisateurs étaient dans une même room).
@@ -166,7 +176,3 @@ Lors du développement du projet, nous avons su travailler de manière compléme
 - WAMP v3.2.5
 - Apache v2.4.5
 - Composer
-
-
-
-
