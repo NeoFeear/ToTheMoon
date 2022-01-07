@@ -209,7 +209,7 @@ conn.onmessage = function(e) {
         
             i++;
             if (i > data.allClients.length-1) { i = 0; }
-            if (players[i].score > MAX_POINTS) {
+            while (players[i].score > MAX_POINTS) {
                 i++;
                 if (i > data.allClients.length-1) { i = 0; }
             }
@@ -259,7 +259,7 @@ conn.onmessage = function(e) {
 
             i++;
             if (i > data.allClients.length-1) { i = 0; }
-            if (players[i].score > MAX_POINTS) {
+            while (players[i].score > MAX_POINTS) {
                 i++;
                 if (i > data.allClients.length-1) { i = 0; }
             }
