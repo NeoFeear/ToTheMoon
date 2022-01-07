@@ -4,10 +4,11 @@
 ## Sommaire
 1. [Introduction](#introduction)
 2. [Installation](#installation)
-3. [Lancement du serveur](#lancement-du-serveur)
-4. [Comptes pré-créés](#comptes-pré-créés)
-5. [Informations complémentaires](#informations-complémentaires)
-6. [Technologies utilisées](#technologies-utilisées)
+3. [Virtual Host](#virtual-host)
+4. [Lancement du serveur](#lancement-du-serveur)
+5. [Comptes pré-créés](#comptes-pré-créés)
+6. [Informations complémentaires](#informations-complémentaires)
+7. [Technologies utilisées](#technologies-utilisées)
 
 
 
@@ -37,6 +38,7 @@ Le premier joueur initie la partie en renseignant les pseudos des autres joueurs
 
 ## Installation
 
+- Placer le dossier du projet dans votre dossier `C:\wamp64\www`.
 - Utilisez le fichier .sql qui se trouve dans le projet et l'importer dans votre PHPMYADMIN.
 - Entrer dans le terminal `composer i ` afin d'installer les différents modules nécessaire au bon fonctionnement de l'application.
 - Entrez les informations de votre base de données dans /config/app.php.
@@ -45,6 +47,19 @@ Le premier joueur initie la partie en renseignant les pseudos des autres joueurs
 - Connectez vous avec le compte `Admin` cliquez sur #JOUER!, invitez vos amis, et que le meilleur gagne. 
 
 Let's play!
+
+## Virtual Host
+
+Pour faire fonctionner notre projet qui est en PHP nous avons utilisé  WAMP64 et crée un Virtual Host, pour cela suivez les étapes suivantes :
+
+
+- Démarrez votre WAMP64.
+- Ensuite allez dans votre navigateur et tappez dans l'url `http://localhost/` ou `http://127.0.0.1/`;
+- En bas a gauche cliquez sur `Ajouter un Virtual Host`.
+- Dans l'input : `Nom du Virtual Host` entrez l'url que vous souhaitez utiliser pour vous connecter a votre site, nous utiliserons `ttm.io`.
+- Dans l'input : `Chemin absolu du dossier` ciblez le dossier `public` de notre projet donc si vous avez suivis ce guide : `C:\wamp64\www\tothemoon\public` .
+
+Voila ! vous êtes prêt à passer a l'étape suivante.
 
 ## Lancement du serveur
 
